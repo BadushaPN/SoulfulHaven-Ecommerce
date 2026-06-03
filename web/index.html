@@ -31,8 +31,84 @@
 
   <title>projectone</title>
   <link rel="manifest" href="manifest.json">
+  <style>
+    body {
+      background-color: #f3f4f6; /* Light gray background */
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    .loading-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: opacity 0.5s ease-out;
+      z-index: 9999;
+    }
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 5px solid #e5e7eb;
+      border-top-color: #3b82f6; /* Blue accent */
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 20px;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .loading-text {
+      color: #4b5563;
+      font-size: 1.2rem;
+      font-weight: 500;
+      letter-spacing: 1px;
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+  </style>
 </head>
 <body>
+  <div class="loading-container">
+    <div class="spinner"></div>
+    <div class="loading-text">Loading Soulful Haven...</div>
+  </div>
+
   <script src="flutter_bootstrap.js" async></script>
+
+  <script>
+    window.addEventListener('load', function() {
+      var loading = document.querySelector('.loading-container');
+      
+      // Observe when Flutter adds its view to the DOM
+      var observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          if (mutation.addedNodes) {
+            for (var i = 0; i < mutation.addedNodes.length; i++) {
+              var node = mutation.addedNodes[i];
+              if (node.tagName === 'FLUTTER-VIEW' || node.tagName === 'FLT-GLASS-PANE') {
+                // Fade out and remove loading indicator
+                loading.style.opacity = '0';
+                setTimeout(function() {
+                  if (loading.parentNode) {
+                    loading.parentNode.removeChild(loading);
+                  }
+                }, 500); // 500ms fade transition
+                observer.disconnect();
+              }
+            }
+          }
+        });
+      });
+      
+      observer.observe(document.body, { childList: true });
+    });
+  </script>
 </body>
 </html>

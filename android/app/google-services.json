@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "329813726694",
+    "project_id": "soulfulhaven-ecommerce",
+    "storage_bucket": "soulfulhaven-ecommerce.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:329813726694:android:9ac71073e91209fe30b227",
+        "android_client_info": {
+          "package_name": "com.example.projectone"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAXPSi0ca_tVhQwHy5C7HPuJOlWZ6yKpMc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

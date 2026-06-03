@@ -1,0 +1,39 @@
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "soulfulhaven-ecommerce",
+          "appId": "1:329813726694:android:9ac71073e91209fe30b227",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "soulfulhaven-ecommerce",
+          "configurations": {
+            "android": "1:329813726694:android:9ac71073e91209fe30b227",
+            "ios": "1:329813726694:ios:095bf289ef25c0e230b227",
+            "macos": "1:329813726694:ios:095bf289ef25c0e230b227",
+            "web": "1:329813726694:web:c3461cf80060228530b227",
+            "windows": "1:329813726694:web:fc9d3eaea0095f7e30b227"
+          }
+        }
+      }
+    }
+  },
+  "hosting": {
+    "public": "build/web",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}
