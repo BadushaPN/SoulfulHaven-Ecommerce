@@ -54,7 +54,7 @@ To run this project locally, ensure you have the [Flutter SDK](https://flutter.d
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/BadushaPN/<your-repo-name>.git
+   git clone https://github.com/BadushaPN/SoulfulHaven-Ecommerce.git
    ```
 2. **Navigate to the project directory:**
    ```bash
