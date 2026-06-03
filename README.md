@@ -58,7 +58,7 @@ To run this project locally, ensure you have the [Flutter SDK](https://flutter.d
    ```
 2. **Navigate to the project directory:**
    ```bash
-   cd <your-repo-name>
+   cd <SoulfulHaven-Ecommerce>
    ```
 3. **Install dependencies:**
    ```bash
