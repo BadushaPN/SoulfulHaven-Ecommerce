@@ -44,8 +44,8 @@ class _DivinePlushiesViewState extends State<DivinePlushiesView> {
             child: Column(
               children: [
                 const SizedBox(height: 80), // For sticky navbar
-                _buildBanner(),
-                _buildFiltersRow(),
+                _buildBanner(context),
+                _buildFiltersRow(context),
                 _buildProductGrid(context),
                 const SizedBox(height: 80),
                 const SharedFooter(),
@@ -94,9 +94,10 @@ class _DivinePlushiesViewState extends State<DivinePlushiesView> {
         ),
       ),
     );
-  }
+  }  Widget _buildBanner(BuildContext context) {
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final bool isMobile = screenWidth <= 600;
 
-  Widget _buildBanner() {
     String firstWord = "DIVINE";
     String restWords = "COLLECTION";
     
@@ -111,7 +112,7 @@ class _DivinePlushiesViewState extends State<DivinePlushiesView> {
 
     return Container(
       width: double.infinity,
-      height: 400,
+      height: isMobile ? 250 : 400,
       decoration: const BoxDecoration(
         color: Color(0xFFFDF5E6), // Light warm background
         image: DecorationImage(
@@ -127,7 +128,7 @@ class _DivinePlushiesViewState extends State<DivinePlushiesView> {
             Text(
               "OUR LATEST $firstWord",
               style: TextStyle(
-                fontSize: 60,
+                fontSize: isMobile ? 32 : 60,
                 fontWeight: FontWeight.w900,
                 color: const Color(0xFFC62828), // Dark red
                 letterSpacing: 2.0,
@@ -144,7 +145,7 @@ class _DivinePlushiesViewState extends State<DivinePlushiesView> {
             Text(
               restWords,
               style: TextStyle(
-                fontSize: 60,
+                fontSize: isMobile ? 32 : 60,
                 fontWeight: FontWeight.w900,
                 color: const Color(0xFFC62828), // Dark red
                 letterSpacing: 2.0,
@@ -164,9 +165,13 @@ class _DivinePlushiesViewState extends State<DivinePlushiesView> {
     );
   }
 
-  Widget _buildFiltersRow() {
+  Widget _buildFiltersRow(BuildContext context) {
+    final double screenWidth = MediaQuery.of(context).size.width;
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 100, vertical: 30),
+      padding: EdgeInsets.symmetric(
+        horizontal: screenWidth > 900 ? 100 : 20,
+        vertical: screenWidth > 600 ? 30 : 20,
+      ),
       child: Row(
         children: [
           _filterDropdown("FILTER"),
@@ -195,12 +200,17 @@ class _DivinePlushiesViewState extends State<DivinePlushiesView> {
   }
 
   Widget _buildProductGrid(BuildContext context) {
+    final double screenWidth = MediaQuery.of(context).size.width;
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+      padding: EdgeInsets.symmetric(
+        horizontal: screenWidth > 900 ? 40 : 16,
+        vertical: 20,
+      ),
       child: LayoutBuilder(
         builder: (context, constraints) {
           // Up to 7 columns for large screens to make cards smaller
           int crossAxisCount = constraints.maxWidth > 1400 ? 7 : (constraints.maxWidth > 1000 ? 5 : (constraints.maxWidth > 600 ? 3 : 2));
+          double childAspectRatio = constraints.maxWidth > 600 ? 0.45 : 0.41;
           
           // Generate 14 items to ensure the page is scrollable
           List<Widget> products = List.generate(14, (index) {
@@ -234,8 +244,8 @@ class _DivinePlushiesViewState extends State<DivinePlushiesView> {
             } else {
               dummyData = [
                 {'img': 'https://cdn-icons-png.flaticon.com/512/3094/3094844.png', 'title': 'Kids Prayer Beads'},
-                {'img': 'https://cdn-icons-png.flaticon.com/512/3082/3082008.png', 'title': 'Om Symbol Nightlight'},
-                {'img': 'https://cdn-icons-png.flaticon.com/512/2922/2922572.png', 'title': 'Traditional Wear for Plushies'},
+                {'img': 'https://cdn-icons-png.flaticon.com/512/3082/3082008.png', 'title': 'Traditional Wear for Plushies'},
+                {'img': 'https://cdn-icons-png.flaticon.com/512/2922/2922572.png', 'title': 'traditional wear'},
               ];
             }
             var data = dummyData[index % dummyData.length];
@@ -250,14 +260,14 @@ class _DivinePlushiesViewState extends State<DivinePlushiesView> {
               discount: 33,
             );
           });
-
+ 
           return GridView.count(
             crossAxisCount: crossAxisCount,
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             mainAxisSpacing: 20,
             crossAxisSpacing: 20,
-            childAspectRatio: 0.45, // Taller aspect ratio to fit Add to Cart button
+            childAspectRatio: childAspectRatio,
             children: products,
           );
         },
@@ -392,7 +402,7 @@ class _AnimatedProductCardState extends State<AnimatedProductCard> {
                       ),
                       const SizedBox(width: 4),
                       Text(
-                        widget.rating.toString(),
+                        widget.rating.toStringAsFixed(2),
                         style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Colors.black87),
                       ),
                     ],
