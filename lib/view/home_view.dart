@@ -80,11 +80,11 @@ class _HomeViewState extends State<HomeView> {
                 const SizedBox(height: 60),
                 _buildOurCollectionSection(context),
                 const SizedBox(height: 80),
-                _buildBestSellersSection(),
+                _buildBestSellersSection(context),
                 _buildVideoSection(),
-                _buildPriceFiltersSection(),
+                _buildPriceFiltersSection(context),
                 const SizedBox(height: 60),
-                _buildParentingGuideSection(),
+                _buildParentingGuideSection(context),
                 const SizedBox(height: 80),
                 const SharedFooter(),
               ],
@@ -225,12 +225,14 @@ class _HomeViewState extends State<HomeView> {
   }
 
   Widget _buildHeroSection(BuildContext context) {
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final bool isMobile = screenWidth <= 990;
     double screenHeight = MediaQuery.of(context).size.height - 80; // Minus navbar
     if (screenHeight < 600) screenHeight = 600;
 
     return Container(
       width: double.infinity,
-      height: screenHeight,
+      height: isMobile ? null : screenHeight,
       decoration: const BoxDecoration(color: Color(0xFFF4F9F9)),
       child: Stack(
         children: [
@@ -251,143 +253,255 @@ class _HomeViewState extends State<HomeView> {
             ),
           ),
           
-          // Text Overlays
-          Positioned(
-            left: MediaQuery.of(context).size.width * 0.05,
-            top: screenHeight * 0.25,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'Introducing My First Book of',
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700, color: Color(0xFF004D40), letterSpacing: 1.2),
-                ),
-                Stack(
-                  children: [
-                    Text(
-                      'MANTRAS',
-                      style: TextStyle(
-                        fontSize: 100,
-                        fontWeight: FontWeight.w900,
-                        foreground: Paint()
-                          ..style = PaintingStyle.stroke
-                          ..strokeWidth = 3
-                          ..color = const Color(0xFF009688).withOpacity(0.6),
-                        letterSpacing: 2,
+          if (isMobile)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 60),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Text(
+                    'Introducing My First Book of',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Color(0xFF004D40), letterSpacing: 1.2),
+                  ),
+                  const SizedBox(height: 8),
+                  Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Text(
+                        'MANTRAS',
+                        style: TextStyle(
+                          fontSize: 45,
+                          fontWeight: FontWeight.w900,
+                          foreground: Paint()
+                            ..style = PaintingStyle.stroke
+                            ..strokeWidth = 2
+                            ..color = const Color(0xFF009688).withOpacity(0.6),
+                          letterSpacing: 2,
+                        ),
                       ),
-                    ),
-                    Text(
-                      'MANTRAS',
-                      style: TextStyle(
-                        fontSize: 100,
-                        fontWeight: FontWeight.w900,
-                        color: const Color(0xFF009688).withOpacity(0.1),
-                        letterSpacing: 2,
+                      Text(
+                        'MANTRAS',
+                        style: TextStyle(
+                          fontSize: 45,
+                          fontWeight: FontWeight.w900,
+                          color: const Color(0xFF009688).withOpacity(0.1),
+                          letterSpacing: 2,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 10),
-                const Text(
-                  'A BEAUTIFULLY ILLUSTRATED MUSICAL\nMANTRA BOOK FOR LITTLE LEARNERS',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800, color: Color(0xFFFF6B6B), height: 1.5),
-                ),
-                const SizedBox(height: 40),
-                const Row(
-                  children: [
-                    Text('JUST AT - ', style: TextStyle(fontSize: 28, fontWeight: FontWeight.w900, color: Color(0xFF004D40))),
-                    Text('MRP - ', style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700, color: Color(0xFF004D40), decoration: TextDecoration.lineThrough)),
-                    Text('1899/-', style: TextStyle(fontSize: 28, fontWeight: FontWeight.w900, color: Color(0xFF004D40))),
-                  ],
-                ),
-              ],
-            ),
-          ),
-
-          // Right Side Banners
-          Positioned(
-            right: MediaQuery.of(context).size.width * 0.05,
-            top: screenHeight * 0.35,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Transform.rotate(
-                  angle: -0.05,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
-                    decoration: BoxDecoration(color: const Color(0xFF009688), borderRadius: BorderRadius.circular(40)),
-                    child: RichText(
-                      text: const TextSpan(
-                        children: [
-                          TextSpan(text: 'Pass Down ', style: TextStyle(fontSize: 50, fontWeight: FontWeight.w900, color: Colors.white)),
-                          TextSpan(text: 'Values,', style: TextStyle(fontSize: 50, fontWeight: FontWeight.w900, color: Color(0xFFFF6B6B))),
-                        ],
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+                  const Text(
+                    'A BEAUTIFULLY ILLUSTRATED MUSICAL\nMANTRA BOOK FOR LITTLE LEARNERS',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.w800, color: Color(0xFFFF6B6B), height: 1.5),
+                  ),
+                  const SizedBox(height: 20),
+                  const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('JUST AT - ', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: Color(0xFF004D40))),
+                      Text('MRP - ', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: Color(0xFF004D40), decoration: TextDecoration.lineThrough)),
+                      Text('1899/-', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: Color(0xFF004D40))),
+                    ],
+                  ),
+                  const SizedBox(height: 30),
+                  Transform.rotate(
+                    angle: -0.05,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                      decoration: BoxDecoration(color: const Color(0xFF009688), borderRadius: BorderRadius.circular(40)),
+                      child: RichText(
+                        text: const TextSpan(
+                          children: [
+                            TextSpan(text: 'Pass Down ', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900, color: Colors.white)),
+                            TextSpan(text: 'Values,', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900, color: Color(0xFFFF6B6B))),
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 10),
-                Transform.rotate(
-                  angle: 0.02,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
-                    decoration: BoxDecoration(color: const Color(0xFFFF6B6B), borderRadius: BorderRadius.circular(40)),
-                    child: RichText(
-                      text: const TextSpan(
-                        children: [
-                          TextSpan(text: 'Not Just ', style: TextStyle(fontSize: 50, fontWeight: FontWeight.w900, color: Colors.white)),
-                          TextSpan(text: 'Toys', style: TextStyle(fontSize: 50, fontWeight: FontWeight.w900, color: Color(0xFF004D40))),
-                        ],
+                  const SizedBox(height: 10),
+                  Transform.rotate(
+                    angle: 0.02,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                      decoration: BoxDecoration(color: const Color(0xFFFF6B6B), borderRadius: BorderRadius.circular(40)),
+                      child: RichText(
+                        text: const TextSpan(
+                          children: [
+                            TextSpan(text: 'Not Just ', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900, color: Colors.white)),
+                            TextSpan(text: 'Toys', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900, color: Color(0xFF004D40))),
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 40),
-                // Shop Now Button
-                Container(
-                  margin: const EdgeInsets.only(right: 40),
-                  child: ElevatedButton(
+                  const SizedBox(height: 30),
+                  ElevatedButton(
                     onPressed: () {},
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFFFF6B6B),
-                      padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                      padding: const EdgeInsets.symmetric(horizontal: 36, vertical: 16),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(40),
-                        side: const BorderSide(color: Colors.white, width: 3),
+                        side: const BorderSide(color: Colors.white, width: 2),
                       ),
-                      elevation: 8,
+                      elevation: 6,
                     ),
                     child: const Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Text('SHOP NOW', style: TextStyle(fontSize: 28, fontWeight: FontWeight.w900, color: Colors.white, letterSpacing: 1.5)),
-                        SizedBox(width: 10),
-                        Icon(Icons.touch_app, color: Colors.white, size: 32),
+                        Text('SHOP NOW', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900, color: Colors.white, letterSpacing: 1.5)),
+                        SizedBox(width: 8),
+                        Icon(Icons.touch_app, color: Colors.white, size: 24),
                       ],
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
+            )
+          else ...[
+            // Text Overlays
+            Positioned(
+              left: MediaQuery.of(context).size.width * 0.05,
+              top: screenHeight * 0.25,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Introducing My First Book of',
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700, color: Color(0xFF004D40), letterSpacing: 1.2),
+                  ),
+                  Stack(
+                    children: [
+                      Text(
+                        'MANTRAS',
+                        style: TextStyle(
+                          fontSize: 100,
+                          fontWeight: FontWeight.w900,
+                          foreground: Paint()
+                            ..style = PaintingStyle.stroke
+                            ..strokeWidth = 3
+                            ..color = const Color(0xFF009688).withOpacity(0.6),
+                          letterSpacing: 2,
+                        ),
+                      ),
+                      Text(
+                        'MANTRAS',
+                        style: TextStyle(
+                          fontSize: 100,
+                          fontWeight: FontWeight.w900,
+                          color: const Color(0xFF009688).withOpacity(0.1),
+                          letterSpacing: 2,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                  const Text(
+                    'A BEAUTIFULLY ILLUSTRATED MUSICAL\nMANTRA BOOK FOR LITTLE LEARNERS',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800, color: Color(0xFFFF6B6B), height: 1.5),
+                  ),
+                  const SizedBox(height: 40),
+                  const Row(
+                    children: [
+                      Text('JUST AT - ', style: TextStyle(fontSize: 28, fontWeight: FontWeight.w900, color: Color(0xFF004D40))),
+                      Text('MRP - ', style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700, color: Color(0xFF004D40), decoration: TextDecoration.lineThrough)),
+                      Text('1899/-', style: TextStyle(fontSize: 28, fontWeight: FontWeight.w900, color: Color(0xFF004D40))),
+                    ],
+                  ),
+                ],
+              ),
             ),
-          ),
+
+            // Right Side Banners
+            Positioned(
+              right: MediaQuery.of(context).size.width * 0.05,
+              top: screenHeight * 0.35,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Transform.rotate(
+                    angle: -0.05,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+                      decoration: BoxDecoration(color: const Color(0xFF009688), borderRadius: BorderRadius.circular(40)),
+                      child: RichText(
+                        text: const TextSpan(
+                          children: [
+                            TextSpan(text: 'Pass Down ', style: TextStyle(fontSize: 50, fontWeight: FontWeight.w900, color: Colors.white)),
+                            TextSpan(text: 'Values,', style: TextStyle(fontSize: 50, fontWeight: FontWeight.w900, color: Color(0xFFFF6B6B))),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Transform.rotate(
+                    angle: 0.02,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+                      decoration: BoxDecoration(color: const Color(0xFFFF6B6B), borderRadius: BorderRadius.circular(40)),
+                      child: RichText(
+                        text: const TextSpan(
+                          children: [
+                            TextSpan(text: 'Not Just ', style: TextStyle(fontSize: 50, fontWeight: FontWeight.w900, color: Colors.white)),
+                            TextSpan(text: 'Toys', style: TextStyle(fontSize: 50, fontWeight: FontWeight.w900, color: Color(0xFF004D40))),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 40),
+                  // Shop Now Button
+                  Container(
+                    margin: const EdgeInsets.only(right: 40),
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFFFF6B6B),
+                        padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(40),
+                          side: const BorderSide(color: Colors.white, width: 3),
+                        ),
+                        elevation: 8,
+                      ),
+                      child: const Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text('SHOP NOW', style: TextStyle(fontSize: 28, fontWeight: FontWeight.w900, color: Colors.white, letterSpacing: 1.5)),
+                          SizedBox(width: 10),
+                          Icon(Icons.touch_app, color: Colors.white, size: 32),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
 
           // Bottom Pagination Dots
           Positioned(bottom: 20, left: 0, right: 0, child: _buildDots()),
           
           // Left bottom coin icon
           Positioned(
-            bottom: 40,
-            left: 20,
+            bottom: isMobile ? 20 : 40,
+            left: isMobile ? 16 : 20,
             child: Container(
-              width: 50,
-              height: 50,
+              width: isMobile ? 40 : 50,
+              height: isMobile ? 40 : 50,
               decoration: BoxDecoration(
                 color: const Color(0xFFFF6B6B),
                 shape: BoxShape.circle,
-                border: Border.all(color: const Color(0xFF009688), width: 3),
+                border: Border.all(color: const Color(0xFF009688), width: isMobile ? 2 : 3),
               ),
-              child: const Center(
-                child: Text('₹', style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold)),
+              child: Center(
+                child: Text('₹', style: TextStyle(color: Colors.white, fontSize: isMobile ? 18 : 24, fontWeight: FontWeight.bold)),
               ),
             ),
           ),
@@ -422,9 +536,12 @@ class _HomeViewState extends State<HomeView> {
     return Container(
       width: double.infinity,
       color: Colors.white,
-      padding: const EdgeInsets.symmetric(vertical: 20),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+      child: Wrap(
+        spacing: 30,
+        runSpacing: 16,
+        alignment: WrapAlignment.center,
+        crossAxisAlignment: WrapCrossAlignment.center,
         children: [
           _trustBadge('https://cdn-icons-png.flaticon.com/512/3233/3233483.png', 'Loved by 2 lac+ Customers'),
           _trustBadge('https://cdn-icons-png.flaticon.com/512/3069/3069188.png', 'Made of Safe Plush Fabric'),
@@ -450,15 +567,235 @@ class _HomeViewState extends State<HomeView> {
   }
 
   Widget _buildOurCollectionSection(BuildContext context) {
+    final double screenWidth = MediaQuery.of(context).size.width;
+
+    Widget buildGridContent() {
+      if (screenWidth > 900) {
+        // Desktop Layout: Side-by-side (Left card + Right 2x2 grid)
+        return SizedBox(
+          height: 600,
+          child: Row(
+            children: [
+              // Left big card
+              Expanded(
+                flex: 1,
+                child: AnimatedCollectionCard(
+                  title: 'Mantra Chanting Baby Ganesha',
+                  backgroundColor: const Color(0xFFB2DFDB), // Pastel Mint
+                  imageUrl: 'https://cdn-icons-png.flaticon.com/512/3082/3082008.png',
+                  onTap: () {
+                    Get.to(() => const DivinePlushiesView(categoryName: 'Divine Plushies'));
+                  },
+                ),
+              ),
+              const SizedBox(width: 20),
+              // Right 2x2 grid
+              Expanded(
+                flex: 1,
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: AnimatedCollectionCard(
+                              title: 'Mantra Chanting Baby Krishna',
+                              backgroundColor: const Color(0xFFBBDEFB),
+                              imageUrl: 'https://cdn-icons-png.flaticon.com/512/3094/3094833.png',
+                              onTap: () => Get.to(() => const DivinePlushiesView(categoryName: 'Divine Plushies')),
+                            ),
+                          ),
+                          const SizedBox(width: 20),
+                          Expanded(
+                            child: AnimatedCollectionCard(
+                              title: 'Mantra Chanting Baby Hanuman',
+                              backgroundColor: const Color(0xFFE1BEE7),
+                              imageUrl: 'https://cdn-icons-png.flaticon.com/512/2922/2922572.png',
+                              onTap: () => Get.to(() => const DivinePlushiesView(categoryName: 'Divine Plushies')),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    Expanded(
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: AnimatedCollectionCard(
+                              title: 'Mantra Chanting Baby Shiva',
+                              backgroundColor: const Color(0xFFFFCCBC),
+                              imageUrl: 'https://cdn-icons-png.flaticon.com/512/3069/3069188.png',
+                              onTap: () => Get.to(() => const DivinePlushiesView(categoryName: 'Divine Plushies')),
+                            ),
+                          ),
+                          const SizedBox(width: 20),
+                          Expanded(
+                            child: AnimatedCollectionCard(
+                              title: 'Mandir for Kids (DIY)',
+                              backgroundColor: const Color(0xFFFFF9C4),
+                              imageUrl: 'https://cdn-icons-png.flaticon.com/512/3094/3094848.png',
+                              onTap: () => Get.to(() => const DivinePlushiesView(categoryName: 'Divine Plushies')),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        );
+      } else if (screenWidth > 600) {
+        // Tablet Layout: Left card full width on top, Right 4 cards in a 2x2 grid below
+        return Column(
+          children: [
+            SizedBox(
+              height: 280,
+              width: double.infinity,
+              child: AnimatedCollectionCard(
+                title: 'Mantra Chanting Baby Ganesha',
+                backgroundColor: const Color(0xFFB2DFDB),
+                imageUrl: 'https://cdn-icons-png.flaticon.com/512/3082/3082008.png',
+                onTap: () {
+                  Get.to(() => const DivinePlushiesView(categoryName: 'Divine Plushies'));
+                },
+              ),
+            ),
+            const SizedBox(height: 20),
+            Row(
+              children: [
+                Expanded(
+                  child: SizedBox(
+                    height: 220,
+                    child: AnimatedCollectionCard(
+                      title: 'Mantra Chanting Baby Krishna',
+                      backgroundColor: const Color(0xFFBBDEFB),
+                      imageUrl: 'https://cdn-icons-png.flaticon.com/512/3094/3094833.png',
+                      onTap: () => Get.to(() => const DivinePlushiesView(categoryName: 'Divine Plushies')),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 20),
+                Expanded(
+                  child: SizedBox(
+                    height: 220,
+                    child: AnimatedCollectionCard(
+                      title: 'Mantra Chanting Baby Hanuman',
+                      backgroundColor: const Color(0xFFE1BEE7),
+                      imageUrl: 'https://cdn-icons-png.flaticon.com/512/2922/2922572.png',
+                      onTap: () => Get.to(() => const DivinePlushiesView(categoryName: 'Divine Plushies')),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 20),
+            Row(
+              children: [
+                Expanded(
+                  child: SizedBox(
+                    height: 220,
+                    child: AnimatedCollectionCard(
+                      title: 'Mantra Chanting Baby Shiva',
+                      backgroundColor: const Color(0xFFFFCCBC),
+                      imageUrl: 'https://cdn-icons-png.flaticon.com/512/3069/3069188.png',
+                      onTap: () => Get.to(() => const DivinePlushiesView(categoryName: 'Divine Plushies')),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 20),
+                Expanded(
+                  child: SizedBox(
+                    height: 220,
+                    child: AnimatedCollectionCard(
+                      title: 'Mandir for Kids (DIY)',
+                      backgroundColor: const Color(0xFFFFF9C4),
+                      imageUrl: 'https://cdn-icons-png.flaticon.com/512/3094/3094848.png',
+                      onTap: () => Get.to(() => const DivinePlushiesView(categoryName: 'Divine Plushies')),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        );
+      } else {
+        // Mobile Layout: Stack all 5 cards vertically
+        return Column(
+          children: [
+            SizedBox(
+              height: 220,
+              width: double.infinity,
+              child: AnimatedCollectionCard(
+                title: 'Mantra Chanting Baby Ganesha',
+                backgroundColor: const Color(0xFFB2DFDB),
+                imageUrl: 'https://cdn-icons-png.flaticon.com/512/3082/3082008.png',
+                onTap: () {
+                  Get.to(() => const DivinePlushiesView(categoryName: 'Divine Plushies'));
+                },
+              ),
+            ),
+            const SizedBox(height: 20),
+            SizedBox(
+              height: 220,
+              width: double.infinity,
+              child: AnimatedCollectionCard(
+                title: 'Mantra Chanting Baby Krishna',
+                backgroundColor: const Color(0xFFBBDEFB),
+                imageUrl: 'https://cdn-icons-png.flaticon.com/512/3094/3094833.png',
+                onTap: () => Get.to(() => const DivinePlushiesView(categoryName: 'Divine Plushies')),
+              ),
+            ),
+            const SizedBox(height: 20),
+            SizedBox(
+              height: 220,
+              width: double.infinity,
+              child: AnimatedCollectionCard(
+                title: 'Mantra Chanting Baby Hanuman',
+                backgroundColor: const Color(0xFFE1BEE7),
+                imageUrl: 'https://cdn-icons-png.flaticon.com/512/2922/2922572.png',
+                onTap: () => Get.to(() => const DivinePlushiesView(categoryName: 'Divine Plushies')),
+              ),
+            ),
+            const SizedBox(height: 20),
+            SizedBox(
+              height: 220,
+              width: double.infinity,
+              child: AnimatedCollectionCard(
+                title: 'Mantra Chanting Baby Shiva',
+                backgroundColor: const Color(0xFFFFCCBC),
+                imageUrl: 'https://cdn-icons-png.flaticon.com/512/3069/3069188.png',
+                onTap: () => Get.to(() => const DivinePlushiesView(categoryName: 'Divine Plushies')),
+              ),
+            ),
+            const SizedBox(height: 20),
+            SizedBox(
+              height: 220,
+              width: double.infinity,
+              child: AnimatedCollectionCard(
+                title: 'Mandir for Kids (DIY)',
+                backgroundColor: const Color(0xFFFFF9C4),
+                imageUrl: 'https://cdn-icons-png.flaticon.com/512/3094/3094848.png',
+                onTap: () => Get.to(() => const DivinePlushiesView(categoryName: 'Divine Plushies')),
+              ),
+            ),
+          ],
+        );
+      }
+    }
+
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 40),
+      padding: EdgeInsets.symmetric(horizontal: screenWidth > 600 ? 40 : 20),
       child: Column(
         children: [
           // Title
           Text(
             'Our Collection',
+            textAlign: TextAlign.center,
             style: TextStyle(
-              fontSize: 60,
+              fontSize: screenWidth > 600 ? 60 : 40,
               fontWeight: FontWeight.w900,
               color: const Color(0xFF004D40),
               shadows: [
@@ -466,81 +803,14 @@ class _HomeViewState extends State<HomeView> {
               ],
             ),
           ),
-          const SizedBox(height: 40),
-          // Grid
-          SizedBox(
-            height: 600,
-            child: Row(
-              children: [
-                // Left big card
-                Expanded(
-                  flex: 1,
-                  child: AnimatedCollectionCard(
-                    title: 'Mantra Chanting Baby Ganesha',
-                    backgroundColor: const Color(0xFFB2DFDB), // Pastel Mint
-                    imageUrl: 'https://cdn-icons-png.flaticon.com/512/3082/3082008.png',
-                    onTap: () {
-                      Get.to(() => const DivinePlushiesView(categoryName: 'Divine Plushies'));
-                    },
-                  ),
-                ),
-                const SizedBox(width: 20),
-                // Right 2x2 grid
-                Expanded(
-                  flex: 1,
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: Row(
-                          children: [
-                            Expanded(child: AnimatedCollectionCard(
-                              title: 'Mantra Chanting Baby Krishna',
-                              backgroundColor: const Color(0xFFBBDEFB),
-                              imageUrl: 'https://cdn-icons-png.flaticon.com/512/3094/3094833.png',
-                              onTap: () => Get.to(() => const DivinePlushiesView(categoryName: 'Divine Plushies')),
-                            )),
-                            const SizedBox(width: 20),
-                            Expanded(child: AnimatedCollectionCard(
-                              title: 'Mantra Chanting Baby Hanuman',
-                              backgroundColor: const Color(0xFFE1BEE7),
-                              imageUrl: 'https://cdn-icons-png.flaticon.com/512/2922/2922572.png',
-                              onTap: () => Get.to(() => const DivinePlushiesView(categoryName: 'Divine Plushies')),
-                            )),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-                      Expanded(
-                        child: Row(
-                          children: [
-                            Expanded(child: AnimatedCollectionCard(
-                              title: 'Mantra Chanting Baby Shiva',
-                              backgroundColor: const Color(0xFFFFCCBC),
-                              imageUrl: 'https://cdn-icons-png.flaticon.com/512/3069/3069188.png',
-                              onTap: () => Get.to(() => const DivinePlushiesView(categoryName: 'Divine Plushies')),
-                            )),
-                            const SizedBox(width: 20),
-                            Expanded(child: AnimatedCollectionCard(
-                              title: 'Mandir for Kids (DIY)',
-                              backgroundColor: const Color(0xFFFFF9C4),
-                              imageUrl: 'https://cdn-icons-png.flaticon.com/512/3094/3094848.png',
-                              onTap: () => Get.to(() => const DivinePlushiesView(categoryName: 'Divine Plushies')),
-                            )),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
+          SizedBox(height: screenWidth > 600 ? 40 : 20),
+          buildGridContent(),
         ],
       ),
     );
   }
 
-  Widget _buildBestSellersSection() {
+  Widget _buildBestSellersSection(BuildContext context) {
     return Column(
       children: [
         // Title Pill
@@ -593,7 +863,7 @@ class _HomeViewState extends State<HomeView> {
         ),
         const SizedBox(height: 60),
         // Bottom Features Bar
-        _buildFeaturesBar(),
+        _buildFeaturesBar(context),
       ],
     );
   }
@@ -703,20 +973,55 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
-  Widget _buildFeaturesBar() {
-    return Container(
-      color: Colors.white,
-      padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 40),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _featureIcon('https://cdn-icons-png.flaticon.com/512/287/287226.png', 'Gift Wrapping available'),
-          _featureIcon('https://cdn-icons-png.flaticon.com/512/411/411763.png', 'Express Shipping Available'),
-          _featureIcon('https://cdn-icons-png.flaticon.com/512/1008/1008013.png', '7 Days Exchange/Return'),
-          _featureIcon('https://cdn-icons-png.flaticon.com/512/679/679720.png', 'COD Available'),
-        ],
-      ),
+  Widget _buildFeaturesBar(BuildContext context) {
+    final double screenWidth = MediaQuery.of(context).size.width;
+
+    if (screenWidth > 768) {
+      return Container(
+        color: Colors.white,
+        padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 40),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _featureIcon('https://cdn-icons-png.flaticon.com/512/287/287226.png', 'Gift Wrapping available'),
+            _featureIcon('https://cdn-icons-png.flaticon.com/512/411/411763.png', 'Express Shipping Available'),
+            _featureIcon('https://cdn-icons-png.flaticon.com/512/1008/1008013.png', '7 Days Exchange/Return'),
+            _featureIcon('https://cdn-icons-png.flaticon.com/512/679/679720.png', 'COD Available'),
+          ],
+        ),
+      );
+    } else {
+      return Container(
+        color: Colors.white,
+        padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+        child: Column(
+          children: [
+            _mobileFeatureRow('https://cdn-icons-png.flaticon.com/512/287/287226.png', 'Gift Wrapping available'),
+            const SizedBox(height: 20),
+            _mobileFeatureRow('https://cdn-icons-png.flaticon.com/512/411/411763.png', 'Express Shipping Available'),
+            const SizedBox(height: 20),
+            _mobileFeatureRow('https://cdn-icons-png.flaticon.com/512/1008/1008013.png', '7 Days Exchange/Return'),
+            const SizedBox(height: 20),
+            _mobileFeatureRow('https://cdn-icons-png.flaticon.com/512/679/679720.png', 'COD Available'),
+          ],
+        ),
+      );
+    }
+  }
+
+  Widget _mobileFeatureRow(String url, String text) {
+    return Row(
+      children: [
+        Image.network(url, width: 36, height: 36),
+        const SizedBox(width: 16),
+        Expanded(
+          child: Text(
+            text,
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w900, color: Colors.black87),
+          ),
+        ),
+      ],
     );
   }
 
@@ -737,116 +1042,234 @@ class _HomeViewState extends State<HomeView> {
   }
 
   Widget _buildVideoSection() {
+    final double screenWidth = MediaQuery.of(context).size.width;
+
     return Container(
       width: double.infinity,
       color: const Color(0xFFFDF5E6), // Cream background matching the image
-      padding: const EdgeInsets.symmetric(vertical: 60, horizontal: 100),
+      padding: EdgeInsets.symmetric(
+        vertical: screenWidth > 600 ? 60 : 30,
+        horizontal: screenWidth > 900
+            ? 100
+            : screenWidth > 600
+                ? 40
+                : 20,
+      ),
       child: Center(
-        child: Container(
-          width: 1000,
-          height: 562, // 16:9 aspect ratio approx
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16),
-            boxShadow: const [BoxShadow(color: Colors.black26, blurRadius: 20, offset: Offset(0, 10))],
-            image: const DecorationImage(
-              image: NetworkImage('https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?q=80&w=1200&auto=format&fit=crop'), // Happy kid playing
-              fit: BoxFit.cover,
-            ),
-          ),
-          child: Stack(
-            children: [
-              // Dark gradient overlay top
-              Positioned(
-                top: 0, left: 0, right: 0,
-                child: Container(
-                  height: 100,
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [Colors.black.withOpacity(0.7), Colors.transparent],
-                    ),
-                  ),
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 1000),
+          child: AspectRatio(
+            aspectRatio: 16 / 9,
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.black26,
+                    blurRadius: 20,
+                    offset: Offset(0, 10),
+                  )
+                ],
+                image: const DecorationImage(
+                  image: NetworkImage(
+                      'https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?q=80&w=1200&auto=format&fit=crop'), // Happy kid playing
+                  fit: BoxFit.cover,
                 ),
               ),
-              // Top Left Info
-              Positioned(
-                top: 20, left: 20,
-                child: Row(
-                  children: [
-                    CircleAvatar(
-                      backgroundColor: Colors.white,
-                      radius: 20,
-                      child: Padding(
-                        padding: const EdgeInsets.all(4.0),
-                        child: Image.network('https://cdn-icons-png.flaticon.com/512/3069/3069188.png', width: 24, height: 24),
+              child: Stack(
+                children: [
+                  // Dark gradient overlay top
+                  Positioned(
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    child: Container(
+                      height: screenWidth > 600 ? 100 : 60,
+                      decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.vertical(
+                            top: Radius.circular(16)),
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            Colors.black.withOpacity(0.7),
+                            Colors.transparent
+                          ],
+                        ),
                       ),
                     ),
-                    const SizedBox(width: 12),
-                    const Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                  ),
+                  // Top Left Info
+                  Positioned(
+                    top: screenWidth > 600 ? 20 : 12,
+                    left: screenWidth > 600 ? 20 : 12,
+                    right: screenWidth > 600 ? 20 : 12,
+                    child: Row(
                       children: [
-                        Text("Raising Children Rooted in Values 💜 | Soulful Haven", style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
-                        Text("Soulful Haven", style: TextStyle(color: Colors.white70, fontSize: 14)),
+                        CircleAvatar(
+                          backgroundColor: Colors.white,
+                          radius: screenWidth > 600 ? 20 : 12,
+                          child: Padding(
+                            padding:
+                                EdgeInsets.all(screenWidth > 600 ? 4.0 : 2.0),
+                            child: Image.network(
+                              'https://cdn-icons-png.flaticon.com/512/3069/3069188.png',
+                              width: screenWidth > 600 ? 24 : 14,
+                              height: screenWidth > 600 ? 24 : 14,
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: screenWidth > 600 ? 12 : 8),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Raising Children Rooted in Values 💜 | Soulful Haven",
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: screenWidth > 600 ? 18 : 12,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(
+                                "Soulful Haven",
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                                style: TextStyle(
+                                  color: Colors.white70,
+                                  fontSize: screenWidth > 600 ? 14 : 10,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ],
                     ),
-                  ],
-                ),
-              ),
-              // Play Button
-              Center(
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 20),
-                  decoration: BoxDecoration(color: Colors.red, borderRadius: BorderRadius.circular(16)),
-                  child: const Icon(Icons.play_arrow, color: Colors.white, size: 48),
-                ),
-              ),
-              // Bottom Right Watch on YouTube
-              Positioned(
-                bottom: 20, right: 20,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  decoration: BoxDecoration(color: Colors.black.withOpacity(0.6), borderRadius: BorderRadius.circular(20)),
-                  child: const Row(
-                    children: [
-                      Text('Watch on ', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500)),
-                      Icon(Icons.play_circle_fill, color: Colors.white, size: 20),
-                      Text(' YouTube', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-                    ],
                   ),
-                ),
+                  // Play Button
+                  Center(
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: screenWidth > 600 ? 32 : 20,
+                        vertical: screenWidth > 600 ? 20 : 12,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.red,
+                        borderRadius: BorderRadius.circular(
+                            screenWidth > 600 ? 16 : 10),
+                      ),
+                      child: Icon(
+                        Icons.play_arrow,
+                        color: Colors.white,
+                        size: screenWidth > 600 ? 48 : 32,
+                      ),
+                    ),
+                  ),
+                  // Bottom Right Watch on YouTube
+                  Positioned(
+                    bottom: screenWidth > 600 ? 20 : 12,
+                    right: screenWidth > 600 ? 20 : 12,
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: screenWidth > 600 ? 16 : 10,
+                        vertical: screenWidth > 600 ? 8 : 5,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(0.6),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Row(
+                        children: [
+                          Text(
+                            'Watch on ',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w500,
+                              fontSize: screenWidth > 600 ? 14 : 10,
+                            ),
+                          ),
+                          Icon(
+                            Icons.play_circle_fill,
+                            color: Colors.white,
+                            size: screenWidth > 600 ? 20 : 14,
+                          ),
+                          Text(
+                            ' YouTube',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: screenWidth > 600 ? 14 : 10,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  Widget _buildPriceFiltersSection() {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 60),
-      color: Colors.white,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          // Cartoon Character Placeholder
-          Image.network(
-            'https://cdn-icons-png.flaticon.com/512/2922/2922572.png', // Happy kid icon
-            height: 250,
-            fit: BoxFit.contain,
-          ),
-          const SizedBox(width: 60),
-          // Price Bubbles
-          _priceBubble('399'),
-          const SizedBox(width: 40),
-          _priceBubble('999'),
-          const SizedBox(width: 40),
-          _priceBubble('1599'),
-        ],
-      ),
-    );
+  Widget _buildPriceFiltersSection(BuildContext context) {
+    final double screenWidth = MediaQuery.of(context).size.width;
+
+    if (screenWidth > 800) {
+      return Container(
+        padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 60),
+        color: Colors.white,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // Cartoon Character Placeholder
+            Image.network(
+              'https://cdn-icons-png.flaticon.com/512/2922/2922572.png', // Happy kid icon
+              height: 250,
+              fit: BoxFit.contain,
+            ),
+            const SizedBox(width: 60),
+            // Price Bubbles
+            _priceBubble('399'),
+            const SizedBox(width: 40),
+            _priceBubble('999'),
+            const SizedBox(width: 40),
+            _priceBubble('1599'),
+          ],
+        ),
+      );
+    } else {
+      // Mobile Layout: Image on top, bubbles in a Wrap below
+      return Container(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
+        color: Colors.white,
+        child: Column(
+          children: [
+            Image.network(
+              'https://cdn-icons-png.flaticon.com/512/2922/2922572.png', // Happy kid icon
+              height: 150,
+              fit: BoxFit.contain,
+            ),
+            const SizedBox(height: 30),
+            Wrap(
+              spacing: 20,
+              runSpacing: 20,
+              alignment: WrapAlignment.center,
+              children: [
+                _priceBubble('399'),
+                _priceBubble('999'),
+                _priceBubble('1599'),
+              ],
+            ),
+          ],
+        ),
+      );
+    }
   }
 
   Widget _priceBubble(String price) {
@@ -870,7 +1293,61 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
-  Widget _buildParentingGuideSection() {
+  Widget _buildParentingGuideSection(BuildContext context) {
+    final double screenWidth = MediaQuery.of(context).size.width;
+
+    final cards = [
+      _buildGuideCard(
+        imageUrl: 'https://picsum.photos/400/250?random=11',
+        date: 'MAY 11, 2026',
+        title: 'Why Do We Offer Water to the Sun?',
+        snippet: 'A Meaningful Ritual Explained for Kids. Many Indian families begin their mornings by offering...',
+      ),
+      _buildGuideCard(
+        imageUrl: 'https://picsum.photos/400/250?random=12',
+        date: 'APRIL 24, 2026',
+        title: '10 Avatars of Vishnu Ji (Dashavatara) – Stories, Meaning & Why Kids Should Know...',
+        snippet: 'Introduction In Indian culture, Vishnu is known as the protector of the universe. Whenever imbalance rises...',
+      ),
+      _buildGuideCard(
+        imageUrl: 'https://picsum.photos/400/250?random=13',
+        date: 'APRIL 07, 2026',
+        title: 'Akshaya Tritiya 2026: Meaning, Significance & How to Celebrate with Kids',
+        snippet: 'Akshaya Tritiya, also known as Akha Teej, is one of the most auspicious days in...',
+      ),
+      _buildGuideCard(
+        imageUrl: 'https://picsum.photos/400/250?random=14',
+        date: 'MARCH 26, 2026',
+        title: 'Mahavir Jayanti for Kids: Teaching Kindness, Non-Violence & Values Through...',
+        snippet: 'Mahavir Jayanti for kids is more than just a festival — it\'s a beautiful opportunity...',
+      ),
+    ];
+
+    Widget buildCardsLayout() {
+      if (screenWidth > 1100) {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: cards.map((card) => Expanded(child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: card,
+          ))).toList(),
+        );
+      } else {
+        // Horizontal scroll view for tablet and mobile
+        return SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          physics: const BouncingScrollPhysics(),
+          child: Row(
+            children: cards.map((card) => Container(
+              width: 280,
+              margin: const EdgeInsets.only(right: 20),
+              child: card,
+            )).toList(),
+          ),
+        );
+      }
+    }
+
     return Column(
       children: [
         // Title Pill
@@ -893,107 +1370,74 @@ class _HomeViewState extends State<HomeView> {
         // Blog Cards Row
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 40),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              _buildGuideCard(
-                imageUrl: 'https://picsum.photos/400/250?random=11',
-                date: 'MAY 11, 2026',
-                title: 'Why Do We Offer Water to the Sun?',
-                snippet: 'A Meaningful Ritual Explained for Kids. Many Indian families begin their mornings by offering...',
-              ),
-              const SizedBox(width: 20),
-              _buildGuideCard(
-                imageUrl: 'https://picsum.photos/400/250?random=12',
-                date: 'APRIL 24, 2026',
-                title: '10 Avatars of Vishnu Ji (Dashavatara) – Stories, Meaning & Why Kids Should Know...',
-                snippet: 'Introduction In Indian culture, Vishnu is known as the protector of the universe. Whenever imbalance rises...',
-              ),
-              const SizedBox(width: 20),
-              _buildGuideCard(
-                imageUrl: 'https://picsum.photos/400/250?random=13',
-                date: 'APRIL 07, 2026',
-                title: 'Akshaya Tritiya 2026: Meaning, Significance & How to Celebrate with Kids',
-                snippet: 'Akshaya Tritiya, also known as Akha Teej, is one of the most auspicious days in...',
-              ),
-              const SizedBox(width: 20),
-              _buildGuideCard(
-                imageUrl: 'https://picsum.photos/400/250?random=14',
-                date: 'MARCH 26, 2026',
-                title: 'Mahavir Jayanti for Kids: Teaching Kindness, Non-Violence & Values Through...',
-                snippet: 'Mahavir Jayanti for kids is more than just a festival — it\'s a beautiful opportunity...',
-              ),
-            ],
-          ),
+          child: buildCardsLayout(),
         ),
       ],
     );
   }
 
   Widget _buildGuideCard({required String imageUrl, required String date, required String title, required String snippet}) {
-    return Expanded(
-      child: Container(
-        decoration: BoxDecoration(
-          color: const Color(0xFFFFF9EC), // Light cream card background
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: Colors.grey.shade200),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            // Image
-            ClipRRect(
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
-              child: Image.network(
-                imageUrl,
-                height: 180,
-                fit: BoxFit.cover,
-              ),
+    return Container(
+      decoration: BoxDecoration(
+        color: const Color(0xFFFFF9EC), // Light cream card background
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: Colors.grey.shade200),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          // Image
+          ClipRRect(
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+            child: Image.network(
+              imageUrl,
+              height: 180,
+              fit: BoxFit.cover,
             ),
-            // Content
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(date, style: const TextStyle(fontSize: 10, color: Colors.grey, fontWeight: FontWeight.bold)),
-                  const SizedBox(height: 8),
-                  Text(
-                    title,
-                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black87),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
+          ),
+          // Content
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(date, style: const TextStyle(fontSize: 10, color: Colors.grey, fontWeight: FontWeight.bold)),
+                const SizedBox(height: 8),
+                Text(
+                  title,
+                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black87),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  snippet,
+                  style: const TextStyle(fontSize: 12, color: Colors.black54),
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(height: 16),
+                ElevatedButton(
+                  onPressed: () {},
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFFD32F2F), // Red button
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                    elevation: 0,
                   ),
-                  const SizedBox(height: 8),
-                  Text(
-                    snippet,
-                    style: const TextStyle(fontSize: 12, color: Colors.black54),
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
+                  child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('Read More', style: TextStyle(color: Colors.white, fontSize: 14)),
+                      SizedBox(width: 4),
+                      Icon(Icons.arrow_circle_right_outlined, color: Colors.white, size: 16),
+                    ],
                   ),
-                  const SizedBox(height: 16),
-                  ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFFD32F2F), // Red button
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                      elevation: 0,
-                    ),
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text('Read More', style: TextStyle(color: Colors.white, fontSize: 14)),
-                        SizedBox(width: 4),
-                        Icon(Icons.arrow_circle_right_outlined, color: Colors.white, size: 16),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -1202,9 +1646,14 @@ class _AnimatedCollectionCardState extends State<AnimatedCollectionCard> {
                 // Pill Button
                 Positioned(
                   bottom: 20,
+                  left: 16,
+                  right: 16,
                   child: AnimatedContainer(
                     duration: const Duration(milliseconds: 200),
-                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: MediaQuery.of(context).size.width > 900 ? 20 : 12,
+                      vertical: MediaQuery.of(context).size.width > 900 ? 12 : 8,
+                    ),
                     decoration: BoxDecoration(
                       color: _isHovered ? const Color(0xFFFF6B6B) : const Color(0xFF009688), // Coral on hover
                       borderRadius: BorderRadius.circular(30),
@@ -1212,7 +1661,14 @@ class _AnimatedCollectionCardState extends State<AnimatedCollectionCard> {
                     ),
                     child: Text(
                       widget.title,
-                      style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w900, fontSize: 18),
+                      textAlign: TextAlign.center,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w900,
+                        fontSize: MediaQuery.of(context).size.width > 900 ? 16 : 13,
+                      ),
                     ),
                   ),
                 ),
