@@ -40,7 +40,7 @@ class _ProductCardState extends State<ProductCard> {
               ),
           ],
           border: Border.all(
-            color: _isHovered ? const Color(0xFFFF0076).withOpacity(0.3) : Colors.transparent,
+            color: _isHovered ? const Color(0xFFE29578).withOpacity(0.3) : Colors.transparent,
             width: 1,
           ),
         ),
@@ -81,12 +81,12 @@ class _ProductCardState extends State<ProductCard> {
                           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                           decoration: BoxDecoration(
                             gradient: const LinearGradient(
-                              colors: [Color(0xFFFF0076), Color(0xFF590FB7)],
+                              colors: [Color(0xFFE29578), Color(0xFF006D77)],
                             ),
                             borderRadius: BorderRadius.circular(12),
                             boxShadow: [
                               BoxShadow(
-                                color: const Color(0xFFFF0076).withOpacity(0.3),
+                                color: const Color(0xFFE29578).withOpacity(0.3),
                                 blurRadius: 8,
                                 offset: const Offset(0, 4),
                               )
@@ -181,7 +181,7 @@ class _ProductCardState extends State<ProductCard> {
                           style: const TextStyle(
                             fontWeight: FontWeight.w900,
                             fontSize: 18,
-                            color: Color(0xFF590FB7),
+                            color: Color(0xFF006D77),
                           ),
                         ),
                         const SizedBox(width: 8),
@@ -208,10 +208,10 @@ class _ProductCardState extends State<ProductCard> {
                       child: ElevatedButton(
                         onPressed: () {},
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: _isHovered ? const Color(0xFFFF0076) : const Color(0xFF1A1A1A),
+                          backgroundColor: _isHovered ? const Color(0xFFE29578) : const Color(0xFF006D77),
                           foregroundColor: Colors.white,
                           elevation: _isHovered ? 8 : 0,
-                          shadowColor: const Color(0xFFFF0076).withOpacity(0.5),
+                          shadowColor: const Color(0xFFE29578).withOpacity(0.5),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),

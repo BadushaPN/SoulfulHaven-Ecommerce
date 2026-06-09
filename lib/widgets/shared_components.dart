@@ -41,7 +41,7 @@ class SharedNavbar extends StatelessWidget {
                     'https://cdn-icons-png.flaticon.com/512/3069/3069188.png', // Floral logo placeholder
                     height: 40,
                     width: 40,
-                    color: const Color(0xFF009688), // Themed icon
+                    color: const Color(0xFF006D77), // Themed icon
                   ),
                   const SizedBox(width: 8),
                   const Column(
@@ -51,7 +51,7 @@ class SharedNavbar extends StatelessWidget {
                       Text(
                         "Soulful",
                         style: TextStyle(
-                          color: Color(0xFF009688), // Teal
+                          color: Color(0xFF006D77), // Teal
                           fontWeight: FontWeight.w900,
                           fontSize: 22,
                           letterSpacing: 1.2,
@@ -60,7 +60,7 @@ class SharedNavbar extends StatelessWidget {
                       Text(
                         "Haven®",
                         style: TextStyle(
-                          color: Color(0xFFFF6B6B), // Coral
+                          color: Color(0xFFE29578), // Terracotta
                           fontWeight: FontWeight.w900,
                           fontSize: 16,
                           height: 0.8,
@@ -175,13 +175,13 @@ class SharedFooter extends StatelessWidget {
         return Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Image.network('https://cdn-icons-png.flaticon.com/512/3069/3069188.png', height: 80),
+            Image.network('https://cdn-icons-png.flaticon.com/512/3069/3069188.png', height: 80, color: const Color(0xFF83C5BE)),
             const SizedBox(width: 40),
             const Expanded(
               child: Text(
                 "Soulful Haven is a modern brand dedicated to early childhood development.\n"
                 "We design toys and accessories that inspire imagination, promote well-being, and support parents in raising happy, healthy kids.",
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, height: 1.5),
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, height: 1.5, color: Color(0xFFEDF6F9)),
               ),
             ),
             const SizedBox(width: 40),
@@ -192,13 +192,13 @@ class SharedFooter extends StatelessWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Image.network('https://cdn-icons-png.flaticon.com/512/3069/3069188.png', height: 70),
+            Image.network('https://cdn-icons-png.flaticon.com/512/3069/3069188.png', height: 70, color: const Color(0xFF83C5BE)),
             const SizedBox(height: 20),
             const Text(
               "Soulful Haven is a modern brand dedicated to early childhood development.\n"
               "We design toys and accessories that inspire imagination, promote well-being, and support parents in raising happy, healthy kids.",
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, height: 1.5),
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, height: 1.5, color: Color(0xFFEDF6F9)),
             ),
             const SizedBox(height: 30),
             _buildNewsletterWidget(isCentered: true),
@@ -233,10 +233,10 @@ class SharedFooter extends StatelessWidget {
             ],
           ),
         ),
-        // Yellow Footer Main
+        // Dark Teal Footer Main
         Container(
           width: double.infinity,
-          color: const Color(0xFFFFD54F), // Bright Yellow matching screenshot
+          color: const Color(0xFF006D77), // Dark Teal matching theme primary
           padding: EdgeInsets.symmetric(horizontal: isMobile ? 24 : 80, vertical: isMobile ? 40 : 60),
           child: Column(
             children: [
@@ -247,11 +247,11 @@ class SharedFooter extends StatelessWidget {
               buildBrandAndNewsletter(),
               const SizedBox(height: 60),
               // Very bottom text
-              const Divider(color: Colors.black12),
+              const Divider(color: Colors.white24),
               const SizedBox(height: 20),
-              const Text("Crafting Joyful Childhoods Since 2026", style: TextStyle(fontWeight: FontWeight.bold)),
+              const Text("Crafting Joyful Childhoods Since 2026", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
               const SizedBox(height: 8),
-              const Text("© 2026 Soulful Haven - All Rights Reserved.", style: TextStyle(fontSize: 12, color: Colors.black54)),
+              const Text("© 2026 Soulful Haven - All Rights Reserved.", style: TextStyle(fontSize: 12, color: Colors.white70)),
             ],
           ),
         ),
@@ -263,11 +263,11 @@ class SharedFooter extends StatelessWidget {
     final content = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+        Text(title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.white)),
         const SizedBox(height: 20),
         ...links.map((link) => Padding(
           padding: const EdgeInsets.only(bottom: 12),
-          child: Text(link, style: const TextStyle(fontSize: 14, color: Colors.black87)),
+          child: Text(link, style: const TextStyle(fontSize: 14, color: Color(0xFFEDF6F9))),
         )).toList(),
       ],
     );
@@ -282,11 +282,11 @@ class SharedFooter extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('Connect With Us', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+        const Text('Connect With Us', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.white)),
         const SizedBox(height: 20),
-        const Text('Business Hours:\nMon - Sat: 10:00 AM to 6:00 PM\n\n+91 98765 43210\nhello@soulfulhaven.com', style: TextStyle(fontSize: 14, height: 1.5)),
+        const Text('Business Hours:\nMon - Sat: 10:00 AM to 6:00 PM\n\n+91 98765 43210\nhello@soulfulhaven.com', style: TextStyle(fontSize: 14, height: 1.5, color: Color(0xFFEDF6F9))),
         const SizedBox(height: 20),
-        const Text('Follow Us on', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+        const Text('Follow Us on', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: Colors.white)),
         const SizedBox(height: 12),
         Row(
           children: [
@@ -304,12 +304,12 @@ class SharedFooter extends StatelessWidget {
     return Column(
       crossAxisAlignment: isCentered ? CrossAxisAlignment.center : CrossAxisAlignment.start,
       children: [
-        const Text('Join Our Community ✨', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFFD32F2F))),
+        const Text('Join Our Community ✨', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFFE29578))),
         const SizedBox(height: 8),
         Text(
           'Get exclusive parenting tips & early access to sales.',
           textAlign: isCentered ? TextAlign.center : TextAlign.start,
-          style: const TextStyle(fontSize: 14),
+          style: const TextStyle(fontSize: 14, color: Color(0xFFEDF6F9)),
         ),
         const SizedBox(height: 16),
         ElevatedButton.icon(
@@ -332,7 +332,7 @@ class SharedFooter extends StatelessWidget {
       margin: const EdgeInsets.only(right: 12),
       padding: const EdgeInsets.all(8),
       decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle),
-      child: Icon(icon, size: 20, color: Colors.black87),
+      child: Icon(icon, size: 20, color: Color(0xFF006D77)),
     );
   }
 }

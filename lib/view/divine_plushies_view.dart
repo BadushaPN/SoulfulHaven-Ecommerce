@@ -68,12 +68,12 @@ class _DivinePlushiesViewState extends State<DivinePlushiesView> {
               width: 50,
               height: 50,
               decoration: BoxDecoration(
-                color: const Color(0xFFD32F2F), // Red
+                color: const Color(0xFFE29578), // Terracotta accent
                 shape: BoxShape.circle,
-                border: Border.all(color: const Color(0xFFFBC02D), width: 3), // Yellow border
+                border: Border.all(color: const Color(0xFF006D77), width: 3), // Deep Teal border
               ),
               child: const Center(
-                child: Text('₹', style: TextStyle(color: Color(0xFFFBC02D), fontSize: 24, fontWeight: FontWeight.bold)),
+                child: Text('₹', style: TextStyle(color: Color(0xFF006D77), fontSize: 24, fontWeight: FontWeight.bold)),
               ),
             ),
           ),
@@ -81,7 +81,7 @@ class _DivinePlushiesViewState extends State<DivinePlushiesView> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
-        backgroundColor: const Color(0xFFFFD54F), // Yellow background
+        backgroundColor: const Color(0xFF006D77), // Deep Teal background
         elevation: 4,
         shape: const CircleBorder(),
         child: Padding(
@@ -89,7 +89,7 @@ class _DivinePlushiesViewState extends State<DivinePlushiesView> {
           child: Image.network(
             'https://cdn-icons-png.flaticon.com/512/3069/3069188.png', // Panda/Floral logo placeholder
             fit: BoxFit.contain,
-            color: Colors.black87,
+            color: Colors.white,
           ),
         ),
       ),
@@ -114,7 +114,7 @@ class _DivinePlushiesViewState extends State<DivinePlushiesView> {
       width: double.infinity,
       height: isMobile ? 250 : 400,
       decoration: const BoxDecoration(
-        color: Color(0xFFFDF5E6), // Light warm background
+        color: Color(0xFFEDF6F9), // Ice blue background
         image: DecorationImage(
           image: NetworkImage('https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?q=80&w=2000&auto=format&fit=crop'), // Kids playing placeholder
           fit: BoxFit.cover,
@@ -130,7 +130,7 @@ class _DivinePlushiesViewState extends State<DivinePlushiesView> {
               style: TextStyle(
                 fontSize: isMobile ? 32 : 60,
                 fontWeight: FontWeight.w900,
-                color: const Color(0xFFC62828), // Dark red
+                color: const Color(0xFF006D77), // Deep Teal
                 letterSpacing: 2.0,
                 shadows: [
                   Shadow(
@@ -147,7 +147,7 @@ class _DivinePlushiesViewState extends State<DivinePlushiesView> {
               style: TextStyle(
                 fontSize: isMobile ? 32 : 60,
                 fontWeight: FontWeight.w900,
-                color: const Color(0xFFC62828), // Dark red
+                color: const Color(0xFF006D77), // Deep Teal
                 letterSpacing: 2.0,
                 shadows: [
                   Shadow(
@@ -346,7 +346,7 @@ class _AnimatedProductCardState extends State<AnimatedProductCard> {
                       duration: const Duration(milliseconds: 200),
                       padding: const EdgeInsets.all(6), // Reduced padding
                       decoration: BoxDecoration(
-                        color: _isHovered ? const Color(0xFFFF6B6B) : Colors.white,
+                        color: _isHovered ? const Color(0xFFE29578) : Colors.white,
                         shape: BoxShape.circle,
                         boxShadow: [
                           BoxShadow(
@@ -359,7 +359,7 @@ class _AnimatedProductCardState extends State<AnimatedProductCard> {
                       child: Icon(
                         Icons.favorite_border,
                         size: 16, // Smaller icon
-                        color: _isHovered ? Colors.white : Colors.black87,
+                        color: _isHovered ? Colors.white : const Color(0xFF006D77),
                       ),
                     ),
                   ),
@@ -425,7 +425,7 @@ class _AnimatedProductCardState extends State<AnimatedProductCard> {
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
                         decoration: BoxDecoration(
-                          color: const Color(0xFFC62828), // Dark red
+                          color: const Color(0xFFE29578), // Terracotta
                           borderRadius: BorderRadius.circular(4),
                         ),
                         child: Text(
@@ -442,7 +442,7 @@ class _AnimatedProductCardState extends State<AnimatedProductCard> {
                     child: ElevatedButton(
                       onPressed: () {},
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF009688), // Teal
+                        backgroundColor: const Color(0xFF006D77), // Deep Teal
                         padding: const EdgeInsets.symmetric(vertical: 8),
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
                         elevation: _isHovered ? 4 : 0,
