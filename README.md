@@ -9,6 +9,8 @@
 
 Designed to be a showcase of modern UI/UX principles, state management, and cross-platform capabilities, this project serves as a comprehensive example of production-ready Flutter development.
 
+> 🌐 **Live App:** [soulfulhaven-ecommerce.web.app](https://soulfulhaven-ecommerce.web.app)
+
 ## 🚀 Key Features
 
 *   **Breathtaking UI/UX:** A soothing color palette (Teal, Coral, Mint) paired with fluid animations (`AnimatedScale`, `AnimatedContainer`) for a premium shopping experience.
