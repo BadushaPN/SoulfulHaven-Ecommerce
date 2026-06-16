@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import '../widgets/shared_components.dart';
 
 class DivinePlushiesView extends StatefulWidget {
@@ -13,6 +14,7 @@ class DivinePlushiesView extends StatefulWidget {
 class _DivinePlushiesViewState extends State<DivinePlushiesView> {
   final ScrollController _scrollController = ScrollController();
   bool _isScrolled = false;
+  bool _showScrollToTop = false;
 
   @override
   void initState() {
@@ -22,6 +24,12 @@ class _DivinePlushiesViewState extends State<DivinePlushiesView> {
         setState(() => _isScrolled = true);
       } else if (_scrollController.offset <= 50 && _isScrolled) {
         setState(() => _isScrolled = false);
+      }
+
+      if (_scrollController.offset > 300 && !_showScrollToTop) {
+        setState(() => _showScrollToTop = true);
+      } else if (_scrollController.offset <= 300 && _showScrollToTop) {
+        setState(() => _showScrollToTop = false);
       }
     });
   }
@@ -34,6 +42,9 @@ class _DivinePlushiesViewState extends State<DivinePlushiesView> {
 
   @override
   Widget build(BuildContext context) {
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final bool isMobile = screenWidth <= 768;
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
@@ -59,48 +70,156 @@ class _DivinePlushiesViewState extends State<DivinePlushiesView> {
             right: 0,
             child: SharedNavbar(isScrolled: _isScrolled),
           ),
-          
-          // Left bottom coin icon
+
+          // Left Bottom Floating Coin Icon
           Positioned(
-            bottom: 40,
+            bottom: 30,
             left: 20,
-            child: Container(
-              width: 50,
-              height: 50,
-              decoration: BoxDecoration(
-                color: const Color(0xFFE29578), // Terracotta accent
-                shape: BoxShape.circle,
-                border: Border.all(color: const Color(0xFF006D77), width: 3), // Deep Teal border
+            child: MouseRegion(
+              cursor: SystemMouseCursors.click,
+              child: GestureDetector(
+                onTap: () {
+                  Get.snackbar(
+                    'Panda Club Rewards 🪙',
+                    'Join our rewards program to earn coins on every purchase!',
+                    snackPosition: SnackPosition.BOTTOM,
+                    backgroundColor: const Color(0xFFD93D3D),
+                    colorText: Colors.white,
+                    margin: const EdgeInsets.all(20),
+                    borderRadius: 12,
+                  );
+                },
+                child: Hero(
+                  tag: 'rupee_coin',
+                  child: Container(
+                    width: isMobile ? 44 : 54,
+                    height: isMobile ? 44 : 54,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFD93D3D), // Red background
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.15),
+                          blurRadius: 8,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
+                      border: Border.all(
+                        color: const Color(0xFFFFD700),
+                        width: 2.5,
+                      ), // Gold border
+                    ),
+                    child: Center(
+                      child: Text(
+                        '₹',
+                        style: TextStyle(
+                          color: const Color(0xFFFFD700),
+                          fontSize: 22,
+                          fontWeight: FontWeight.w900,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
               ),
-              child: const Center(
-                child: Text('₹', style: TextStyle(color: Color(0xFF006D77), fontSize: 24, fontWeight: FontWeight.bold)),
-              ),
+            ),
+          ),
+
+          // Right Bottom Floating Action Buttons
+          Positioned(
+            bottom: 30,
+            right: 20,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // Scroll to top button
+                if (_showScrollToTop) ...[
+                  MouseRegion(
+                    cursor: SystemMouseCursors.click,
+                    child: GestureDetector(
+                      onTap: () {
+                        _scrollController.animateTo(
+                          0,
+                          duration: const Duration(milliseconds: 600),
+                          curve: Curves.easeInOut,
+                        );
+                      },
+                      child: Container(
+                        width: 44,
+                        height: 44,
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFD93D3D), // Red background
+                          shape: BoxShape.circle,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.15),
+                              blurRadius: 8,
+                              offset: const Offset(0, 4),
+                            ),
+                          ],
+                        ),
+                        child: const Icon(
+                          Icons.keyboard_arrow_up,
+                          color: Colors.white,
+                          size: 24,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                ],
+                // Panda Chat Assistant Button
+                MouseRegion(
+                  cursor: SystemMouseCursors.click,
+                  child: GestureDetector(
+                    onTap: () {
+                      Get.snackbar(
+                        'Panda Assistant 🐼',
+                        'Hi! Need help with your order? Click to chat with us on WhatsApp.',
+                        snackPosition: SnackPosition.BOTTOM,
+                        backgroundColor: const Color(0xFFFFDD67),
+                        colorText: Colors.black87,
+                        margin: const EdgeInsets.all(20),
+                        borderRadius: 12,
+                      );
+                    },
+                    child: Container(
+                      width: 50,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFFFDD67), // Yellow background
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.15),
+                            blurRadius: 8,
+                            offset: const Offset(0, 4),
+                          ),
+                        ],
+                      ),
+                      padding: const EdgeInsets.all(8),
+                      child: Image.network(
+                        'https://cdn-icons-png.flaticon.com/512/2654/2654518.png', // Panda face
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        backgroundColor: const Color(0xFF006D77), // Deep Teal background
-        elevation: 4,
-        shape: const CircleBorder(),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Image.network(
-            'https://cdn-icons-png.flaticon.com/512/3069/3069188.png', // Panda/Floral logo placeholder
-            fit: BoxFit.contain,
-            color: Colors.white,
-          ),
-        ),
-      ),
     );
-  }  Widget _buildBanner(BuildContext context) {
+  }
+
+  Widget _buildBanner(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
     final bool isMobile = screenWidth <= 600;
 
     String firstWord = "DIVINE";
     String restWords = "COLLECTION";
-    
+
     if (widget.categoryName.contains(' ')) {
       List<String> parts = widget.categoryName.split(' ');
       firstWord = parts[0].toUpperCase();
@@ -116,9 +235,14 @@ class _DivinePlushiesViewState extends State<DivinePlushiesView> {
       decoration: const BoxDecoration(
         color: Color(0xFFEDF6F9), // Ice blue background
         image: DecorationImage(
-          image: NetworkImage('https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?q=80&w=2000&auto=format&fit=crop'), // Kids playing placeholder
+          image: NetworkImage(
+            'https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?q=80&w=2000&auto=format&fit=crop',
+          ), // Kids playing placeholder
           fit: BoxFit.cover,
-          colorFilter: ColorFilter.mode(Colors.white54, BlendMode.lighten), // Lighten the image so text is readable
+          colorFilter: ColorFilter.mode(
+            Colors.white54,
+            BlendMode.lighten,
+          ), // Lighten the image so text is readable
         ),
       ),
       child: Center(
@@ -137,7 +261,7 @@ class _DivinePlushiesViewState extends State<DivinePlushiesView> {
                     offset: const Offset(2, 2),
                     blurRadius: 4,
                     color: Colors.white.withOpacity(0.8),
-                  )
+                  ),
                 ],
               ),
               textAlign: TextAlign.center,
@@ -154,7 +278,7 @@ class _DivinePlushiesViewState extends State<DivinePlushiesView> {
                     offset: const Offset(2, 2),
                     blurRadius: 4,
                     color: Colors.white.withOpacity(0.8),
-                  )
+                  ),
                 ],
               ),
               textAlign: TextAlign.center,
@@ -209,47 +333,115 @@ class _DivinePlushiesViewState extends State<DivinePlushiesView> {
       child: LayoutBuilder(
         builder: (context, constraints) {
           // Up to 7 columns for large screens to make cards smaller
-          int crossAxisCount = constraints.maxWidth > 1400 ? 7 : (constraints.maxWidth > 1000 ? 5 : (constraints.maxWidth > 600 ? 3 : 2));
+          int crossAxisCount = constraints.maxWidth > 1400
+              ? 7
+              : (constraints.maxWidth > 1000
+                    ? 5
+                    : (constraints.maxWidth > 600 ? 3 : 2));
           double childAspectRatio = constraints.maxWidth > 600 ? 0.45 : 0.41;
-          
+
           // Generate 14 items to ensure the page is scrollable
           List<Widget> products = List.generate(14, (index) {
             List<Map<String, dynamic>> dummyData = [];
-            
+
             if (widget.categoryName == 'Divine Plushies') {
               dummyData = [
-                {'img': 'https://cdn-icons-png.flaticon.com/512/3082/3082008.png', 'title': 'Mantra Chanting Baby Ganesha'},
-                {'img': 'https://cdn-icons-png.flaticon.com/512/3094/3094833.png', 'title': 'Mantra Chanting Baby Krishna'},
-                {'img': 'https://cdn-icons-png.flaticon.com/512/2922/2922572.png', 'title': 'Mantra Chanting Baby Hanuman'},
-                {'img': 'https://cdn-icons-png.flaticon.com/512/3069/3069188.png', 'title': 'Mantra Chanting Baby Shiva'},
+                {
+                  'img':
+                      'https://cdn-icons-png.flaticon.com/512/3082/3082008.png',
+                  'title': 'Mantra Chanting Baby Ganesha',
+                },
+                {
+                  'img':
+                      'https://cdn-icons-png.flaticon.com/512/3094/3094833.png',
+                  'title': 'Mantra Chanting Baby Krishna',
+                },
+                {
+                  'img':
+                      'https://cdn-icons-png.flaticon.com/512/2922/2922572.png',
+                  'title': 'Mantra Chanting Baby Hanuman',
+                },
+                {
+                  'img':
+                      'https://cdn-icons-png.flaticon.com/512/3069/3069188.png',
+                  'title': 'Mantra Chanting Baby Shiva',
+                },
               ];
             } else if (widget.categoryName == 'Divine Decor') {
               dummyData = [
-                {'img': 'https://cdn-icons-png.flaticon.com/512/3069/3069188.png', 'title': 'Mandir for Kids (DIY)'},
-                {'img': 'https://cdn-icons-png.flaticon.com/512/3082/3082008.png', 'title': 'Wall Hangings & Torans'},
-                {'img': 'https://cdn-icons-png.flaticon.com/512/2922/2922572.png', 'title': 'Play Mats with Patterns'},
+                {
+                  'img':
+                      'https://cdn-icons-png.flaticon.com/512/3069/3069188.png',
+                  'title': 'Mandir for Kids (DIY)',
+                },
+                {
+                  'img':
+                      'https://cdn-icons-png.flaticon.com/512/3082/3082008.png',
+                  'title': 'Wall Hangings & Torans',
+                },
+                {
+                  'img':
+                      'https://cdn-icons-png.flaticon.com/512/2922/2922572.png',
+                  'title': 'Play Mats with Patterns',
+                },
               ];
             } else if (widget.categoryName == 'Story Tellers') {
               dummyData = [
-                {'img': 'https://cdn-icons-png.flaticon.com/512/3094/3094833.png', 'title': 'Interactive Audio Books'},
-                {'img': 'https://cdn-icons-png.flaticon.com/512/3082/3082008.png', 'title': 'Ramayana Flash Cards'},
-                {'img': 'https://cdn-icons-png.flaticon.com/512/2922/2922572.png', 'title': 'Mythology Story Cubes'},
+                {
+                  'img':
+                      'https://cdn-icons-png.flaticon.com/512/3094/3094833.png',
+                  'title': 'Interactive Audio Books',
+                },
+                {
+                  'img':
+                      'https://cdn-icons-png.flaticon.com/512/3082/3082008.png',
+                  'title': 'Ramayana Flash Cards',
+                },
+                {
+                  'img':
+                      'https://cdn-icons-png.flaticon.com/512/2922/2922572.png',
+                  'title': 'Mythology Story Cubes',
+                },
               ];
             } else if (widget.categoryName == 'Books & Games') {
               dummyData = [
-                {'img': 'https://cdn-icons-png.flaticon.com/512/3094/3094848.png', 'title': 'My First Book of Mantras'},
-                {'img': 'https://cdn-icons-png.flaticon.com/512/3094/3094833.png', 'title': 'Gods & Goddesses Puzzle'},
-                {'img': 'https://cdn-icons-png.flaticon.com/512/3069/3069188.png', 'title': 'Festival Activity Kit'},
+                {
+                  'img':
+                      'https://cdn-icons-png.flaticon.com/512/3094/3094848.png',
+                  'title': 'My First Book of Mantras',
+                },
+                {
+                  'img':
+                      'https://cdn-icons-png.flaticon.com/512/3094/3094833.png',
+                  'title': 'Gods & Goddesses Puzzle',
+                },
+                {
+                  'img':
+                      'https://cdn-icons-png.flaticon.com/512/3069/3069188.png',
+                  'title': 'Festival Activity Kit',
+                },
               ];
             } else {
               dummyData = [
-                {'img': 'https://cdn-icons-png.flaticon.com/512/3094/3094844.png', 'title': 'Kids Prayer Beads'},
-                {'img': 'https://cdn-icons-png.flaticon.com/512/3082/3082008.png', 'title': 'Traditional Wear for Plushies'},
-                {'img': 'https://cdn-icons-png.flaticon.com/512/2922/2922572.png', 'title': 'traditional wear'},
+                {
+                  'img':
+                      'https://cdn-icons-png.flaticon.com/512/3094/3094844.png',
+                  'title': 'Kids Prayer Beads',
+                },
+                {
+                  'img':
+                      'https://cdn-icons-png.flaticon.com/512/3082/3082008.png',
+                  'title': 'Traditional Wear for Plushies',
+                },
+                {
+                  'img':
+                      'https://cdn-icons-png.flaticon.com/512/2922/2922572.png',
+                  'title': 'traditional wear',
+                },
               ];
             }
             var data = dummyData[index % dummyData.length];
-            
+
             return AnimatedProductCard(
               imageUrl: data['img'],
               title: data['title'],
@@ -260,7 +452,7 @@ class _DivinePlushiesViewState extends State<DivinePlushiesView> {
               discount: 33,
             );
           });
- 
+
           return GridView.count(
             crossAxisCount: crossAxisCount,
             shrinkWrap: true,
@@ -274,7 +466,6 @@ class _DivinePlushiesViewState extends State<DivinePlushiesView> {
       ),
     );
   }
-
 }
 
 class AnimatedProductCard extends StatefulWidget {
@@ -318,7 +509,13 @@ class _AnimatedProductCardState extends State<AnimatedProductCard> {
           color: Colors.white,
           borderRadius: BorderRadius.circular(12),
           boxShadow: _isHovered
-              ? [const BoxShadow(color: Colors.black12, blurRadius: 12, offset: Offset(0, 6))]
+              ? [
+                  const BoxShadow(
+                    color: Colors.black12,
+                    blurRadius: 12,
+                    offset: Offset(0, 6),
+                  ),
+                ]
               : [],
         ),
         child: Column(
@@ -330,11 +527,16 @@ class _AnimatedProductCardState extends State<AnimatedProductCard> {
                 children: [
                   Center(
                     child: Padding(
-                      padding: const EdgeInsets.all(10.0), // Reduced padding for smaller card
+                      padding: const EdgeInsets.all(
+                        10.0,
+                      ), // Reduced padding for smaller card
                       child: AnimatedScale(
                         scale: _isHovered ? 1.1 : 1.0,
                         duration: const Duration(milliseconds: 200),
-                        child: Image.network(widget.imageUrl, fit: BoxFit.contain),
+                        child: Image.network(
+                          widget.imageUrl,
+                          fit: BoxFit.contain,
+                        ),
                       ),
                     ),
                   ),
@@ -346,7 +548,9 @@ class _AnimatedProductCardState extends State<AnimatedProductCard> {
                       duration: const Duration(milliseconds: 200),
                       padding: const EdgeInsets.all(6), // Reduced padding
                       decoration: BoxDecoration(
-                        color: _isHovered ? const Color(0xFFE29578) : Colors.white,
+                        color: _isHovered
+                            ? const Color(0xFFE29578)
+                            : Colors.white,
                         shape: BoxShape.circle,
                         boxShadow: [
                           BoxShadow(
@@ -359,7 +563,9 @@ class _AnimatedProductCardState extends State<AnimatedProductCard> {
                       child: Icon(
                         Icons.favorite_border,
                         size: 16, // Smaller icon
-                        color: _isHovered ? Colors.white : const Color(0xFF006D77),
+                        color: _isHovered
+                            ? Colors.white
+                            : const Color(0xFF006D77),
                       ),
                     ),
                   ),
@@ -398,12 +604,23 @@ class _AnimatedProductCardState extends State<AnimatedProductCard> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Row(
-                        children: List.generate(5, (index) => const Icon(Icons.star, size: 10, color: Color(0xFFFFC107))), // Smaller stars
+                        children: List.generate(
+                          5,
+                          (index) => const Icon(
+                            Icons.star,
+                            size: 10,
+                            color: Color(0xFFFFC107),
+                          ),
+                        ), // Smaller stars
                       ),
                       const SizedBox(width: 4),
                       Text(
                         widget.rating.toStringAsFixed(2),
-                        style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Colors.black87),
+                        style: const TextStyle(
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black87,
+                        ),
                       ),
                     ],
                   ),
@@ -414,23 +631,39 @@ class _AnimatedProductCardState extends State<AnimatedProductCard> {
                     children: [
                       Text(
                         '₹${widget.price}',
-                        style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: Colors.black87), // Smaller font
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w900,
+                          color: Colors.black87,
+                        ), // Smaller font
                       ),
                       const SizedBox(width: 4),
                       Text(
                         '₹${widget.oldPrice}',
-                        style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w500, color: Colors.grey, decoration: TextDecoration.lineThrough),
+                        style: const TextStyle(
+                          fontSize: 10,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.grey,
+                          decoration: TextDecoration.lineThrough,
+                        ),
                       ),
                       const SizedBox(width: 4),
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 4,
+                          vertical: 2,
+                        ),
                         decoration: BoxDecoration(
                           color: const Color(0xFFE29578), // Terracotta
                           borderRadius: BorderRadius.circular(4),
                         ),
                         child: Text(
                           '${widget.discount}%',
-                          style: const TextStyle(color: Colors.white, fontSize: 8, fontWeight: FontWeight.bold),
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 8,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ],
@@ -444,15 +677,28 @@ class _AnimatedProductCardState extends State<AnimatedProductCard> {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF006D77), // Deep Teal
                         padding: const EdgeInsets.symmetric(vertical: 8),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(6),
+                        ),
                         elevation: _isHovered ? 4 : 0,
                       ),
                       child: const Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.shopping_cart_outlined, size: 14, color: Colors.white),
+                          Icon(
+                            Icons.shopping_cart_outlined,
+                            size: 14,
+                            color: Colors.white,
+                          ),
                           SizedBox(width: 4),
-                          Text('Add to Cart', style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold)),
+                          Text(
+                            'Add to Cart',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ],
                       ),
                     ),

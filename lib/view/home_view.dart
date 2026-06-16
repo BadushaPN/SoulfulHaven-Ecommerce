@@ -5,7 +5,6 @@ import '../controller/home_controller.dart';
 import '../widgets/shared_components.dart';
 import 'divine_plushies_view.dart';
 
-
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
 
@@ -16,7 +15,8 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   final ScrollController _scrollController = ScrollController();
   bool _isScrolled = false;
-  
+  bool _showScrollToTop = false;
+
   final PageController _pageController = PageController();
   int _currentCarouselIndex = 0;
   Timer? _carouselTimer;
@@ -37,6 +37,12 @@ class _HomeViewState extends State<HomeView> {
         setState(() => _isScrolled = true);
       } else if (_scrollController.offset <= 50 && _isScrolled) {
         setState(() => _isScrolled = false);
+      }
+
+      if (_scrollController.offset > 300 && !_showScrollToTop) {
+        setState(() => _showScrollToTop = true);
+      } else if (_scrollController.offset <= 300 && _showScrollToTop) {
+        setState(() => _showScrollToTop = false);
       }
     });
 
@@ -63,6 +69,8 @@ class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     Get.put(HomeController());
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final bool isMobile = screenWidth <= 768;
 
     return Scaffold(
       backgroundColor: const Color(0xFFEDF6F9), // Ice blue background
@@ -98,31 +106,154 @@ class _HomeViewState extends State<HomeView> {
             right: 0,
             child: SharedNavbar(isScrolled: _isScrolled),
           ),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        backgroundColor: const Color(0xFF006D77), // Deep Teal
-        elevation: 4,
-        shape: const CircleBorder(),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Image.network(
-            'https://cdn-icons-png.flaticon.com/512/3069/3069188.png', // Floral logo placeholder
-            fit: BoxFit.contain,
-            color: Colors.white,
+
+          // Left Bottom Floating Coin Icon
+          Positioned(
+            bottom: 30,
+            left: 20,
+            child: MouseRegion(
+              cursor: SystemMouseCursors.click,
+              child: GestureDetector(
+                onTap: () {
+                  Get.snackbar(
+                    'Panda Club Rewards 🪙',
+                    'Join our rewards program to earn coins on every purchase!',
+                    snackPosition: SnackPosition.BOTTOM,
+                    backgroundColor: const Color(0xFFD93D3D),
+                    colorText: Colors.white,
+                    margin: const EdgeInsets.all(20),
+                    borderRadius: 12,
+                  );
+                },
+                child: Hero(
+                  tag: 'rupee_coin',
+                  child: Container(
+                    width: isMobile ? 44 : 54,
+                    height: isMobile ? 44 : 54,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFD93D3D), // Red background
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.15),
+                          blurRadius: 8,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
+                      border: Border.all(
+                        color: const Color(0xFFFFD700),
+                        width: 2.5,
+                      ), // Gold border
+                    ),
+                    child: const Center(
+                      child: Text(
+                        '₹',
+                        style: TextStyle(
+                          color: Color(0xFFFFD700),
+                          fontSize: 22,
+                          fontWeight: FontWeight.w900,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
           ),
-        ),
+
+          // Right Bottom Floating Action Buttons
+          Positioned(
+            bottom: 30,
+            right: 20,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // Scroll to top button
+                if (_showScrollToTop) ...[
+                  MouseRegion(
+                    cursor: SystemMouseCursors.click,
+                    child: GestureDetector(
+                      onTap: () {
+                        _scrollController.animateTo(
+                          0,
+                          duration: const Duration(milliseconds: 600),
+                          curve: Curves.easeInOut,
+                        );
+                      },
+                      child: Container(
+                        width: 44,
+                        height: 44,
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFD93D3D), // Red background
+                          shape: BoxShape.circle,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.15),
+                              blurRadius: 8,
+                              offset: const Offset(0, 4),
+                            ),
+                          ],
+                        ),
+                        child: const Icon(
+                          Icons.keyboard_arrow_up,
+                          color: Colors.white,
+                          size: 24,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                ],
+                // Panda Chat Assistant Button
+                MouseRegion(
+                  cursor: SystemMouseCursors.click,
+                  child: GestureDetector(
+                    onTap: () {
+                      Get.snackbar(
+                        'Panda Assistant 🐼',
+                        'Hi! Need help with your order? Click to chat with us on WhatsApp.',
+                        snackPosition: SnackPosition.BOTTOM,
+                        backgroundColor: const Color(0xFFFFDD67),
+                        colorText: Colors.black87,
+                        margin: const EdgeInsets.all(20),
+                        borderRadius: 12,
+                      );
+                    },
+                    child: Container(
+                      width: 50,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFFFDD67), // Yellow background
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.15),
+                            blurRadius: 8,
+                            offset: const Offset(0, 4),
+                          ),
+                        ],
+                      ),
+                      padding: const EdgeInsets.all(8),
+                      child: Image.network(
+                        'https://cdn-icons-png.flaticon.com/512/2654/2654518.png', // Panda face
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
 
-
-
   Widget _buildHeroSection(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
     final bool isMobile = screenWidth <= 990;
-    double screenHeight = MediaQuery.of(context).size.height - 80; // Minus navbar
+    double screenHeight =
+        MediaQuery.of(context).size.height - 80; // Minus navbar
     if (screenHeight < 600) screenHeight = 600;
 
     return Container(
@@ -135,7 +266,8 @@ class _HomeViewState extends State<HomeView> {
           Positioned.fill(
             child: PageView.builder(
               controller: _pageController,
-              onPageChanged: (index) => setState(() => _currentCarouselIndex = index),
+              onPageChanged: (index) =>
+                  setState(() => _currentCarouselIndex = index),
               itemCount: _carouselImages.length,
               itemBuilder: (context, index) {
                 return Image.network(
@@ -147,7 +279,7 @@ class _HomeViewState extends State<HomeView> {
               },
             ),
           ),
-          
+
           if (isMobile)
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 60),
@@ -158,7 +290,12 @@ class _HomeViewState extends State<HomeView> {
                   const Text(
                     'Introducing My First Book of',
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Color(0xFF006D77), letterSpacing: 1.2),
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                      color: Color(0xFF006D77),
+                      letterSpacing: 1.2,
+                    ),
                   ),
                   const SizedBox(height: 8),
                   Stack(
@@ -191,28 +328,75 @@ class _HomeViewState extends State<HomeView> {
                   const Text(
                     'A BEAUTIFULLY ILLUSTRATED MUSICAL\nMANTRA BOOK FOR LITTLE LEARNERS',
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.w800, color: Color(0xFFE29578), height: 1.5),
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w800,
+                      color: Color(0xFFE29578),
+                      height: 1.5,
+                    ),
                   ),
                   const SizedBox(height: 20),
                   const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('JUST AT - ', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: Color(0xFF006D77))),
-                      Text('MRP - ', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: Color(0xFF006D77), decoration: TextDecoration.lineThrough)),
-                      Text('1899/-', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: Color(0xFF006D77))),
+                      Text(
+                        'JUST AT - ',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w900,
+                          color: Color(0xFF006D77),
+                        ),
+                      ),
+                      Text(
+                        'MRP - ',
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w700,
+                          color: Color(0xFF006D77),
+                          decoration: TextDecoration.lineThrough,
+                        ),
+                      ),
+                      Text(
+                        '1899/-',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w900,
+                          color: Color(0xFF006D77),
+                        ),
+                      ),
                     ],
                   ),
                   const SizedBox(height: 30),
                   Transform.rotate(
                     angle: -0.05,
                     child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                      decoration: BoxDecoration(color: const Color(0xFF006D77), borderRadius: BorderRadius.circular(40)),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 24,
+                        vertical: 12,
+                      ),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF006D77),
+                        borderRadius: BorderRadius.circular(40),
+                      ),
                       child: RichText(
                         text: const TextSpan(
                           children: [
-                            TextSpan(text: 'Pass Down ', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900, color: Colors.white)),
-                            TextSpan(text: 'Values,', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900, color: Color(0xFFE29578))),
+                            TextSpan(
+                              text: 'Pass Down ',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w900,
+                                color: Colors.white,
+                              ),
+                            ),
+                            TextSpan(
+                              text: 'Values,',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w900,
+                                color: Color(0xFFE29578),
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -222,13 +406,33 @@ class _HomeViewState extends State<HomeView> {
                   Transform.rotate(
                     angle: 0.02,
                     child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                      decoration: BoxDecoration(color: const Color(0xFFE29578), borderRadius: BorderRadius.circular(40)),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 24,
+                        vertical: 12,
+                      ),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFE29578),
+                        borderRadius: BorderRadius.circular(40),
+                      ),
                       child: RichText(
                         text: const TextSpan(
                           children: [
-                            TextSpan(text: 'Not Just ', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900, color: Colors.white)),
-                            TextSpan(text: 'Toys', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900, color: Color(0xFF006D77))),
+                            TextSpan(
+                              text: 'Not Just ',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w900,
+                                color: Colors.white,
+                              ),
+                            ),
+                            TextSpan(
+                              text: 'Toys',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w900,
+                                color: Color(0xFF006D77),
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -239,7 +443,10 @@ class _HomeViewState extends State<HomeView> {
                     onPressed: () {},
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFFE29578),
-                      padding: const EdgeInsets.symmetric(horizontal: 36, vertical: 16),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 36,
+                        vertical: 16,
+                      ),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(40),
                         side: const BorderSide(color: Colors.white, width: 2),
@@ -249,7 +456,15 @@ class _HomeViewState extends State<HomeView> {
                     child: const Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Text('SHOP NOW', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900, color: Colors.white, letterSpacing: 1.5)),
+                        Text(
+                          'SHOP NOW',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w900,
+                            color: Colors.white,
+                            letterSpacing: 1.5,
+                          ),
+                        ),
                         SizedBox(width: 8),
                         Icon(Icons.touch_app, color: Colors.white, size: 24),
                       ],
@@ -268,7 +483,12 @@ class _HomeViewState extends State<HomeView> {
                 children: [
                   const Text(
                     'Introducing My First Book of',
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700, color: Color(0xFF006D77), letterSpacing: 1.2),
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w700,
+                      color: Color(0xFF006D77),
+                      letterSpacing: 1.2,
+                    ),
                   ),
                   Stack(
                     children: [
@@ -298,14 +518,41 @@ class _HomeViewState extends State<HomeView> {
                   const SizedBox(height: 10),
                   const Text(
                     'A BEAUTIFULLY ILLUSTRATED MUSICAL\nMANTRA BOOK FOR LITTLE LEARNERS',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800, color: Color(0xFFE29578), height: 1.5),
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w800,
+                      color: Color(0xFFE29578),
+                      height: 1.5,
+                    ),
                   ),
                   const SizedBox(height: 40),
                   const Row(
                     children: [
-                      Text('JUST AT - ', style: TextStyle(fontSize: 28, fontWeight: FontWeight.w900, color: Color(0xFF006D77))),
-                      Text('MRP - ', style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700, color: Color(0xFF006D77), decoration: TextDecoration.lineThrough)),
-                      Text('1899/-', style: TextStyle(fontSize: 28, fontWeight: FontWeight.w900, color: Color(0xFF006D77))),
+                      Text(
+                        'JUST AT - ',
+                        style: TextStyle(
+                          fontSize: 28,
+                          fontWeight: FontWeight.w900,
+                          color: Color(0xFF006D77),
+                        ),
+                      ),
+                      Text(
+                        'MRP - ',
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.w700,
+                          color: Color(0xFF006D77),
+                          decoration: TextDecoration.lineThrough,
+                        ),
+                      ),
+                      Text(
+                        '1899/-',
+                        style: TextStyle(
+                          fontSize: 28,
+                          fontWeight: FontWeight.w900,
+                          color: Color(0xFF006D77),
+                        ),
+                      ),
                     ],
                   ),
                 ],
@@ -322,13 +569,33 @@ class _HomeViewState extends State<HomeView> {
                   Transform.rotate(
                     angle: -0.05,
                     child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
-                      decoration: BoxDecoration(color: const Color(0xFF006D77), borderRadius: BorderRadius.circular(40)),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 40,
+                        vertical: 20,
+                      ),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF006D77),
+                        borderRadius: BorderRadius.circular(40),
+                      ),
                       child: RichText(
                         text: const TextSpan(
                           children: [
-                            TextSpan(text: 'Pass Down ', style: TextStyle(fontSize: 50, fontWeight: FontWeight.w900, color: Colors.white)),
-                            TextSpan(text: 'Values,', style: TextStyle(fontSize: 50, fontWeight: FontWeight.w900, color: Color(0xFFE29578))),
+                            TextSpan(
+                              text: 'Pass Down ',
+                              style: TextStyle(
+                                fontSize: 50,
+                                fontWeight: FontWeight.w900,
+                                color: Colors.white,
+                              ),
+                            ),
+                            TextSpan(
+                              text: 'Values,',
+                              style: TextStyle(
+                                fontSize: 50,
+                                fontWeight: FontWeight.w900,
+                                color: Color(0xFFE29578),
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -338,13 +605,33 @@ class _HomeViewState extends State<HomeView> {
                   Transform.rotate(
                     angle: 0.02,
                     child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
-                      decoration: BoxDecoration(color: const Color(0xFFE29578), borderRadius: BorderRadius.circular(40)),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 40,
+                        vertical: 20,
+                      ),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFE29578),
+                        borderRadius: BorderRadius.circular(40),
+                      ),
                       child: RichText(
                         text: const TextSpan(
                           children: [
-                            TextSpan(text: 'Not Just ', style: TextStyle(fontSize: 50, fontWeight: FontWeight.w900, color: Colors.white)),
-                            TextSpan(text: 'Toys', style: TextStyle(fontSize: 50, fontWeight: FontWeight.w900, color: Color(0xFF006D77))),
+                            TextSpan(
+                              text: 'Not Just ',
+                              style: TextStyle(
+                                fontSize: 50,
+                                fontWeight: FontWeight.w900,
+                                color: Colors.white,
+                              ),
+                            ),
+                            TextSpan(
+                              text: 'Toys',
+                              style: TextStyle(
+                                fontSize: 50,
+                                fontWeight: FontWeight.w900,
+                                color: Color(0xFF006D77),
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -358,7 +645,10 @@ class _HomeViewState extends State<HomeView> {
                       onPressed: () {},
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFFE29578),
-                        padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 50,
+                          vertical: 20,
+                        ),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(40),
                           side: const BorderSide(color: Colors.white, width: 3),
@@ -368,7 +658,15 @@ class _HomeViewState extends State<HomeView> {
                       child: const Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Text('SHOP NOW', style: TextStyle(fontSize: 28, fontWeight: FontWeight.w900, color: Colors.white, letterSpacing: 1.5)),
+                          Text(
+                            'SHOP NOW',
+                            style: TextStyle(
+                              fontSize: 28,
+                              fontWeight: FontWeight.w900,
+                              color: Colors.white,
+                              letterSpacing: 1.5,
+                            ),
+                          ),
                           SizedBox(width: 10),
                           Icon(Icons.touch_app, color: Colors.white, size: 32),
                         ],
@@ -382,24 +680,6 @@ class _HomeViewState extends State<HomeView> {
 
           // Bottom Pagination Dots
           Positioned(bottom: 20, left: 0, right: 0, child: _buildDots()),
-          
-          // Left bottom coin icon
-          Positioned(
-            bottom: isMobile ? 20 : 40,
-            left: isMobile ? 16 : 20,
-            child: Container(
-              width: isMobile ? 40 : 50,
-              height: isMobile ? 40 : 50,
-              decoration: BoxDecoration(
-                color: const Color(0xFFE29578),
-                shape: BoxShape.circle,
-                border: Border.all(color: const Color(0xFF006D77), width: isMobile ? 2 : 3),
-              ),
-              child: Center(
-                child: Text('₹', style: TextStyle(color: Colors.white, fontSize: isMobile ? 18 : 24, fontWeight: FontWeight.bold)),
-              ),
-            ),
-          ),
         ],
       ),
     );
@@ -415,12 +695,18 @@ class _HomeViewState extends State<HomeView> {
           margin: const EdgeInsets.symmetric(horizontal: 4),
           padding: isActive ? const EdgeInsets.all(4) : EdgeInsets.zero,
           decoration: isActive
-              ? BoxDecoration(border: Border.all(color: const Color(0xFF006D77), width: 1), shape: BoxShape.rectangle)
+              ? BoxDecoration(
+                  border: Border.all(color: const Color(0xFF006D77), width: 1),
+                  shape: BoxShape.rectangle,
+                )
               : const BoxDecoration(),
           child: Container(
             width: 6,
             height: 6,
-            decoration: const BoxDecoration(color: Color(0xFF006D77), shape: BoxShape.circle),
+            decoration: const BoxDecoration(
+              color: Color(0xFF006D77),
+              shape: BoxShape.circle,
+            ),
           ),
         );
       }),
@@ -438,10 +724,22 @@ class _HomeViewState extends State<HomeView> {
         alignment: WrapAlignment.center,
         crossAxisAlignment: WrapCrossAlignment.center,
         children: [
-          _trustBadge('https://cdn-icons-png.flaticon.com/512/3233/3233483.png', 'Loved by 2 lac+ Customers'),
-          _trustBadge('https://cdn-icons-png.flaticon.com/512/3069/3069188.png', 'Made of Safe Plush Fabric'),
-          _trustBadge('https://cdn-icons-png.flaticon.com/512/833/833472.png', 'Handcrafted in India'),
-          _trustBadge('https://cdn-icons-png.flaticon.com/512/3409/3409419.png', 'Screen free play'),
+          _trustBadge(
+            'https://cdn-icons-png.flaticon.com/512/3233/3233483.png',
+            'Loved by 2 lac+ Customers',
+          ),
+          _trustBadge(
+            'https://cdn-icons-png.flaticon.com/512/3069/3069188.png',
+            'Made of Safe Plush Fabric',
+          ),
+          _trustBadge(
+            'https://cdn-icons-png.flaticon.com/512/833/833472.png',
+            'Handcrafted in India',
+          ),
+          _trustBadge(
+            'https://cdn-icons-png.flaticon.com/512/3409/3409419.png',
+            'Screen free play',
+          ),
         ],
       ),
     );
@@ -451,11 +749,20 @@ class _HomeViewState extends State<HomeView> {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Image.network(iconUrl, width: 32, height: 32, color: const Color(0xFF006D77)),
+        Image.network(
+          iconUrl,
+          width: 32,
+          height: 32,
+          color: const Color(0xFF006D77),
+        ),
         const SizedBox(width: 12),
         Text(
           text,
-          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Color(0xFF006D77)),
+          style: const TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w700,
+            color: Color(0xFF006D77),
+          ),
         ),
       ],
     );
@@ -477,9 +784,14 @@ class _HomeViewState extends State<HomeView> {
                 child: AnimatedCollectionCard(
                   title: 'Mantra Chanting Baby Ganesha',
                   backgroundColor: const Color(0xFFB2DFDB), // Pastel Mint
-                  imageUrl: 'https://cdn-icons-png.flaticon.com/512/3082/3082008.png',
+                  imageUrl:
+                      'https://cdn-icons-png.flaticon.com/512/3082/3082008.png',
                   onTap: () {
-                    Get.to(() => const DivinePlushiesView(categoryName: 'Divine Plushies'));
+                    Get.to(
+                      () => const DivinePlushiesView(
+                        categoryName: 'Divine Plushies',
+                      ),
+                    );
                   },
                 ),
               ),
@@ -496,8 +808,13 @@ class _HomeViewState extends State<HomeView> {
                             child: AnimatedCollectionCard(
                               title: 'Mantra Chanting Baby Krishna',
                               backgroundColor: const Color(0xFFBBDEFB),
-                              imageUrl: 'https://cdn-icons-png.flaticon.com/512/3094/3094833.png',
-                              onTap: () => Get.to(() => const DivinePlushiesView(categoryName: 'Divine Plushies')),
+                              imageUrl:
+                                  'https://cdn-icons-png.flaticon.com/512/3094/3094833.png',
+                              onTap: () => Get.to(
+                                () => const DivinePlushiesView(
+                                  categoryName: 'Divine Plushies',
+                                ),
+                              ),
                             ),
                           ),
                           const SizedBox(width: 20),
@@ -505,8 +822,13 @@ class _HomeViewState extends State<HomeView> {
                             child: AnimatedCollectionCard(
                               title: 'Mantra Chanting Baby Hanuman',
                               backgroundColor: const Color(0xFFE1BEE7),
-                              imageUrl: 'https://cdn-icons-png.flaticon.com/512/2922/2922572.png',
-                              onTap: () => Get.to(() => const DivinePlushiesView(categoryName: 'Divine Plushies')),
+                              imageUrl:
+                                  'https://cdn-icons-png.flaticon.com/512/2922/2922572.png',
+                              onTap: () => Get.to(
+                                () => const DivinePlushiesView(
+                                  categoryName: 'Divine Plushies',
+                                ),
+                              ),
                             ),
                           ),
                         ],
@@ -520,8 +842,13 @@ class _HomeViewState extends State<HomeView> {
                             child: AnimatedCollectionCard(
                               title: 'Mantra Chanting Baby Shiva',
                               backgroundColor: const Color(0xFFFFCCBC),
-                              imageUrl: 'https://cdn-icons-png.flaticon.com/512/3069/3069188.png',
-                              onTap: () => Get.to(() => const DivinePlushiesView(categoryName: 'Divine Plushies')),
+                              imageUrl:
+                                  'https://cdn-icons-png.flaticon.com/512/3069/3069188.png',
+                              onTap: () => Get.to(
+                                () => const DivinePlushiesView(
+                                  categoryName: 'Divine Plushies',
+                                ),
+                              ),
                             ),
                           ),
                           const SizedBox(width: 20),
@@ -529,8 +856,13 @@ class _HomeViewState extends State<HomeView> {
                             child: AnimatedCollectionCard(
                               title: 'Mandir for Kids (DIY)',
                               backgroundColor: const Color(0xFFFFF9C4),
-                              imageUrl: 'https://cdn-icons-png.flaticon.com/512/3094/3094848.png',
-                              onTap: () => Get.to(() => const DivinePlushiesView(categoryName: 'Divine Plushies')),
+                              imageUrl:
+                                  'https://cdn-icons-png.flaticon.com/512/3094/3094848.png',
+                              onTap: () => Get.to(
+                                () => const DivinePlushiesView(
+                                  categoryName: 'Divine Plushies',
+                                ),
+                              ),
                             ),
                           ),
                         ],
@@ -552,9 +884,14 @@ class _HomeViewState extends State<HomeView> {
               child: AnimatedCollectionCard(
                 title: 'Mantra Chanting Baby Ganesha',
                 backgroundColor: const Color(0xFFB2DFDB),
-                imageUrl: 'https://cdn-icons-png.flaticon.com/512/3082/3082008.png',
+                imageUrl:
+                    'https://cdn-icons-png.flaticon.com/512/3082/3082008.png',
                 onTap: () {
-                  Get.to(() => const DivinePlushiesView(categoryName: 'Divine Plushies'));
+                  Get.to(
+                    () => const DivinePlushiesView(
+                      categoryName: 'Divine Plushies',
+                    ),
+                  );
                 },
               ),
             ),
@@ -567,8 +904,13 @@ class _HomeViewState extends State<HomeView> {
                     child: AnimatedCollectionCard(
                       title: 'Mantra Chanting Baby Krishna',
                       backgroundColor: const Color(0xFFBBDEFB),
-                      imageUrl: 'https://cdn-icons-png.flaticon.com/512/3094/3094833.png',
-                      onTap: () => Get.to(() => const DivinePlushiesView(categoryName: 'Divine Plushies')),
+                      imageUrl:
+                          'https://cdn-icons-png.flaticon.com/512/3094/3094833.png',
+                      onTap: () => Get.to(
+                        () => const DivinePlushiesView(
+                          categoryName: 'Divine Plushies',
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -579,8 +921,13 @@ class _HomeViewState extends State<HomeView> {
                     child: AnimatedCollectionCard(
                       title: 'Mantra Chanting Baby Hanuman',
                       backgroundColor: const Color(0xFFE1BEE7),
-                      imageUrl: 'https://cdn-icons-png.flaticon.com/512/2922/2922572.png',
-                      onTap: () => Get.to(() => const DivinePlushiesView(categoryName: 'Divine Plushies')),
+                      imageUrl:
+                          'https://cdn-icons-png.flaticon.com/512/2922/2922572.png',
+                      onTap: () => Get.to(
+                        () => const DivinePlushiesView(
+                          categoryName: 'Divine Plushies',
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -595,8 +942,13 @@ class _HomeViewState extends State<HomeView> {
                     child: AnimatedCollectionCard(
                       title: 'Mantra Chanting Baby Shiva',
                       backgroundColor: const Color(0xFFFFCCBC),
-                      imageUrl: 'https://cdn-icons-png.flaticon.com/512/3069/3069188.png',
-                      onTap: () => Get.to(() => const DivinePlushiesView(categoryName: 'Divine Plushies')),
+                      imageUrl:
+                          'https://cdn-icons-png.flaticon.com/512/3069/3069188.png',
+                      onTap: () => Get.to(
+                        () => const DivinePlushiesView(
+                          categoryName: 'Divine Plushies',
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -607,8 +959,13 @@ class _HomeViewState extends State<HomeView> {
                     child: AnimatedCollectionCard(
                       title: 'Mandir for Kids (DIY)',
                       backgroundColor: const Color(0xFFFFF9C4),
-                      imageUrl: 'https://cdn-icons-png.flaticon.com/512/3094/3094848.png',
-                      onTap: () => Get.to(() => const DivinePlushiesView(categoryName: 'Divine Plushies')),
+                      imageUrl:
+                          'https://cdn-icons-png.flaticon.com/512/3094/3094848.png',
+                      onTap: () => Get.to(
+                        () => const DivinePlushiesView(
+                          categoryName: 'Divine Plushies',
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -626,9 +983,14 @@ class _HomeViewState extends State<HomeView> {
               child: AnimatedCollectionCard(
                 title: 'Mantra Chanting Baby Ganesha',
                 backgroundColor: const Color(0xFFB2DFDB),
-                imageUrl: 'https://cdn-icons-png.flaticon.com/512/3082/3082008.png',
+                imageUrl:
+                    'https://cdn-icons-png.flaticon.com/512/3082/3082008.png',
                 onTap: () {
-                  Get.to(() => const DivinePlushiesView(categoryName: 'Divine Plushies'));
+                  Get.to(
+                    () => const DivinePlushiesView(
+                      categoryName: 'Divine Plushies',
+                    ),
+                  );
                 },
               ),
             ),
@@ -639,8 +1001,12 @@ class _HomeViewState extends State<HomeView> {
               child: AnimatedCollectionCard(
                 title: 'Mantra Chanting Baby Krishna',
                 backgroundColor: const Color(0xFFBBDEFB),
-                imageUrl: 'https://cdn-icons-png.flaticon.com/512/3094/3094833.png',
-                onTap: () => Get.to(() => const DivinePlushiesView(categoryName: 'Divine Plushies')),
+                imageUrl:
+                    'https://cdn-icons-png.flaticon.com/512/3094/3094833.png',
+                onTap: () => Get.to(
+                  () =>
+                      const DivinePlushiesView(categoryName: 'Divine Plushies'),
+                ),
               ),
             ),
             const SizedBox(height: 20),
@@ -650,8 +1016,12 @@ class _HomeViewState extends State<HomeView> {
               child: AnimatedCollectionCard(
                 title: 'Mantra Chanting Baby Hanuman',
                 backgroundColor: const Color(0xFFE1BEE7),
-                imageUrl: 'https://cdn-icons-png.flaticon.com/512/2922/2922572.png',
-                onTap: () => Get.to(() => const DivinePlushiesView(categoryName: 'Divine Plushies')),
+                imageUrl:
+                    'https://cdn-icons-png.flaticon.com/512/2922/2922572.png',
+                onTap: () => Get.to(
+                  () =>
+                      const DivinePlushiesView(categoryName: 'Divine Plushies'),
+                ),
               ),
             ),
             const SizedBox(height: 20),
@@ -661,8 +1031,12 @@ class _HomeViewState extends State<HomeView> {
               child: AnimatedCollectionCard(
                 title: 'Mantra Chanting Baby Shiva',
                 backgroundColor: const Color(0xFFFFCCBC),
-                imageUrl: 'https://cdn-icons-png.flaticon.com/512/3069/3069188.png',
-                onTap: () => Get.to(() => const DivinePlushiesView(categoryName: 'Divine Plushies')),
+                imageUrl:
+                    'https://cdn-icons-png.flaticon.com/512/3069/3069188.png',
+                onTap: () => Get.to(
+                  () =>
+                      const DivinePlushiesView(categoryName: 'Divine Plushies'),
+                ),
               ),
             ),
             const SizedBox(height: 20),
@@ -672,8 +1046,12 @@ class _HomeViewState extends State<HomeView> {
               child: AnimatedCollectionCard(
                 title: 'Mandir for Kids (DIY)',
                 backgroundColor: const Color(0xFFFFF9C4),
-                imageUrl: 'https://cdn-icons-png.flaticon.com/512/3094/3094848.png',
-                onTap: () => Get.to(() => const DivinePlushiesView(categoryName: 'Divine Plushies')),
+                imageUrl:
+                    'https://cdn-icons-png.flaticon.com/512/3094/3094848.png',
+                onTap: () => Get.to(
+                  () =>
+                      const DivinePlushiesView(categoryName: 'Divine Plushies'),
+                ),
               ),
             ),
           ],
@@ -694,7 +1072,11 @@ class _HomeViewState extends State<HomeView> {
               fontWeight: FontWeight.w900,
               color: const Color(0xFF006D77),
               shadows: [
-                Shadow(offset: const Offset(2, 2), color: const Color(0xFF006D77).withOpacity(0.3), blurRadius: 2),
+                Shadow(
+                  offset: const Offset(2, 2),
+                  color: const Color(0xFF006D77).withOpacity(0.3),
+                  blurRadius: 2,
+                ),
               ],
             ),
           ),
@@ -712,7 +1094,9 @@ class _HomeViewState extends State<HomeView> {
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
           decoration: BoxDecoration(
-            color: const Color(0xFF83C5BE).withOpacity(0.3), // Soft Sage/Mint pill
+            color: const Color(
+              0xFF83C5BE,
+            ).withOpacity(0.3), // Soft Sage/Mint pill
             borderRadius: BorderRadius.circular(30),
           ),
           child: const Text(
@@ -786,7 +1170,9 @@ class _HomeViewState extends State<HomeView> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
-        boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 8, offset: Offset(0, 4))],
+        boxShadow: const [
+          BoxShadow(color: Colors.black12, blurRadius: 8, offset: Offset(0, 4)),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -796,7 +1182,9 @@ class _HomeViewState extends State<HomeView> {
             child: Stack(
               children: [
                 ClipRRect(
-                  borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
+                  borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(12),
+                  ),
                   child: Image.network(
                     videoThumbnails[index % 5],
                     fit: BoxFit.cover,
@@ -812,7 +1200,11 @@ class _HomeViewState extends State<HomeView> {
                       color: Colors.black.withOpacity(0.5),
                       shape: BoxShape.circle,
                     ),
-                    child: const Icon(Icons.play_arrow, color: Colors.white, size: 32),
+                    child: const Icon(
+                      Icons.play_arrow,
+                      color: Colors.white,
+                      size: 32,
+                    ),
                   ),
                 ),
               ],
@@ -835,7 +1227,9 @@ class _HomeViewState extends State<HomeView> {
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(4.0),
-                    child: Image.network('https://cdn-icons-png.flaticon.com/512/3069/3069188.png'),
+                    child: Image.network(
+                      'https://cdn-icons-png.flaticon.com/512/3069/3069188.png',
+                    ),
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -845,16 +1239,34 @@ class _HomeViewState extends State<HomeView> {
                     children: [
                       Text(
                         titles[index % 5],
-                        style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 14, color: Color(0xFF006D77)),
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 14,
+                          color: Color(0xFF006D77),
+                        ),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
                       const SizedBox(height: 8),
                       const Row(
                         children: [
-                          Text('₹1,499', style: TextStyle(fontSize: 12, color: Colors.grey, decoration: TextDecoration.lineThrough)),
+                          Text(
+                            '₹1,499',
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.grey,
+                              decoration: TextDecoration.lineThrough,
+                            ),
+                          ),
                           SizedBox(width: 8),
-                          Text('₹969', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.black87)),
+                          Text(
+                            '₹969',
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black87,
+                            ),
+                          ),
                         ],
                       ),
                     ],
@@ -879,10 +1291,22 @@ class _HomeViewState extends State<HomeView> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _featureIcon('https://cdn-icons-png.flaticon.com/512/287/287226.png', 'Gift Wrapping available'),
-            _featureIcon('https://cdn-icons-png.flaticon.com/512/411/411763.png', 'Express Shipping Available'),
-            _featureIcon('https://cdn-icons-png.flaticon.com/512/1008/1008013.png', '7 Days Exchange/Return'),
-            _featureIcon('https://cdn-icons-png.flaticon.com/512/679/679720.png', 'COD Available'),
+            _featureIcon(
+              'https://cdn-icons-png.flaticon.com/512/287/287226.png',
+              'Gift Wrapping available',
+            ),
+            _featureIcon(
+              'https://cdn-icons-png.flaticon.com/512/411/411763.png',
+              'Express Shipping Available',
+            ),
+            _featureIcon(
+              'https://cdn-icons-png.flaticon.com/512/1008/1008013.png',
+              '7 Days Exchange/Return',
+            ),
+            _featureIcon(
+              'https://cdn-icons-png.flaticon.com/512/679/679720.png',
+              'COD Available',
+            ),
           ],
         ),
       );
@@ -892,13 +1316,25 @@ class _HomeViewState extends State<HomeView> {
         padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
         child: Column(
           children: [
-            _mobileFeatureRow('https://cdn-icons-png.flaticon.com/512/287/287226.png', 'Gift Wrapping available'),
+            _mobileFeatureRow(
+              'https://cdn-icons-png.flaticon.com/512/287/287226.png',
+              'Gift Wrapping available',
+            ),
             const SizedBox(height: 20),
-            _mobileFeatureRow('https://cdn-icons-png.flaticon.com/512/411/411763.png', 'Express Shipping Available'),
+            _mobileFeatureRow(
+              'https://cdn-icons-png.flaticon.com/512/411/411763.png',
+              'Express Shipping Available',
+            ),
             const SizedBox(height: 20),
-            _mobileFeatureRow('https://cdn-icons-png.flaticon.com/512/1008/1008013.png', '7 Days Exchange/Return'),
+            _mobileFeatureRow(
+              'https://cdn-icons-png.flaticon.com/512/1008/1008013.png',
+              '7 Days Exchange/Return',
+            ),
             const SizedBox(height: 20),
-            _mobileFeatureRow('https://cdn-icons-png.flaticon.com/512/679/679720.png', 'COD Available'),
+            _mobileFeatureRow(
+              'https://cdn-icons-png.flaticon.com/512/679/679720.png',
+              'COD Available',
+            ),
           ],
         ),
       );
@@ -913,7 +1349,11 @@ class _HomeViewState extends State<HomeView> {
         Expanded(
           child: Text(
             text,
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w900, color: Colors.black87),
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w900,
+              color: Colors.black87,
+            ),
           ),
         ),
       ],
@@ -929,7 +1369,11 @@ class _HomeViewState extends State<HomeView> {
           Text(
             text,
             textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: Colors.black87),
+            style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w900,
+              color: Colors.black87,
+            ),
           ),
         ],
       ),
@@ -947,8 +1391,8 @@ class _HomeViewState extends State<HomeView> {
         horizontal: screenWidth > 900
             ? 100
             : screenWidth > 600
-                ? 40
-                : 20,
+            ? 40
+            : 20,
       ),
       child: Center(
         child: ConstrainedBox(
@@ -963,11 +1407,12 @@ class _HomeViewState extends State<HomeView> {
                     color: Colors.black26,
                     blurRadius: 20,
                     offset: Offset(0, 10),
-                  )
+                  ),
                 ],
                 image: const DecorationImage(
                   image: NetworkImage(
-                      'https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?q=80&w=1200&auto=format&fit=crop'), // Happy kid playing
+                    'https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?q=80&w=1200&auto=format&fit=crop',
+                  ), // Happy kid playing
                   fit: BoxFit.cover,
                 ),
               ),
@@ -982,13 +1427,14 @@ class _HomeViewState extends State<HomeView> {
                       height: screenWidth > 600 ? 100 : 60,
                       decoration: BoxDecoration(
                         borderRadius: const BorderRadius.vertical(
-                            top: Radius.circular(16)),
+                          top: Radius.circular(16),
+                        ),
                         gradient: LinearGradient(
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
                           colors: [
                             Colors.black.withOpacity(0.7),
-                            Colors.transparent
+                            Colors.transparent,
                           ],
                         ),
                       ),
@@ -1005,8 +1451,9 @@ class _HomeViewState extends State<HomeView> {
                           backgroundColor: Colors.white,
                           radius: screenWidth > 600 ? 20 : 12,
                           child: Padding(
-                            padding:
-                                EdgeInsets.all(screenWidth > 600 ? 4.0 : 2.0),
+                            padding: EdgeInsets.all(
+                              screenWidth > 600 ? 4.0 : 2.0,
+                            ),
                             child: Image.network(
                               'https://cdn-icons-png.flaticon.com/512/3069/3069188.png',
                               width: screenWidth > 600 ? 24 : 14,
@@ -1054,7 +1501,8 @@ class _HomeViewState extends State<HomeView> {
                       decoration: BoxDecoration(
                         color: const Color(0xFFE29578), // Terracotta/Peach
                         borderRadius: BorderRadius.circular(
-                            screenWidth > 600 ? 16 : 10),
+                          screenWidth > 600 ? 16 : 10,
+                        ),
                       ),
                       child: Icon(
                         Icons.play_arrow,
@@ -1180,8 +1628,22 @@ class _HomeViewState extends State<HomeView> {
         textAlign: TextAlign.center,
         text: TextSpan(
           children: [
-            const TextSpan(text: 'Under\n', style: TextStyle(color: Color(0xFF006D77), fontSize: 24, fontWeight: FontWeight.bold)),
-            TextSpan(text: '₹$price/-', style: TextStyle(color: Color(0xFFE29578), fontSize: 32, fontWeight: FontWeight.w900)),
+            const TextSpan(
+              text: 'Under\n',
+              style: TextStyle(
+                color: Color(0xFF006D77),
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            TextSpan(
+              text: '₹$price/-',
+              style: TextStyle(
+                color: Color(0xFFE29578),
+                fontSize: 32,
+                fontWeight: FontWeight.w900,
+              ),
+            ),
           ],
         ),
       ),
@@ -1196,25 +1658,32 @@ class _HomeViewState extends State<HomeView> {
         imageUrl: 'https://picsum.photos/400/250?random=11',
         date: 'MAY 11, 2026',
         title: 'Why Do We Offer Water to the Sun?',
-        snippet: 'A Meaningful Ritual Explained for Kids. Many Indian families begin their mornings by offering...',
+        snippet:
+            'A Meaningful Ritual Explained for Kids. Many Indian families begin their mornings by offering...',
       ),
       _buildGuideCard(
         imageUrl: 'https://picsum.photos/400/250?random=12',
         date: 'APRIL 24, 2026',
-        title: '10 Avatars of Vishnu Ji (Dashavatara) – Stories, Meaning & Why Kids Should Know...',
-        snippet: 'Introduction In Indian culture, Vishnu is known as the protector of the universe. Whenever imbalance rises...',
+        title:
+            '10 Avatars of Vishnu Ji (Dashavatara) – Stories, Meaning & Why Kids Should Know...',
+        snippet:
+            'Introduction In Indian culture, Vishnu is known as the protector of the universe. Whenever imbalance rises...',
       ),
       _buildGuideCard(
         imageUrl: 'https://picsum.photos/400/250?random=13',
         date: 'APRIL 07, 2026',
-        title: 'Akshaya Tritiya 2026: Meaning, Significance & How to Celebrate with Kids',
-        snippet: 'Akshaya Tritiya, also known as Akha Teej, is one of the most auspicious days in...',
+        title:
+            'Akshaya Tritiya 2026: Meaning, Significance & How to Celebrate with Kids',
+        snippet:
+            'Akshaya Tritiya, also known as Akha Teej, is one of the most auspicious days in...',
       ),
       _buildGuideCard(
         imageUrl: 'https://picsum.photos/400/250?random=14',
         date: 'MARCH 26, 2026',
-        title: 'Mahavir Jayanti for Kids: Teaching Kindness, Non-Violence & Values Through...',
-        snippet: 'Mahavir Jayanti for kids is more than just a festival — it\'s a beautiful opportunity...',
+        title:
+            'Mahavir Jayanti for Kids: Teaching Kindness, Non-Violence & Values Through...',
+        snippet:
+            'Mahavir Jayanti for kids is more than just a festival — it\'s a beautiful opportunity...',
       ),
     ];
 
@@ -1222,10 +1691,16 @@ class _HomeViewState extends State<HomeView> {
       if (screenWidth > 1100) {
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: cards.map((card) => Expanded(child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: card,
-          ))).toList(),
+          children: cards
+              .map(
+                (card) => Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: card,
+                  ),
+                ),
+              )
+              .toList(),
         );
       } else {
         // Horizontal scroll view for tablet and mobile
@@ -1233,11 +1708,15 @@ class _HomeViewState extends State<HomeView> {
           scrollDirection: Axis.horizontal,
           physics: const BouncingScrollPhysics(),
           child: Row(
-            children: cards.map((card) => Container(
-              width: 280,
-              margin: const EdgeInsets.only(right: 20),
-              child: card,
-            )).toList(),
+            children: cards
+                .map(
+                  (card) => Container(
+                    width: 280,
+                    margin: const EdgeInsets.only(right: 20),
+                    child: card,
+                  ),
+                )
+                .toList(),
           ),
         );
       }
@@ -1249,7 +1728,9 @@ class _HomeViewState extends State<HomeView> {
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
           decoration: BoxDecoration(
-            color: const Color(0xFF83C5BE).withOpacity(0.3), // Soft Sage/Mint pill
+            color: const Color(
+              0xFF83C5BE,
+            ).withOpacity(0.3), // Soft Sage/Mint pill
             borderRadius: BorderRadius.circular(30),
           ),
           child: const Text(
@@ -1271,7 +1752,12 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
-  Widget _buildGuideCard({required String imageUrl, required String date, required String title, required String snippet}) {
+  Widget _buildGuideCard({
+    required String imageUrl,
+    required String date,
+    required String title,
+    required String snippet,
+  }) {
     return Container(
       decoration: BoxDecoration(
         color: const Color(0xFFEDF6F9), // Scaffold background color
@@ -1284,11 +1770,7 @@ class _HomeViewState extends State<HomeView> {
           // Image
           ClipRRect(
             borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
-            child: Image.network(
-              imageUrl,
-              height: 180,
-              fit: BoxFit.cover,
-            ),
+            child: Image.network(imageUrl, height: 180, fit: BoxFit.cover),
           ),
           // Content
           Padding(
@@ -1296,11 +1778,22 @@ class _HomeViewState extends State<HomeView> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(date, style: const TextStyle(fontSize: 10, color: Colors.grey, fontWeight: FontWeight.bold)),
+                Text(
+                  date,
+                  style: const TextStyle(
+                    fontSize: 10,
+                    color: Colors.grey,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
                 const SizedBox(height: 8),
                 Text(
                   title,
-                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black87),
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black87,
+                  ),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -1315,17 +1808,28 @@ class _HomeViewState extends State<HomeView> {
                 ElevatedButton(
                   onPressed: () {},
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF006D77), // Deep Teal button
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                    backgroundColor: const Color(
+                      0xFF006D77,
+                    ), // Deep Teal button
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
                     padding: const EdgeInsets.symmetric(vertical: 12),
                     elevation: 0,
                   ),
                   child: const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('Read More', style: TextStyle(color: Colors.white, fontSize: 14)),
+                      Text(
+                        'Read More',
+                        style: TextStyle(color: Colors.white, fontSize: 14),
+                      ),
                       SizedBox(width: 4),
-                      Icon(Icons.arrow_circle_right_outlined, color: Colors.white, size: 16),
+                      Icon(
+                        Icons.arrow_circle_right_outlined,
+                        color: Colors.white,
+                        size: 16,
+                      ),
                     ],
                   ),
                 ),
@@ -1336,8 +1840,6 @@ class _HomeViewState extends State<HomeView> {
       ),
     );
   }
-
-
 }
 
 class AnimatedCollectionCard extends StatefulWidget {
@@ -1370,66 +1872,83 @@ class _AnimatedCollectionCardState extends State<AnimatedCollectionCard> {
         onExit: (_) => setState(() => _isHovered = false),
         cursor: SystemMouseCursors.click,
         child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        transform: Matrix4.identity()..scale(_isHovered ? 1.05 : 1.0),
-        transformAlignment: Alignment.center,
-        child: ClipPath(
-          clipper: WavyClipper(),
-          child: Container(
-            decoration: BoxDecoration(
-              color: widget.backgroundColor,
-              borderRadius: const BorderRadius.only(
-                bottomLeft: Radius.circular(10),
-                bottomRight: Radius.circular(10),
-              ),
-            ),
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                // Image Placeholder
-                Positioned.fill(
-                  top: 40,
-                  bottom: 60,
-                  child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: AnimatedScale(
-                      scale: _isHovered ? 1.15 : 1.0,
-                      duration: const Duration(milliseconds: 200),
-                      child: Image.network(widget.imageUrl, fit: BoxFit.contain),
-                    ),
-                  ),
+          duration: const Duration(milliseconds: 200),
+          transform: Matrix4.identity()..scale(_isHovered ? 1.05 : 1.0),
+          transformAlignment: Alignment.center,
+          child: ClipPath(
+            clipper: WavyClipper(),
+            child: Container(
+              decoration: BoxDecoration(
+                color: widget.backgroundColor,
+                borderRadius: const BorderRadius.only(
+                  bottomLeft: Radius.circular(10),
+                  bottomRight: Radius.circular(10),
                 ),
-                // Pill Button
-                Positioned(
-                  bottom: 20,
-                  left: 16,
-                  right: 16,
-                  child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 200),
-                    padding: EdgeInsets.symmetric(
-                      horizontal: MediaQuery.of(context).size.width > 900 ? 20 : 12,
-                      vertical: MediaQuery.of(context).size.width > 900 ? 12 : 8,
-                    ),
-                    decoration: BoxDecoration(
-                      color: _isHovered ? const Color(0xFFE29578) : const Color(0xFF006D77), // Terracotta on hover
-                      borderRadius: BorderRadius.circular(30),
-                      boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 4, offset: Offset(0, 2))],
-                    ),
-                    child: Text(
-                      widget.title,
-                      textAlign: TextAlign.center,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w900,
-                        fontSize: MediaQuery.of(context).size.width > 900 ? 16 : 13,
+              ),
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  // Image Placeholder
+                  Positioned.fill(
+                    top: 40,
+                    bottom: 60,
+                    child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: AnimatedScale(
+                        scale: _isHovered ? 1.15 : 1.0,
+                        duration: const Duration(milliseconds: 200),
+                        child: Image.network(
+                          widget.imageUrl,
+                          fit: BoxFit.contain,
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
-            ),
+                  // Pill Button
+                  Positioned(
+                    bottom: 20,
+                    left: 16,
+                    right: 16,
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 200),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: MediaQuery.of(context).size.width > 900
+                            ? 20
+                            : 12,
+                        vertical: MediaQuery.of(context).size.width > 900
+                            ? 12
+                            : 8,
+                      ),
+                      decoration: BoxDecoration(
+                        color: _isHovered
+                            ? const Color(0xFFE29578)
+                            : const Color(0xFF006D77), // Terracotta on hover
+                        borderRadius: BorderRadius.circular(30),
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Colors.black12,
+                            blurRadius: 4,
+                            offset: Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      child: Text(
+                        widget.title,
+                        textAlign: TextAlign.center,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w900,
+                          fontSize: MediaQuery.of(context).size.width > 900
+                              ? 16
+                              : 13,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -1444,17 +1963,19 @@ class WavyClipper extends CustomClipper<Path> {
     var path = Path();
     double waveHeight = 15;
     path.lineTo(0, waveHeight);
-    
+
     int waveCount = 8;
     double waveWidth = size.width / waveCount;
-    
+
     for (int i = 0; i < waveCount; i++) {
       path.quadraticBezierTo(
-        waveWidth * i + waveWidth / 2, 0,
-        waveWidth * (i + 1), waveHeight,
+        waveWidth * i + waveWidth / 2,
+        0,
+        waveWidth * (i + 1),
+        waveHeight,
       );
     }
-    
+
     path.lineTo(size.width, size.height);
     path.lineTo(0, size.height);
     path.close();

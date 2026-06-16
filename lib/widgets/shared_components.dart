@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../view/home_view.dart';
+import '../view/divine_plushies_view.dart';
+import '../view/summer_edit_view.dart';
 
 class SharedNavbar extends StatelessWidget {
   final bool isScrolled;
@@ -38,35 +41,30 @@ class SharedNavbar extends StatelessWidget {
               child: Row(
                 children: [
                   Image.network(
-                    'https://cdn-icons-png.flaticon.com/512/3069/3069188.png', // Floral logo placeholder
-                    height: 40,
-                    width: 40,
-                    color: const Color(0xFF006D77), // Themed icon
+                    'https://cdn-icons-png.flaticon.com/512/2654/2654518.png', // Panda logo face
+                    height: 42,
+                    width: 42,
+                    fit: BoxFit.contain,
                   ),
                   const SizedBox(width: 8),
-                  const Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Soulful",
-                        style: TextStyle(
-                          color: Color(0xFF006D77), // Teal
-                          fontWeight: FontWeight.w900,
-                          fontSize: 22,
-                          letterSpacing: 1.2,
-                        ),
+                  RichText(
+                    text: TextSpan(
+                      style: GoogleFonts.outfit(
+                        fontSize: 22,
+                        fontWeight: FontWeight.w900,
+                        letterSpacing: 0.5,
                       ),
-                      Text(
-                        "Haven®",
-                        style: TextStyle(
-                          color: Color(0xFFE29578), // Terracotta
-                          fontWeight: FontWeight.w900,
-                          fontSize: 16,
-                          height: 0.8,
+                      children: const [
+                        TextSpan(
+                          text: "Panda's ",
+                          style: TextStyle(color: Colors.black87),
                         ),
-                      ),
-                    ],
+                        TextSpan(
+                          text: "Box",
+                          style: TextStyle(color: Color(0xFFE29578)), // Terracotta Orange/Coral
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -77,13 +75,61 @@ class SharedNavbar extends StatelessWidget {
           if (MediaQuery.of(context).size.width > 900)
             Row(
               children: [
-                _navItem('SHOP ALL', hasDropdown: true),
-                _navItem('SUMMER EDIT'),
-                _navItem('BIG DEALS'),
-                _navItem('GIFTING', hasDropdown: true),
-                _navItem('ABOUT US', hasDropdown: true),
-                _navItem('PARENTING GUIDE'),
-                _navItem('AUDIO GALLERY'),
+                _navItem(
+                  context,
+                  'SHOP ALL',
+                  hasDropdown: true,
+                  onTap: () => Get.to(() => const DivinePlushiesView(categoryName: 'Divine Plushies')),
+                ),
+                _navItem(
+                  context,
+                  'SUMMER EDIT',
+                  onTap: () => Get.to(() => const SummerEditView()),
+                ),
+                _navItem(
+                  context,
+                  'BIG DEALS',
+                  onTap: () => Get.to(() => const DivinePlushiesView(categoryName: 'Big Deals')),
+                ),
+                _navItem(
+                  context,
+                  'GIFTING',
+                  hasDropdown: true,
+                  onTap: () => Get.to(() => const DivinePlushiesView(categoryName: 'Gifting')),
+                ),
+                _navItem(
+                  context,
+                  'ABOUT US',
+                  hasDropdown: true,
+                  onTap: () {
+                    Get.offAll(() => const HomeView());
+                  },
+                ),
+                _navItem(
+                  context,
+                  'PARENTING GUIDE',
+                  onTap: () {
+                    Get.offAll(() => const HomeView());
+                  },
+                ),
+                _navItem(
+                  context,
+                  'AUDIO GALLERY',
+                  onTap: () => Get.to(() => const DivinePlushiesView(categoryName: 'Audio Gallery')),
+                ),
+                _navItem(
+                  context,
+                  'TRACK ORDER',
+                  onTap: () {
+                    Get.snackbar(
+                      'Track Order 📦',
+                      'Tracking system simulation: Please enter order ID under Account details.',
+                      snackPosition: SnackPosition.BOTTOM,
+                      backgroundColor: const Color(0xFF006D77),
+                      colorText: Colors.white,
+                    );
+                  },
+                ),
               ],
             ),
           const Spacer(),
@@ -101,25 +147,31 @@ class SharedNavbar extends StatelessWidget {
     );
   }
 
-  Widget _navItem(String title, {bool hasDropdown = false}) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12.0),
-      child: Row(
-        children: [
-          Text(
-            title,
-            style: const TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.w800,
-              color: Colors.black87,
-              letterSpacing: 0.5,
-            ),
+  Widget _navItem(BuildContext context, String title, {bool hasDropdown = false, VoidCallback? onTap}) {
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      child: GestureDetector(
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12.0),
+          child: Row(
+            children: [
+              Text(
+                title,
+                style: GoogleFonts.outfit(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w800,
+                  color: Colors.black87,
+                  letterSpacing: 0.5,
+                ),
+              ),
+              if (hasDropdown) ...[
+                const SizedBox(width: 4),
+                const Icon(Icons.keyboard_arrow_down, size: 16, color: Colors.black87),
+              ]
+            ],
           ),
-          if (hasDropdown) ...[
-            const SizedBox(width: 4),
-            const Icon(Icons.keyboard_arrow_down, size: 16, color: Colors.black87),
-          ]
-        ],
+        ),
       ),
     );
   }
@@ -133,17 +185,105 @@ class SharedFooter extends StatelessWidget {
     final double screenWidth = MediaQuery.of(context).size.width;
     final bool isMobile = screenWidth <= 900;
 
+    Widget _buildFooterColumn(String title, List<String> links, {double? width}) {
+      final content = Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: GoogleFonts.outfit(
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+              color: Colors.black87,
+            ),
+          ),
+          const SizedBox(height: 18),
+          ...links.map((link) => Padding(
+            padding: const EdgeInsets.only(bottom: 12),
+            child: MouseRegion(
+              cursor: SystemMouseCursors.click,
+              child: GestureDetector(
+                onTap: () {},
+                child: Text(
+                  link,
+                  style: GoogleFonts.outfit(
+                    fontSize: 14,
+                    color: Colors.black54,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+            ),
+          )).toList(),
+        ],
+      );
+
+      if (width != null) {
+        return SizedBox(width: width, child: content);
+      }
+      return Expanded(child: content);
+    }
+
+    Widget _buildReachOutCol({double? width}) {
+      final content = Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Reach Out',
+            style: GoogleFonts.outfit(
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+              color: Colors.black87,
+            ),
+          ),
+          const SizedBox(height: 18),
+          Text(
+            'Work hours:\nMonday to Saturday\n10:00 AM to 6:00 PM\n\n+918810402508\ncare@pandasbox.in',
+            style: GoogleFonts.outfit(
+              fontSize: 14,
+              height: 1.5,
+              color: Colors.black54,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          const SizedBox(height: 20),
+          Text(
+            'Follow Us on',
+            style: GoogleFonts.outfit(
+              fontWeight: FontWeight.bold,
+              fontSize: 14,
+              color: Colors.black87,
+            ),
+          ),
+          const SizedBox(height: 12),
+          Row(
+            children: [
+              _socialIcon(Icons.facebook),
+              _socialIcon(Icons.camera_alt),
+              _socialIcon(Icons.business),
+              _socialIcon(Icons.play_arrow),
+            ],
+          ),
+        ],
+      );
+
+      if (width != null) {
+        return SizedBox(width: width, child: content);
+      }
+      return Expanded(child: content);
+    }
+
     Widget buildLinksSection() {
       if (!isMobile) {
         return Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            _buildFooterColumn('Explore', ['Our Story', 'Press & Media', 'Help Center', 'Blog', 'Updates']),
-            _buildFooterColumn('Categories', ['Soft Toys', 'Room Decor', 'Educational Books', 'Accessories', 'Gift Sets', 'Top Rated', 'Clearance']),
-            _buildFooterColumn('Support', ['Get in Touch', 'Wholesale', 'Product Warranty', 'Join Our Team']),
-            _buildFooterColumn('Legal', ['Delivery Info', 'Returns & Refunds', 'Privacy Notice', 'Terms of Service']),
-            Expanded(child: _buildContactCol()),
+            _buildFooterColumn('About', ['About Us', 'Media Coverage', 'FAQs', 'Parenting Guide', 'Newsletters']),
+            _buildFooterColumn('Shop', ['Divine Plushies', 'Divine Decor', 'Books & Games', 'Divine Accessories', 'Storytellers', 'Bundle Offers', 'Bestsellers', 'Gifting']),
+            _buildFooterColumn('Contact', ['Contact Us', 'Bulk Order Query', 'Register For Warranty', 'Careers']),
+            _buildFooterColumn('Policies', ['Shipping Policy', 'Return Policy', 'Create a Return', 'Privacy Policy', 'Terms of Use']),
+            _buildReachOutCol(),
           ],
         );
       } else {
@@ -154,15 +294,15 @@ class SharedFooter extends StatelessWidget {
           runSpacing: 40,
           alignment: WrapAlignment.start,
           children: [
-            _buildFooterColumn('Explore', ['Our Story', 'Press & Media', 'Help Center', 'Blog', 'Updates'], width: colWidth),
-            _buildFooterColumn('Categories', ['Soft Toys', 'Room Decor', 'Educational Books', 'Accessories', 'Gift Sets', 'Top Rated', 'Clearance'], width: colWidth),
-            _buildFooterColumn('Support', ['Get in Touch', 'Wholesale', 'Product Warranty', 'Join Our Team'], width: colWidth),
-            _buildFooterColumn('Legal', ['Delivery Info', 'Returns & Refunds', 'Privacy Notice', 'Terms of Service'], width: colWidth),
+            _buildFooterColumn('About', ['About Us', 'Media Coverage', 'FAQs', 'Parenting Guide', 'Newsletters'], width: colWidth),
+            _buildFooterColumn('Shop', ['Divine Plushies', 'Divine Decor', 'Books & Games', 'Divine Accessories', 'Storytellers', 'Bundle Offers', 'Bestsellers', 'Gifting'], width: colWidth),
+            _buildFooterColumn('Contact', ['Contact Us', 'Bulk Order Query', 'Register For Warranty', 'Careers'], width: colWidth),
+            _buildFooterColumn('Policies', ['Shipping Policy', 'Return Policy', 'Create a Return', 'Privacy Policy', 'Terms of Use'], width: colWidth),
             SizedBox(
               width: double.infinity,
               child: Padding(
                 padding: const EdgeInsets.only(top: 10),
-                child: _buildContactCol(),
+                child: _buildReachOutCol(width: double.infinity),
               ),
             ),
           ],
@@ -170,160 +310,35 @@ class SharedFooter extends StatelessWidget {
       }
     }
 
-    Widget buildBrandAndNewsletter() {
-      if (!isMobile) {
-        return Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Image.network('https://cdn-icons-png.flaticon.com/512/3069/3069188.png', height: 80, color: const Color(0xFF83C5BE)),
-            const SizedBox(width: 40),
-            const Expanded(
-              child: Text(
-                "Soulful Haven is a modern brand dedicated to early childhood development.\n"
-                "We design toys and accessories that inspire imagination, promote well-being, and support parents in raising happy, healthy kids.",
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, height: 1.5, color: Color(0xFFEDF6F9)),
-              ),
+    return Container(
+      width: double.infinity,
+      color: const Color(0xFFFFDD67), // Pastel yellow matching web UI
+      padding: EdgeInsets.symmetric(horizontal: isMobile ? 24 : 80, vertical: isMobile ? 40 : 60),
+      child: Column(
+        children: [
+          buildLinksSection(),
+          const SizedBox(height: 40),
+          const Divider(color: Colors.black12, height: 1),
+          const SizedBox(height: 24),
+          Text(
+            "India's First Mantra Chanting Plushies",
+            style: GoogleFonts.outfit(
+              fontSize: 16,
+              fontWeight: FontWeight.w800,
+              color: Colors.black87,
             ),
-            const SizedBox(width: 40),
-            _buildNewsletterWidget(),
-          ],
-        );
-      } else {
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Image.network('https://cdn-icons-png.flaticon.com/512/3069/3069188.png', height: 70, color: const Color(0xFF83C5BE)),
-            const SizedBox(height: 20),
-            const Text(
-              "Soulful Haven is a modern brand dedicated to early childhood development.\n"
-              "We design toys and accessories that inspire imagination, promote well-being, and support parents in raising happy, healthy kids.",
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, height: 1.5, color: Color(0xFFEDF6F9)),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            "© 2026 Panda's Box - Siddhaye Enterprises Pvt Ltd.",
+            style: GoogleFonts.outfit(
+              fontSize: 12,
+              color: Colors.black54,
+              fontWeight: FontWeight.w500,
             ),
-            const SizedBox(height: 30),
-            _buildNewsletterWidget(isCentered: true),
-          ],
-        );
-      }
-    }
-
-    return Column(
-      children: [
-        // White text block above footer
-        Container(
-          width: double.infinity,
-          color: Colors.white,
-          padding: EdgeInsets.symmetric(horizontal: isMobile ? 24 : 100, vertical: 40),
-          child: Column(
-            crossAxisAlignment: isMobile ? CrossAxisAlignment.center : CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Nurturing Young Minds for a Better Tomorrow", 
-                textAlign: isMobile ? TextAlign.center : TextAlign.start,
-                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w900),
-              ),
-              const SizedBox(height: 12),
-              Text(
-                "We believe that every child deserves to grow up in an environment that fosters creativity, kindness, and emotional intelligence.\n"
-                "Through interactive play and thoughtful design, our mission is to bring joy and learning into everyday moments.\n"
-                "When children play, they learn how to navigate the world. Let's make that journey magical.",
-                textAlign: isMobile ? TextAlign.center : TextAlign.start,
-                style: const TextStyle(fontSize: 14, color: Colors.black87, height: 1.5),
-              ),
-            ],
           ),
-        ),
-        // Dark Teal Footer Main
-        Container(
-          width: double.infinity,
-          color: const Color(0xFF006D77), // Dark Teal matching theme primary
-          padding: EdgeInsets.symmetric(horizontal: isMobile ? 24 : 80, vertical: isMobile ? 40 : 60),
-          child: Column(
-            children: [
-              // Top Links
-              buildLinksSection(),
-              SizedBox(height: isMobile ? 40 : 60),
-              // Bottom Brand & Newsletter Row
-              buildBrandAndNewsletter(),
-              const SizedBox(height: 60),
-              // Very bottom text
-              const Divider(color: Colors.white24),
-              const SizedBox(height: 20),
-              const Text("Crafting Joyful Childhoods Since 2026", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
-              const SizedBox(height: 8),
-              const Text("© 2026 Soulful Haven - All Rights Reserved.", style: TextStyle(fontSize: 12, color: Colors.white70)),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildFooterColumn(String title, List<String> links, {double? width}) {
-    final content = Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.white)),
-        const SizedBox(height: 20),
-        ...links.map((link) => Padding(
-          padding: const EdgeInsets.only(bottom: 12),
-          child: Text(link, style: const TextStyle(fontSize: 14, color: Color(0xFFEDF6F9))),
-        )).toList(),
-      ],
-    );
-
-    if (width != null) {
-      return SizedBox(width: width, child: content);
-    }
-    return Expanded(child: content);
-  }
-
-  Widget _buildContactCol() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text('Connect With Us', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.white)),
-        const SizedBox(height: 20),
-        const Text('Business Hours:\nMon - Sat: 10:00 AM to 6:00 PM\n\n+91 98765 43210\nhello@soulfulhaven.com', style: TextStyle(fontSize: 14, height: 1.5, color: Color(0xFFEDF6F9))),
-        const SizedBox(height: 20),
-        const Text('Follow Us on', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: Colors.white)),
-        const SizedBox(height: 12),
-        Row(
-          children: [
-            _socialIcon(Icons.facebook),
-            _socialIcon(Icons.camera_alt), // Instagram mockup
-            _socialIcon(Icons.business), // LinkedIn mockup
-            _socialIcon(Icons.play_arrow), // YouTube mockup
-          ],
-        ),
-      ],
-    );
-  }
-
-  Widget _buildNewsletterWidget({bool isCentered = false}) {
-    return Column(
-      crossAxisAlignment: isCentered ? CrossAxisAlignment.center : CrossAxisAlignment.start,
-      children: [
-        const Text('Join Our Community ✨', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFFE29578))),
-        const SizedBox(height: 8),
-        Text(
-          'Get exclusive parenting tips & early access to sales.',
-          textAlign: isCentered ? TextAlign.center : TextAlign.start,
-          style: const TextStyle(fontSize: 14, color: Color(0xFFEDF6F9)),
-        ),
-        const SizedBox(height: 16),
-        ElevatedButton.icon(
-          onPressed: () {},
-          icon: const Icon(Icons.chat_bubble, color: Colors.white),
-          label: const Text('Join on WhatsApp', style: TextStyle(color: Colors.white)),
-          style: ElevatedButton.styleFrom(
-            backgroundColor: const Color(0xFF25D366), // WhatsApp Green
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-            elevation: 0,
-          ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -331,8 +346,18 @@ class SharedFooter extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(right: 12),
       padding: const EdgeInsets.all(8),
-      decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle),
-      child: Icon(icon, size: 20, color: Color(0xFF006D77)),
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        shape: BoxShape.circle,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black12,
+            blurRadius: 4,
+            offset: Offset(0, 2),
+          )
+        ],
+      ),
+      child: Icon(icon, size: 20, color: Colors.black87),
     );
   }
 }
