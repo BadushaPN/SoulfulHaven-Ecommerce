@@ -528,15 +528,15 @@ class _AudioGalleryViewState extends State<AudioGalleryView> with SingleTickerPr
             color: const Color(0xFFFFFDF8), // Soft yellow/beige background tint
             borderRadius: BorderRadius.circular(18),
             border: Border.all(
-              color: isSelected ? const Color(0xFF4C4A70) : Colors.grey.shade100,
+              color: isSelected ? const Color(0xFF00F5D4) : Colors.grey.shade100,
               width: isSelected ? 2 : 1,
             ),
             boxShadow: [
               BoxShadow(
                 color: isSelected 
-                    ? const Color(0xFF4C4A70).withOpacity(0.1) 
-                    : Colors.black.withOpacity(0.02),
-                blurRadius: 12,
+                    ? const Color(0xFF00F5D4).withValues(alpha: 0.35) 
+                    : Colors.black.withValues(alpha: 0.02),
+                blurRadius: isSelected ? 16 : 12,
                 offset: const Offset(0, 4),
               ),
             ],
@@ -574,7 +574,7 @@ class _AudioGalleryViewState extends State<AudioGalleryView> with SingleTickerPr
                 style: GoogleFonts.outfit(
                   fontSize: 14,
                   fontWeight: FontWeight.w800,
-                  color: const Color(0xFF4C4A70),
+                  color: isSelected ? const Color(0xFF00B4D8) : const Color(0xFF4C4A70),
                 ),
                 textAlign: TextAlign.center,
                 maxLines: 2,
@@ -594,16 +594,16 @@ class _AudioGalleryViewState extends State<AudioGalleryView> with SingleTickerPr
         child: Container(
           height: isMobile ? 120 : 112,
           decoration: BoxDecoration(
-            color: const Color(0xFF4C4A70).withOpacity(0.85),
+            color: const Color(0xFF0C1B2A).withValues(alpha: 0.85),
             border: Border(
               top: BorderSide(
-                color: Colors.white.withOpacity(0.1),
+                color: Colors.white.withValues(alpha: 0.1),
                 width: 1,
               ),
             ),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.25),
+                color: Colors.black.withValues(alpha: 0.25),
                 blurRadius: 15,
                 offset: const Offset(0, -4),
               ),
@@ -661,7 +661,7 @@ class _AudioGalleryViewState extends State<AudioGalleryView> with SingleTickerPr
                         ),
                         // Playing controls
                         IconButton(
-                          icon: Icon(_isPlaying ? Icons.pause_circle : Icons.play_circle, color: const Color(0xFFFFDD67), size: 30),
+                          icon: Icon(_isPlaying ? Icons.pause_circle : Icons.play_circle, color: const Color(0xFF00F5D4), size: 30),
                           onPressed: _togglePlayPause,
                           padding: EdgeInsets.zero,
                           constraints: const BoxConstraints(),
@@ -693,9 +693,9 @@ class _AudioGalleryViewState extends State<AudioGalleryView> with SingleTickerPr
                             data: SliderThemeData(
                               trackHeight: 2,
                               thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 5),
-                              activeTrackColor: const Color(0xFFFFDD67),
+                              activeTrackColor: const Color(0xFF00F5D4),
                               inactiveTrackColor: Colors.white24,
-                              thumbColor: const Color(0xFFFFDD67),
+                              thumbColor: const Color(0xFF00F5D4),
                             ),
                             child: Slider(
                               value: _progress,
@@ -768,7 +768,7 @@ class _AudioGalleryViewState extends State<AudioGalleryView> with SingleTickerPr
                             IconButton(
                               icon: Icon(
                                 _isLooping ? Icons.repeat_one : Icons.repeat,
-                                color: _isLooping ? const Color(0xFFFFDD67) : Colors.white70,
+                                color: _isLooping ? const Color(0xFF00F5D4) : Colors.white70,
                                 size: 18,
                               ),
                               onPressed: () {
@@ -793,7 +793,7 @@ class _AudioGalleryViewState extends State<AudioGalleryView> with SingleTickerPr
                             IconButton(
                               icon: Icon(
                                 _isPlaying ? Icons.pause_circle_filled : Icons.play_circle_filled,
-                                color: const Color(0xFFFFDD67),
+                                color: const Color(0xFF00F5D4),
                                 size: 38,
                               ),
                               onPressed: _togglePlayPause,
@@ -828,9 +828,9 @@ class _AudioGalleryViewState extends State<AudioGalleryView> with SingleTickerPr
                                 data: SliderThemeData(
                                   trackHeight: 3,
                                   thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 6),
-                                  activeTrackColor: const Color(0xFFFFDD67),
+                                  activeTrackColor: const Color(0xFF00F5D4),
                                   inactiveTrackColor: Colors.white24,
-                                  thumbColor: const Color(0xFFFFDD67),
+                                  thumbColor: const Color(0xFF00F5D4),
                                 ),
                                 child: Slider(
                                   value: _progress,
@@ -925,7 +925,7 @@ class _AudioGalleryViewState extends State<AudioGalleryView> with SingleTickerPr
                 width: 2,
                 height: height,
                 decoration: BoxDecoration(
-                  color: const Color(0xFFFFDD67),
+                  color: const Color(0xFF00F5D4),
                   borderRadius: BorderRadius.circular(1),
                 ),
               );

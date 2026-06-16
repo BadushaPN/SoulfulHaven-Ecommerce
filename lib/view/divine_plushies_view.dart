@@ -505,7 +505,7 @@ class _AnimatedProductCardState extends State<AnimatedProductCard> {
       cursor: SystemMouseCursors.click,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
-        transform: Matrix4.identity()..scale(_isHovered ? 1.04 : 1.0),
+        transform: Matrix4.diagonal3Values(_isHovered ? 1.04 : 1.0, _isHovered ? 1.04 : 1.0, 1.0),
         transformAlignment: Alignment.center,
         decoration: BoxDecoration(
           color: Colors.white,
@@ -513,19 +513,20 @@ class _AnimatedProductCardState extends State<AnimatedProductCard> {
           boxShadow: [
             if (_isHovered)
               BoxShadow(
-                color: const Color(0xFF006D77).withOpacity(0.12),
+                color: const Color(0xFF00F5D4).withValues(alpha: 0.35),
                 blurRadius: 16,
-                offset: const Offset(0, 8),
+                spreadRadius: 1,
+                offset: const Offset(0, 6),
               )
             else
               BoxShadow(
-                color: Colors.black.withOpacity(0.02),
+                color: Colors.black.withValues(alpha: 0.02),
                 blurRadius: 8,
                 offset: const Offset(0, 4),
               ),
           ],
           border: Border.all(
-            color: _isHovered ? const Color(0xFF006D77).withOpacity(0.15) : Colors.grey.shade100,
+            color: _isHovered ? const Color(0xFF00F5D4).withValues(alpha: 0.6) : Colors.grey.shade100,
             width: 1,
           ),
         ),
@@ -560,12 +561,12 @@ class _AnimatedProductCardState extends State<AnimatedProductCard> {
                       padding: const EdgeInsets.all(6), // Reduced padding
                       decoration: BoxDecoration(
                         color: _isHovered
-                            ? const Color(0xFFE29578)
+                            ? const Color(0xFFFF007F)
                             : Colors.white,
                         shape: BoxShape.circle,
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.1),
+                            color: Colors.black.withValues(alpha: 0.1),
                             blurRadius: 4,
                             offset: const Offset(0, 2),
                           ),
@@ -576,7 +577,7 @@ class _AnimatedProductCardState extends State<AnimatedProductCard> {
                         size: 16, // Smaller icon
                         color: _isHovered
                             ? Colors.white
-                            : const Color(0xFF006D77),
+                            : const Color(0xFF00B4D8),
                       ),
                     ),
                   ),
@@ -656,7 +657,7 @@ class _AnimatedProductCardState extends State<AnimatedProductCard> {
                           fontWeight: FontWeight.w500,
                           color: Colors.grey,
                           decoration: TextDecoration.lineThrough,
-                        ),
+                         ),
                       ),
                       const SizedBox(width: 4),
                       Container(
@@ -666,7 +667,7 @@ class _AnimatedProductCardState extends State<AnimatedProductCard> {
                         ),
                         decoration: BoxDecoration(
                           gradient: const LinearGradient(
-                            colors: [Color(0xFFE29578), Color(0xFFFFB300)],
+                            colors: [Color(0xFFFF007F), Color(0xFFFF5E00)],
                           ),
                           borderRadius: BorderRadius.circular(4),
                         ),
@@ -690,14 +691,14 @@ class _AnimatedProductCardState extends State<AnimatedProductCard> {
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: _isHovered
-                            ? [const Color(0xFFE29578), const Color(0xFFFFB300)]
-                            : [const Color(0xFF006D77), const Color(0xFF83C5BE)],
+                            ? [const Color(0xFFFF007F), const Color(0xFFFF5E00)]
+                            : [const Color(0xFF00B4D8), const Color(0xFF00F5D4)],
                       ),
                       borderRadius: BorderRadius.circular(8),
                       boxShadow: _isHovered
                           ? [
                               BoxShadow(
-                                color: const Color(0xFFE29578).withOpacity(0.35),
+                                color: const Color(0xFFFF007F).withValues(alpha: 0.5),
                                 blurRadius: 8,
                                 offset: const Offset(0, 3),
                               )

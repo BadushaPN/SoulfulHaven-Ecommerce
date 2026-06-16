@@ -2048,12 +2048,12 @@ class _HoverPriceBubbleState extends State<_HoverPriceBubble> {
         duration: const Duration(milliseconds: 250),
         width: 180,
         height: 180,
-        transform: Matrix4.identity()..scale(_isHovered ? 1.08 : 1.0),
+        transform: Matrix4.diagonal3Values(_isHovered ? 1.08 : 1.0, _isHovered ? 1.08 : 1.0, 1.0),
         transformAlignment: Alignment.center,
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: _isHovered
-                ? [const Color(0xFF006D77), const Color(0xFF83C5BE)]
+                ? [const Color(0xFF00B4D8), const Color(0xFF00F5D4)]
                 : [Colors.white, const Color(0xFFEDF6F9)],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -2062,14 +2062,15 @@ class _HoverPriceBubbleState extends State<_HoverPriceBubble> {
           boxShadow: [
             BoxShadow(
               color: _isHovered
-                  ? const Color(0xFF006D77).withOpacity(0.25)
-                  : Colors.black.withOpacity(0.04),
-              blurRadius: _isHovered ? 18 : 8,
+                  ? const Color(0xFF00F5D4).withValues(alpha: 0.5)
+                  : Colors.black.withValues(alpha: 0.04),
+              blurRadius: _isHovered ? 24 : 8,
+              spreadRadius: _isHovered ? 2 : 0,
               offset: const Offset(0, 4),
             ),
           ],
           border: Border.all(
-            color: const Color(0xFF006D77).withOpacity(0.12),
+            color: _isHovered ? const Color(0xFF00F5D4).withValues(alpha: 0.8) : const Color(0xFF00B4D8).withValues(alpha: 0.2),
             width: 1.5,
           ),
         ),
@@ -2081,7 +2082,7 @@ class _HoverPriceBubbleState extends State<_HoverPriceBubble> {
               TextSpan(
                 text: 'Under\n',
                 style: TextStyle(
-                  color: _isHovered ? Colors.white : const Color(0xFF006D77),
+                  color: _isHovered ? Colors.white : const Color(0xFF00B4D8),
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
                 ),
@@ -2089,7 +2090,7 @@ class _HoverPriceBubbleState extends State<_HoverPriceBubble> {
               TextSpan(
                 text: '₹${widget.price}/-',
                 style: TextStyle(
-                  color: _isHovered ? const Color(0xFFFFDD67) : const Color(0xFFE29578),
+                  color: _isHovered ? const Color(0xFFFFEE58) : const Color(0xFFFF007F),
                   fontSize: 28,
                   fontWeight: FontWeight.w900,
                 ),

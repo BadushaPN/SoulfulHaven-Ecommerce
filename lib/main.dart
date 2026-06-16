@@ -22,18 +22,18 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         useMaterial3: true,
-        primaryColor: const Color(0xFF006D77),
+        primaryColor: const Color(0xFF00B4D8), // Electric Cyan
         scaffoldBackgroundColor: const Color(0xFFFAF9F6),
         appBarTheme: const AppBarTheme(
-          backgroundColor: Color(0xFF006D77),
+          backgroundColor: Color(0xFF00B4D8),
           foregroundColor: Colors.white,
           elevation: 0,
         ),
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF006D77),
-          primary: const Color(0xFF006D77),
-          secondary: const Color(0xFF83C5BE),
-          tertiary: const Color(0xFFE29578),
+          seedColor: const Color(0xFF00B4D8),
+          primary: const Color(0xFF00B4D8),
+          secondary: const Color(0xFF00F5D4), // Neon Turquoise
+          tertiary: const Color(0xFFFF007F),  // Neon Pink
           background: const Color(0xFFFAF9F6),
         ),
         cardTheme: const CardThemeData(

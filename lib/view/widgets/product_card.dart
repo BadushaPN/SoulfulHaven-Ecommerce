@@ -28,20 +28,21 @@ class _ProductCardState extends State<ProductCard> {
           boxShadow: [
             if (_isHovered)
               BoxShadow(
-                color: const Color(0xFF006D77).withOpacity(0.12),
-                blurRadius: 24,
-                offset: const Offset(0, 12),
+                color: const Color(0xFF00F5D4).withValues(alpha: 0.35),
+                blurRadius: 20,
+                spreadRadius: 2,
+                offset: const Offset(0, 8),
               )
             else
               BoxShadow(
-                color: Colors.black.withOpacity(0.03),
+                color: Colors.black.withValues(alpha: 0.03),
                 blurRadius: 12,
                 offset: const Offset(0, 6),
               ),
           ],
           border: Border.all(
-            color: _isHovered ? const Color(0xFF006D77).withOpacity(0.15) : Colors.transparent,
-            width: 1,
+            color: _isHovered ? const Color(0xFF00F5D4).withValues(alpha: 0.6) : Colors.transparent,
+            width: 1.5,
           ),
         ),
         child: ClipRRect(
@@ -81,14 +82,14 @@ class _ProductCardState extends State<ProductCard> {
                           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                           decoration: BoxDecoration(
                             gradient: const LinearGradient(
-                              colors: [Color(0xFFE29578), Color(0xFFFFB300)],
+                              colors: [Color(0xFFFF007F), Color(0xFFFF5E00)],
                             ),
                             borderRadius: BorderRadius.circular(12),
                             boxShadow: [
                               BoxShadow(
-                                color: const Color(0xFFE29578).withOpacity(0.3),
+                                color: const Color(0xFFFF007F).withValues(alpha: 0.45),
                                 blurRadius: 8,
-                                offset: const Offset(0, 4),
+                                offset: const Offset(0, 3),
                               )
                             ],
                           ),
@@ -114,7 +115,7 @@ class _ProductCardState extends State<ProductCard> {
                           shape: BoxShape.circle,
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withOpacity(0.05),
+                              color: Colors.black.withValues(alpha: 0.05),
                               blurRadius: 4,
                             )
                           ],
@@ -142,7 +143,7 @@ class _ProductCardState extends State<ProductCard> {
                       ),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                    ),
+                     ),
                     const SizedBox(height: 8),
                     
                     // Rating
@@ -181,7 +182,7 @@ class _ProductCardState extends State<ProductCard> {
                           style: const TextStyle(
                             fontWeight: FontWeight.w900,
                             fontSize: 18,
-                            color: Color(0xFF006D77),
+                            color: Color(0xFF00B4D8),
                           ),
                         ),
                         const SizedBox(width: 8),
@@ -209,14 +210,14 @@ class _ProductCardState extends State<ProductCard> {
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           colors: _isHovered
-                              ? [const Color(0xFFE29578), const Color(0xFFFFB300)]
-                              : [const Color(0xFF006D77), const Color(0xFF83C5BE)],
+                              ? [const Color(0xFFFF007F), const Color(0xFFFF5E00)]
+                              : [const Color(0xFF00B4D8), const Color(0xFF00F5D4)],
                         ),
                         borderRadius: BorderRadius.circular(12),
                         boxShadow: _isHovered
                             ? [
                                 BoxShadow(
-                                  color: const Color(0xFFE29578).withOpacity(0.4),
+                                  color: const Color(0xFFFF007F).withValues(alpha: 0.5),
                                   blurRadius: 12,
                                   offset: const Offset(0, 4),
                                 )
