@@ -357,16 +357,21 @@ class _AnimatedDealCardState extends State<AnimatedDealCard> {
       onExit: (_) => setState(() => _isHovered = false),
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 250),
+        transform: Matrix4.translationValues(0, _isHovered ? -8 : 0, 0),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(_isHovered ? 0.08 : 0.03),
-              blurRadius: _isHovered ? 16 : 8,
-              offset: Offset(0, _isHovered ? 8 : 4),
+              color: _isHovered ? const Color(0xFF006D77).withOpacity(0.1) : Colors.black.withOpacity(0.03),
+              blurRadius: _isHovered ? 20 : 8,
+              offset: Offset(0, _isHovered ? 10 : 4),
             ),
           ],
+          border: Border.all(
+            color: _isHovered ? const Color(0xFF006D77).withOpacity(0.12) : Colors.transparent,
+            width: 1,
+          ),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -382,7 +387,7 @@ class _AnimatedDealCardState extends State<AnimatedDealCard> {
                     children: [
                       Positioned.fill(
                         child: AnimatedScale(
-                          scale: _isHovered ? 1.05 : 1.0,
+                          scale: _isHovered ? 1.06 : 1.0,
                           duration: const Duration(milliseconds: 250),
                           child: Image.network(
                             widget.imageUrl,
@@ -474,15 +479,27 @@ class _AnimatedDealCardState extends State<AnimatedDealCard> {
                         width: double.infinity,
                         padding: const EdgeInsets.symmetric(vertical: 12),
                         decoration: BoxDecoration(
-                          color: _isButtonHovered ? Colors.black : Colors.white,
-                          borderRadius: BorderRadius.circular(6),
-                          border: Border.all(color: Colors.black, width: 1.5),
+                          gradient: LinearGradient(
+                            colors: _isButtonHovered
+                                ? [const Color(0xFFE29578), const Color(0xFFFFB300)]
+                                : [const Color(0xFF006D77), const Color(0xFF83C5BE)],
+                          ),
+                          borderRadius: BorderRadius.circular(8),
+                          boxShadow: _isButtonHovered
+                              ? [
+                                  BoxShadow(
+                                    color: const Color(0xFFE29578).withOpacity(0.35),
+                                    blurRadius: 8,
+                                    offset: const Offset(0, 3),
+                                  )
+                                ]
+                              : [],
                         ),
                         child: Center(
                           child: Text(
                             'Build Your Box',
                             style: GoogleFonts.outfit(
-                              color: _isButtonHovered ? Colors.white : Colors.black,
+                              color: Colors.white,
                               fontSize: 14,
                               fontWeight: FontWeight.w800,
                             ),

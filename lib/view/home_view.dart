@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:async';
+import 'package:google_fonts/google_fonts.dart';
 import '../controller/home_controller.dart';
 import '../widgets/shared_components.dart';
 import 'divine_plushies_view.dart';
@@ -272,390 +273,207 @@ class _HomeViewState extends State<HomeView> {
                   setState(() => _currentCarouselIndex = index),
               itemCount: _carouselImages.length,
               itemBuilder: (context, index) {
-                return Image.network(
-                  _carouselImages[index],
-                  fit: BoxFit.cover,
-                  color: const Color(0xFF006D77).withOpacity(0.1),
-                  colorBlendMode: BlendMode.srcOver,
+                return Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    Image.network(
+                      _carouselImages[index],
+                      fit: BoxFit.cover,
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: isMobile ? Alignment.topCenter : Alignment.centerLeft,
+                          end: isMobile ? Alignment.bottomCenter : Alignment.centerRight,
+                          colors: [
+                            const Color(0xFF006D77).withOpacity(0.7),
+                            Colors.black.withOpacity(0.35),
+                            Colors.transparent,
+                          ],
+                          stops: const [0.0, 0.55, 1.0],
+                        ),
+                      ),
+                    ),
+                  ],
                 );
               },
             ),
           ),
 
           if (isMobile)
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 60),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const Text(
-                    'Introducing My First Book of',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                      color: Color(0xFF006D77),
-                      letterSpacing: 1.2,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      Text(
-                        'MANTRAS',
-                        style: TextStyle(
-                          fontSize: 45,
-                          fontWeight: FontWeight.w900,
-                          foreground: Paint()
-                            ..style = PaintingStyle.stroke
-                            ..strokeWidth = 2
-                            ..color = const Color(0xFF006D77).withOpacity(0.6),
-                          letterSpacing: 2,
-                        ),
-                      ),
-                      Text(
-                        'MANTRAS',
-                        style: TextStyle(
-                          fontSize: 45,
-                          fontWeight: FontWeight.w900,
-                          color: const Color(0xFF006D77).withOpacity(0.1),
-                          letterSpacing: 2,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 12),
-                  const Text(
-                    'A BEAUTIFULLY ILLUSTRATED MUSICAL\nMANTRA BOOK FOR LITTLE LEARNERS',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w800,
-                      color: Color(0xFFE29578),
-                      height: 1.5,
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'JUST AT - ',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w900,
-                          color: Color(0xFF006D77),
-                        ),
-                      ),
-                      Text(
-                        'MRP - ',
-                        style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w700,
-                          color: Color(0xFF006D77),
-                          decoration: TextDecoration.lineThrough,
-                        ),
-                      ),
-                      Text(
-                        '1899/-',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w900,
-                          color: Color(0xFF006D77),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 30),
-                  Transform.rotate(
-                    angle: -0.05,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 24,
-                        vertical: 12,
-                      ),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF006D77),
-                        borderRadius: BorderRadius.circular(40),
-                      ),
-                      child: RichText(
-                        text: const TextSpan(
-                          children: [
-                            TextSpan(
-                              text: 'Pass Down ',
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w900,
-                                color: Colors.white,
-                              ),
-                            ),
-                            TextSpan(
-                              text: 'Values,',
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w900,
-                                color: Color(0xFFE29578),
-                              ),
-                            ),
-                          ],
-                        ),
+            _SlideFadeEntrance(
+              duration: const Duration(milliseconds: 800),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 60),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Introducing My First Book of',
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.outfit(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.white70,
+                        letterSpacing: 1.2,
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 10),
-                  Transform.rotate(
-                    angle: 0.02,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 24,
-                        vertical: 12,
-                      ),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFE29578),
-                        borderRadius: BorderRadius.circular(40),
-                      ),
-                      child: RichText(
-                        text: const TextSpan(
-                          children: [
-                            TextSpan(
-                              text: 'Not Just ',
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w900,
-                                color: Colors.white,
-                              ),
-                            ),
-                            TextSpan(
-                              text: 'Toys',
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w900,
-                                color: Color(0xFF006D77),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 30),
-                  ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFFE29578),
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 36,
-                        vertical: 16,
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(40),
-                        side: const BorderSide(color: Colors.white, width: 2),
-                      ),
-                      elevation: 6,
-                    ),
-                    child: const Row(
-                      mainAxisSize: MainAxisSize.min,
+                    const SizedBox(height: 8),
+                    Stack(
+                      alignment: Alignment.center,
                       children: [
                         Text(
-                          'SHOP NOW',
-                          style: TextStyle(
-                            fontSize: 20,
+                          'MANTRAS',
+                          style: GoogleFonts.outfit(
+                            fontSize: 45,
                             fontWeight: FontWeight.w900,
-                            color: Colors.white,
-                            letterSpacing: 1.5,
+                            foreground: Paint()
+                              ..style = PaintingStyle.stroke
+                              ..strokeWidth = 2
+                              ..color = const Color(0xFFFFDD67).withOpacity(0.8),
+                            letterSpacing: 2,
                           ),
                         ),
-                        SizedBox(width: 8),
-                        Icon(Icons.touch_app, color: Colors.white, size: 24),
+                        Text(
+                          'MANTRAS',
+                          style: GoogleFonts.outfit(
+                            fontSize: 45,
+                            fontWeight: FontWeight.w900,
+                            color: Colors.white.withOpacity(0.9),
+                            letterSpacing: 2,
+                          ),
+                        ),
                       ],
                     ),
-                  ),
-                ],
-              ),
-            )
-          else ...[
-            // Text Overlays
-            Positioned(
-              left: MediaQuery.of(context).size.width * 0.05,
-              top: screenHeight * 0.25,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Introducing My First Book of',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.w700,
-                      color: Color(0xFF006D77),
-                      letterSpacing: 1.2,
+                    const SizedBox(height: 12),
+                    Text(
+                      'A BEAUTIFULLY ILLUSTRATED MUSICAL\nMANTRA BOOK FOR LITTLE LEARNERS',
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.outfit(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w800,
+                        color: const Color(0xFFFFDD67),
+                        height: 1.5,
+                      ),
                     ),
-                  ),
-                  Stack(
-                    children: [
-                      Text(
-                        'MANTRAS',
-                        style: TextStyle(
-                          fontSize: 100,
-                          fontWeight: FontWeight.w900,
-                          foreground: Paint()
-                            ..style = PaintingStyle.stroke
-                            ..strokeWidth = 3
-                            ..color = const Color(0xFF006D77).withOpacity(0.6),
-                          letterSpacing: 2,
+                    const SizedBox(height: 20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'JUST AT - ',
+                          style: GoogleFonts.outfit(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w900,
+                            color: Colors.white70,
+                          ),
                         ),
-                      ),
-                      Text(
-                        'MANTRAS',
-                        style: TextStyle(
-                          fontSize: 100,
-                          fontWeight: FontWeight.w900,
-                          color: const Color(0xFF006D77).withOpacity(0.1),
-                          letterSpacing: 2,
+                        Text(
+                          'MRP - ',
+                          style: GoogleFonts.outfit(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.white70,
+                            decoration: TextDecoration.lineThrough,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 10),
-                  const Text(
-                    'A BEAUTIFULLY ILLUSTRATED MUSICAL\nMANTRA BOOK FOR LITTLE LEARNERS',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w800,
-                      color: Color(0xFFE29578),
-                      height: 1.5,
+                        Text(
+                          '1899/-',
+                          style: GoogleFonts.outfit(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w900,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                  const SizedBox(height: 40),
-                  const Row(
-                    children: [
-                      Text(
-                        'JUST AT - ',
-                        style: TextStyle(
-                          fontSize: 28,
-                          fontWeight: FontWeight.w900,
-                          color: Color(0xFF006D77),
+                    const SizedBox(height: 30),
+                    Transform.rotate(
+                      angle: -0.05,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 24,
+                          vertical: 12,
                         ),
-                      ),
-                      Text(
-                        'MRP - ',
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.w700,
-                          color: Color(0xFF006D77),
-                          decoration: TextDecoration.lineThrough,
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF006D77),
+                          borderRadius: BorderRadius.circular(40),
                         ),
-                      ),
-                      Text(
-                        '1899/-',
-                        style: TextStyle(
-                          fontSize: 28,
-                          fontWeight: FontWeight.w900,
-                          color: Color(0xFF006D77),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-
-            // Right Side Banners
-            Positioned(
-              right: MediaQuery.of(context).size.width * 0.05,
-              top: screenHeight * 0.35,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Transform.rotate(
-                    angle: -0.05,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 40,
-                        vertical: 20,
-                      ),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF006D77),
-                        borderRadius: BorderRadius.circular(40),
-                      ),
-                      child: RichText(
-                        text: const TextSpan(
-                          children: [
-                            TextSpan(
-                              text: 'Pass Down ',
-                              style: TextStyle(
-                                fontSize: 50,
-                                fontWeight: FontWeight.w900,
-                                color: Colors.white,
+                        child: RichText(
+                          text: const TextSpan(
+                            children: [
+                              TextSpan(
+                                text: 'Pass Down ',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w900,
+                                  color: Colors.white,
+                                ),
                               ),
-                            ),
-                            TextSpan(
-                              text: 'Values,',
-                              style: TextStyle(
-                                fontSize: 50,
-                                fontWeight: FontWeight.w900,
-                                color: Color(0xFFE29578),
+                              TextSpan(
+                                text: 'Values,',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w900,
+                                  color: Color(0xFFE29578),
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 10),
-                  Transform.rotate(
-                    angle: 0.02,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 40,
-                        vertical: 20,
-                      ),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFE29578),
-                        borderRadius: BorderRadius.circular(40),
-                      ),
-                      child: RichText(
-                        text: const TextSpan(
-                          children: [
-                            TextSpan(
-                              text: 'Not Just ',
-                              style: TextStyle(
-                                fontSize: 50,
-                                fontWeight: FontWeight.w900,
-                                color: Colors.white,
+                    const SizedBox(height: 10),
+                    Transform.rotate(
+                      angle: 0.02,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 24,
+                          vertical: 12,
+                        ),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFE29578),
+                          borderRadius: BorderRadius.circular(40),
+                        ),
+                        child: RichText(
+                          text: const TextSpan(
+                            children: [
+                              TextSpan(
+                                text: 'Not Just ',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w900,
+                                  color: Colors.white,
+                                ),
                               ),
-                            ),
-                            TextSpan(
-                              text: 'Toys',
-                              style: TextStyle(
-                                fontSize: 50,
-                                fontWeight: FontWeight.w900,
-                                color: Color(0xFF006D77),
+                              TextSpan(
+                                text: 'Toys',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w900,
+                                  color: Color(0xFF006D77),
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 40),
-                  // Shop Now Button
-                  Container(
-                    margin: const EdgeInsets.only(right: 40),
-                    child: ElevatedButton(
+                    const SizedBox(height: 30),
+                    ElevatedButton(
                       onPressed: () {},
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFFE29578),
                         padding: const EdgeInsets.symmetric(
-                          horizontal: 50,
-                          vertical: 20,
+                          horizontal: 36,
+                          vertical: 16,
                         ),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(40),
-                          side: const BorderSide(color: Colors.white, width: 3),
+                          side: const BorderSide(color: Colors.white, width: 2),
                         ),
-                        elevation: 8,
+                        elevation: 6,
                       ),
                       child: const Row(
                         mainAxisSize: MainAxisSize.min,
@@ -663,19 +481,229 @@ class _HomeViewState extends State<HomeView> {
                           Text(
                             'SHOP NOW',
                             style: TextStyle(
-                              fontSize: 28,
+                              fontSize: 20,
                               fontWeight: FontWeight.w900,
                               color: Colors.white,
                               letterSpacing: 1.5,
                             ),
                           ),
-                          SizedBox(width: 10),
-                          Icon(Icons.touch_app, color: Colors.white, size: 32),
+                          SizedBox(width: 8),
+                          Icon(Icons.touch_app, color: Colors.white, size: 24),
                         ],
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
+              ),
+            )
+          else ...[
+            // Text Overlays
+            Positioned(
+              left: MediaQuery.of(context).size.width * 0.05,
+              top: screenHeight * 0.25,
+              child: _SlideFadeEntrance(
+                duration: const Duration(milliseconds: 800),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Introducing My First Book of',
+                      style: GoogleFonts.outfit(
+                        fontSize: 24,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.white70,
+                        letterSpacing: 1.2,
+                      ),
+                    ),
+                    Stack(
+                      children: [
+                        Text(
+                          'MANTRAS',
+                          style: GoogleFonts.outfit(
+                            fontSize: 100,
+                            fontWeight: FontWeight.w900,
+                            foreground: Paint()
+                              ..style = PaintingStyle.stroke
+                              ..strokeWidth = 3
+                              ..color = const Color(0xFFFFDD67).withOpacity(0.8),
+                            letterSpacing: 2,
+                          ),
+                        ),
+                        Text(
+                          'MANTRAS',
+                          style: GoogleFonts.outfit(
+                            fontSize: 100,
+                            fontWeight: FontWeight.w900,
+                            color: Colors.white.withOpacity(0.9),
+                            letterSpacing: 2,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      'A BEAUTIFULLY ILLUSTRATED MUSICAL\nMANTRA BOOK FOR LITTLE LEARNERS',
+                      style: GoogleFonts.outfit(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w800,
+                        color: const Color(0xFFFFDD67),
+                        height: 1.5,
+                      ),
+                    ),
+                    const SizedBox(height: 40),
+                    Row(
+                      children: [
+                        Text(
+                          'JUST AT - ',
+                          style: GoogleFonts.outfit(
+                            fontSize: 28,
+                            fontWeight: FontWeight.w900,
+                            color: Colors.white70,
+                          ),
+                        ),
+                        Text(
+                          'MRP - ',
+                          style: GoogleFonts.outfit(
+                            fontSize: 24,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.white70,
+                            decoration: TextDecoration.lineThrough,
+                          ),
+                        ),
+                        Text(
+                          '1899/-',
+                          style: GoogleFonts.outfit(
+                            fontSize: 28,
+                            fontWeight: FontWeight.w900,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
+            // Right Side Banners
+            Positioned(
+              right: MediaQuery.of(context).size.width * 0.05,
+              top: screenHeight * 0.35,
+              child: _SlideFadeEntrance(
+                duration: const Duration(milliseconds: 900),
+                delay: const Duration(milliseconds: 150),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Transform.rotate(
+                      angle: -0.05,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 40,
+                          vertical: 20,
+                        ),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF006D77),
+                          borderRadius: BorderRadius.circular(40),
+                        ),
+                        child: RichText(
+                          text: const TextSpan(
+                            children: [
+                              TextSpan(
+                                text: 'Pass Down ',
+                                style: TextStyle(
+                                  fontSize: 50,
+                                  fontWeight: FontWeight.w900,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              TextSpan(
+                                text: 'Values,',
+                                style: TextStyle(
+                                  fontSize: 50,
+                                  fontWeight: FontWeight.w900,
+                                  color: Color(0xFFE29578),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    Transform.rotate(
+                      angle: 0.02,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 40,
+                          vertical: 20,
+                        ),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFE29578),
+                          borderRadius: BorderRadius.circular(40),
+                        ),
+                        child: RichText(
+                          text: const TextSpan(
+                            children: [
+                              TextSpan(
+                                text: 'Not Just ',
+                                style: TextStyle(
+                                  fontSize: 50,
+                                  fontWeight: FontWeight.w900,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              TextSpan(
+                                text: 'Toys',
+                                style: TextStyle(
+                                  fontSize: 50,
+                                  fontWeight: FontWeight.w900,
+                                  color: Color(0xFF006D77),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 40),
+                    // Shop Now Button
+                    Container(
+                      margin: const EdgeInsets.only(right: 40),
+                      child: ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFFE29578),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 50,
+                            vertical: 20,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(40),
+                            side: const BorderSide(color: Colors.white, width: 3),
+                          ),
+                          elevation: 8,
+                        ),
+                        child: const Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              'SHOP NOW',
+                              style: TextStyle(
+                                fontSize: 28,
+                                fontWeight: FontWeight.w900,
+                                color: Colors.white,
+                                letterSpacing: 1.5,
+                              ),
+                            ),
+                            SizedBox(width: 10),
+                            Icon(Icons.touch_app, color: Colors.white, size: 32),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
@@ -1063,89 +1091,93 @@ class _HomeViewState extends State<HomeView> {
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: screenWidth > 600 ? 40 : 20),
-      child: Column(
-        children: [
-          // Title
-          Text(
-            'Our Collection',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: screenWidth > 600 ? 60 : 40,
-              fontWeight: FontWeight.w900,
-              color: const Color(0xFF006D77),
-              shadows: [
-                Shadow(
-                  offset: const Offset(2, 2),
-                  color: const Color(0xFF006D77).withOpacity(0.3),
-                  blurRadius: 2,
-                ),
-              ],
+      child: _SlideFadeEntrance(
+        delay: const Duration(milliseconds: 150),
+        child: Column(
+          children: [
+            // Title
+            Text(
+              'Our Collection',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: screenWidth > 600 ? 60 : 40,
+                fontWeight: FontWeight.w900,
+                color: const Color(0xFF006D77),
+                shadows: [
+                  Shadow(
+                    offset: const Offset(2, 2),
+                    color: const Color(0xFF006D77).withOpacity(0.3),
+                    blurRadius: 2,
+                  ),
+                ],
+              ),
             ),
-          ),
-          SizedBox(height: screenWidth > 600 ? 40 : 20),
-          buildGridContent(),
-        ],
+            SizedBox(height: screenWidth > 600 ? 40 : 20),
+            buildGridContent(),
+          ],
+        ),
       ),
     );
   }
 
   Widget _buildBestSellersSection(BuildContext context) {
-    return Column(
-      children: [
-        // Title Pill
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
-          decoration: BoxDecoration(
-            color: const Color(
-              0xFF83C5BE,
-            ).withOpacity(0.3), // Soft Sage/Mint pill
-            borderRadius: BorderRadius.circular(30),
-          ),
-          child: const Text(
-            'Best Sellers',
-            style: TextStyle(
-              fontSize: 32,
-              fontWeight: FontWeight.w900,
-              color: Color(0xFF006D77), // Deep Teal text
+    return _SlideFadeEntrance(
+      delay: const Duration(milliseconds: 250),
+      child: Column(
+        children: [
+          // Title Pill
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+            decoration: BoxDecoration(
+              color: const Color(0xFF83C5BE).withOpacity(0.3), // Soft Sage/Mint pill
+              borderRadius: BorderRadius.circular(30),
             ),
-          ),
-        ),
-        const SizedBox(height: 40),
-        // YouTube Shorts Carousel
-        SizedBox(
-          height: 450,
-          child: Center(
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: List.generate(5, (index) {
-                  return _buildShortCard(index);
-                }),
+            child: const Text(
+              'Best Sellers',
+              style: TextStyle(
+                fontSize: 32,
+                fontWeight: FontWeight.w900,
+                color: Color(0xFF006D77), // Deep Teal text
               ),
             ),
           ),
-        ),
-        const SizedBox(height: 20),
-        // Pagination Dots
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: List.generate(5, (index) {
-            return Container(
-              margin: const EdgeInsets.symmetric(horizontal: 4),
-              width: 8,
-              height: 8,
-              decoration: BoxDecoration(
-                color: index == 0 ? Colors.black : Colors.grey.shade400,
-                shape: BoxShape.circle,
+          const SizedBox(height: 40),
+          // YouTube Shorts Carousel
+          SizedBox(
+            height: 450,
+            child: Center(
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: List.generate(5, (index) {
+                    return _buildShortCard(index);
+                  }),
+                ),
               ),
-            );
-          }),
-        ),
-        const SizedBox(height: 60),
-        // Bottom Features Bar
-        _buildFeaturesBar(context),
-      ],
+            ),
+          ),
+          const SizedBox(height: 20),
+          // Pagination Dots
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: List.generate(5, (index) {
+              return Container(
+                margin: const EdgeInsets.symmetric(horizontal: 4),
+                width: 8,
+                height: 8,
+                decoration: BoxDecoration(
+                  color: index == 0 ? Colors.black : Colors.grey.shade400,
+                  shape: BoxShape.circle,
+                ),
+              );
+            }),
+          ),
+          const SizedBox(height: 60),
+          // Bottom Features Bar
+          _buildFeaturesBar(context),
+        ],
+      ),
     );
   }
 
@@ -1580,11 +1612,11 @@ class _HomeViewState extends State<HomeView> {
             ),
             const SizedBox(width: 60),
             // Price Bubbles
-            _priceBubble('399'),
+            const _HoverPriceBubble(price: '399'),
             const SizedBox(width: 40),
-            _priceBubble('999'),
+            const _HoverPriceBubble(price: '999'),
             const SizedBox(width: 40),
-            _priceBubble('1599'),
+            const _HoverPriceBubble(price: '1599'),
           ],
         ),
       );
@@ -1605,51 +1637,16 @@ class _HomeViewState extends State<HomeView> {
               spacing: 20,
               runSpacing: 20,
               alignment: WrapAlignment.center,
-              children: [
-                _priceBubble('399'),
-                _priceBubble('999'),
-                _priceBubble('1599'),
+              children: const [
+                _HoverPriceBubble(price: '399'),
+                _HoverPriceBubble(price: '999'),
+                _HoverPriceBubble(price: '1599'),
               ],
             ),
           ],
         ),
       );
     }
-  }
-
-  Widget _priceBubble(String price) {
-    return Container(
-      width: 180,
-      height: 180,
-      decoration: const BoxDecoration(
-        color: Color(0xFFEDF6F9), // Scaffold background color
-        shape: BoxShape.circle,
-      ),
-      alignment: Alignment.center,
-      child: RichText(
-        textAlign: TextAlign.center,
-        text: TextSpan(
-          children: [
-            const TextSpan(
-              text: 'Under\n',
-              style: TextStyle(
-                color: Color(0xFF006D77),
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            TextSpan(
-              text: '₹$price/-',
-              style: TextStyle(
-                color: Color(0xFFE29578),
-                fontSize: 32,
-                fontWeight: FontWeight.w900,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
   }
 
   Widget _buildParentingGuideSection(BuildContext context) {
@@ -1881,10 +1878,17 @@ class _AnimatedCollectionCardState extends State<AnimatedCollectionCard> {
             clipper: WavyClipper(),
             child: Container(
               decoration: BoxDecoration(
-                color: widget.backgroundColor,
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    widget.backgroundColor,
+                    Color.lerp(widget.backgroundColor, Colors.white, 0.55)!,
+                  ],
+                ),
                 borderRadius: const BorderRadius.only(
-                  bottomLeft: Radius.circular(10),
-                  bottomRight: Radius.circular(10),
+                  bottomLeft: Radius.circular(16),
+                  bottomRight: Radius.circular(16),
                 ),
               ),
               child: Stack(
@@ -1922,9 +1926,11 @@ class _AnimatedCollectionCardState extends State<AnimatedCollectionCard> {
                             : 8,
                       ),
                       decoration: BoxDecoration(
-                        color: _isHovered
-                            ? const Color(0xFFE29578)
-                            : const Color(0xFF006D77), // Terracotta on hover
+                        gradient: LinearGradient(
+                          colors: _isHovered
+                              ? [const Color(0xFFE29578), const Color(0xFFFFB300)]
+                              : [const Color(0xFF006D77), const Color(0xFF83C5BE)],
+                        ),
                         borderRadius: BorderRadius.circular(30),
                         boxShadow: const [
                           BoxShadow(
@@ -1986,4 +1992,112 @@ class WavyClipper extends CustomClipper<Path> {
 
   @override
   bool shouldReclip(covariant CustomClipper<Path> oldClipper) => false;
+}
+
+// Reusable custom slide + fade entrance animation widget
+class _SlideFadeEntrance extends StatelessWidget {
+  final Widget child;
+  final Duration duration;
+  final Duration delay;
+
+  const _SlideFadeEntrance({
+    required this.child,
+    this.duration = const Duration(milliseconds: 700),
+    this.delay = Duration.zero,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return TweenAnimationBuilder<double>(
+      tween: Tween(begin: 0.0, end: 1.0),
+      duration: duration,
+      curve: Curves.easeOutCubic,
+      builder: (context, value, child) {
+        return Opacity(
+          opacity: value,
+          child: Transform.translate(
+            offset: Offset(0, (1 - value) * 28),
+            child: child,
+          ),
+        );
+      },
+      child: child,
+    );
+  }
+}
+
+// Glowing, stateful price bubble selection button
+class _HoverPriceBubble extends StatefulWidget {
+  final String price;
+  const _HoverPriceBubble({required this.price});
+
+  @override
+  State<_HoverPriceBubble> createState() => _HoverPriceBubbleState();
+}
+
+class _HoverPriceBubbleState extends State<_HoverPriceBubble> {
+  bool _isHovered = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      onEnter: (_) => setState(() => _isHovered = true),
+      onExit: (_) => setState(() => _isHovered = false),
+      cursor: SystemMouseCursors.click,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 250),
+        width: 180,
+        height: 180,
+        transform: Matrix4.identity()..scale(_isHovered ? 1.08 : 1.0),
+        transformAlignment: Alignment.center,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: _isHovered
+                ? [const Color(0xFF006D77), const Color(0xFF83C5BE)]
+                : [Colors.white, const Color(0xFFEDF6F9)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          shape: BoxShape.circle,
+          boxShadow: [
+            BoxShadow(
+              color: _isHovered
+                  ? const Color(0xFF006D77).withOpacity(0.25)
+                  : Colors.black.withOpacity(0.04),
+              blurRadius: _isHovered ? 18 : 8,
+              offset: const Offset(0, 4),
+            ),
+          ],
+          border: Border.all(
+            color: const Color(0xFF006D77).withOpacity(0.12),
+            width: 1.5,
+          ),
+        ),
+        alignment: Alignment.center,
+        child: RichText(
+          textAlign: TextAlign.center,
+          text: TextSpan(
+            children: [
+              TextSpan(
+                text: 'Under\n',
+                style: TextStyle(
+                  color: _isHovered ? Colors.white : const Color(0xFF006D77),
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              TextSpan(
+                text: '₹${widget.price}/-',
+                style: TextStyle(
+                  color: _isHovered ? const Color(0xFFFFDD67) : const Color(0xFFE29578),
+                  fontSize: 28,
+                  fontWeight: FontWeight.w900,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }

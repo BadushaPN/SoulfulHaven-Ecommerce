@@ -234,17 +234,17 @@ class _DivinePlushiesViewState extends State<DivinePlushiesView> {
     return Container(
       width: double.infinity,
       height: isMobile ? 250 : 400,
-      decoration: const BoxDecoration(
-        color: Color(0xFFEDF6F9), // Ice blue background
+      decoration: BoxDecoration(
+        color: const Color(0xFFFAF9F6),
         image: DecorationImage(
-          image: NetworkImage(
+          image: const NetworkImage(
             'https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?q=80&w=2000&auto=format&fit=crop',
-          ), // Kids playing placeholder
+          ),
           fit: BoxFit.cover,
           colorFilter: ColorFilter.mode(
-            Colors.white54,
-            BlendMode.lighten,
-          ), // Lighten the image so text is readable
+            const Color(0xFF006D77).withOpacity(0.08),
+            BlendMode.srcOver,
+          ),
         ),
       ),
       child: Center(
@@ -505,20 +505,29 @@ class _AnimatedProductCardState extends State<AnimatedProductCard> {
       cursor: SystemMouseCursors.click,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
-        transform: Matrix4.identity()..scale(_isHovered ? 1.05 : 1.0),
+        transform: Matrix4.identity()..scale(_isHovered ? 1.04 : 1.0),
         transformAlignment: Alignment.center,
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(12),
-          boxShadow: _isHovered
-              ? [
-                  const BoxShadow(
-                    color: Colors.black12,
-                    blurRadius: 12,
-                    offset: Offset(0, 6),
-                  ),
-                ]
-              : [],
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            if (_isHovered)
+              BoxShadow(
+                color: const Color(0xFF006D77).withOpacity(0.12),
+                blurRadius: 16,
+                offset: const Offset(0, 8),
+              )
+            else
+              BoxShadow(
+                color: Colors.black.withOpacity(0.02),
+                blurRadius: 8,
+                offset: const Offset(0, 4),
+              ),
+          ],
+          border: Border.all(
+            color: _isHovered ? const Color(0xFF006D77).withOpacity(0.15) : Colors.grey.shade100,
+            width: 1,
+          ),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -533,7 +542,7 @@ class _AnimatedProductCardState extends State<AnimatedProductCard> {
                         10.0,
                       ), // Reduced padding for smaller card
                       child: AnimatedScale(
-                        scale: _isHovered ? 1.1 : 1.0,
+                        scale: _isHovered ? 1.06 : 1.0,
                         duration: const Duration(milliseconds: 200),
                         child: Image.network(
                           widget.imageUrl,
@@ -656,7 +665,9 @@ class _AnimatedProductCardState extends State<AnimatedProductCard> {
                           vertical: 2,
                         ),
                         decoration: BoxDecoration(
-                          color: const Color(0xFFE29578), // Terracotta
+                          gradient: const LinearGradient(
+                            colors: [Color(0xFFE29578), Color(0xFFFFB300)],
+                          ),
                           borderRadius: BorderRadius.circular(4),
                         ),
                         child: Text(
@@ -672,17 +683,38 @@ class _AnimatedProductCardState extends State<AnimatedProductCard> {
                   ),
                   const SizedBox(height: 12),
                   // Add to Cart Button
-                  SizedBox(
+                  AnimatedContainer(
+                    duration: const Duration(milliseconds: 250),
                     width: double.infinity,
+                    height: 38,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: _isHovered
+                            ? [const Color(0xFFE29578), const Color(0xFFFFB300)]
+                            : [const Color(0xFF006D77), const Color(0xFF83C5BE)],
+                      ),
+                      borderRadius: BorderRadius.circular(8),
+                      boxShadow: _isHovered
+                          ? [
+                              BoxShadow(
+                                color: const Color(0xFFE29578).withOpacity(0.35),
+                                blurRadius: 8,
+                                offset: const Offset(0, 3),
+                              )
+                            ]
+                          : [],
+                    ),
                     child: ElevatedButton(
                       onPressed: () {},
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF006D77), // Deep Teal
-                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        backgroundColor: Colors.transparent,
+                        foregroundColor: Colors.white,
+                        shadowColor: Colors.transparent,
+                        elevation: 0,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(6),
+                          borderRadius: BorderRadius.circular(8),
                         ),
-                        elevation: _isHovered ? 4 : 0,
+                        padding: EdgeInsets.zero,
                       ),
                       child: const Row(
                         mainAxisAlignment: MainAxisAlignment.center,

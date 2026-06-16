@@ -28,19 +28,19 @@ class _ProductCardState extends State<ProductCard> {
           boxShadow: [
             if (_isHovered)
               BoxShadow(
-                color: Colors.black.withOpacity(0.1),
-                blurRadius: 20,
-                offset: const Offset(0, 10),
+                color: const Color(0xFF006D77).withOpacity(0.12),
+                blurRadius: 24,
+                offset: const Offset(0, 12),
               )
             else
               BoxShadow(
-                color: Colors.black.withOpacity(0.04),
-                blurRadius: 10,
-                offset: const Offset(0, 5),
+                color: Colors.black.withOpacity(0.03),
+                blurRadius: 12,
+                offset: const Offset(0, 6),
               ),
           ],
           border: Border.all(
-            color: _isHovered ? const Color(0xFFE29578).withOpacity(0.3) : Colors.transparent,
+            color: _isHovered ? const Color(0xFF006D77).withOpacity(0.15) : Colors.transparent,
             width: 1,
           ),
         ),
@@ -61,7 +61,7 @@ class _ProductCardState extends State<ProductCard> {
                       child: Padding(
                         padding: const EdgeInsets.all(24.0),
                         child: AnimatedScale(
-                          scale: _isHovered ? 1.05 : 1.0,
+                          scale: _isHovered ? 1.06 : 1.0,
                           duration: const Duration(milliseconds: 250),
                           child: Image.network(
                             widget.product.imageUrl,
@@ -81,7 +81,7 @@ class _ProductCardState extends State<ProductCard> {
                           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                           decoration: BoxDecoration(
                             gradient: const LinearGradient(
-                              colors: [Color(0xFFE29578), Color(0xFF006D77)],
+                              colors: [Color(0xFFE29578), Color(0xFFFFB300)],
                             ),
                             borderRadius: BorderRadius.circular(12),
                             boxShadow: [
@@ -202,16 +202,34 @@ class _ProductCardState extends State<ProductCard> {
                     const SizedBox(height: 16),
                     
                     // Add to Cart Button
-                    SizedBox(
+                    AnimatedContainer(
+                      duration: const Duration(milliseconds: 250),
                       width: double.infinity,
                       height: 44,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: _isHovered
+                              ? [const Color(0xFFE29578), const Color(0xFFFFB300)]
+                              : [const Color(0xFF006D77), const Color(0xFF83C5BE)],
+                        ),
+                        borderRadius: BorderRadius.circular(12),
+                        boxShadow: _isHovered
+                            ? [
+                                BoxShadow(
+                                  color: const Color(0xFFE29578).withOpacity(0.4),
+                                  blurRadius: 12,
+                                  offset: const Offset(0, 4),
+                                )
+                              ]
+                            : [],
+                      ),
                       child: ElevatedButton(
                         onPressed: () {},
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: _isHovered ? const Color(0xFFE29578) : const Color(0xFF006D77),
+                          backgroundColor: Colors.transparent,
                           foregroundColor: Colors.white,
-                          elevation: _isHovered ? 8 : 0,
-                          shadowColor: const Color(0xFFE29578).withOpacity(0.5),
+                          shadowColor: Colors.transparent,
+                          elevation: 0,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),

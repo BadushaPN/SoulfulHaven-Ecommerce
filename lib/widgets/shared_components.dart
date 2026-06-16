@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -18,251 +19,294 @@ class SharedNavbar extends StatelessWidget {
     final double screenWidth = MediaQuery.of(context).size.width;
     final bool isMobile = screenWidth <= 900;
 
-    if (isMobile) {
-      return Container(
-        height: 80,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: isScrolled
-              ? [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.05),
-                    blurRadius: 10,
-                    offset: const Offset(0, 2),
-                  )
-                ]
-              : [],
+    return ClipRRect(
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 16, sigmaY: 16),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOutCubic,
+          height: isScrolled ? 70 : 85,
+          decoration: BoxDecoration(
+            color: isScrolled ? Colors.white.withOpacity(0.8) : Colors.white.withOpacity(0.55),
+            border: Border(
+              bottom: BorderSide(
+                color: isScrolled ? Colors.black.withOpacity(0.06) : Colors.black.withOpacity(0.02),
+                width: 1,
+              ),
+            ),
+            boxShadow: isScrolled
+                ? [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.04),
+                      blurRadius: 12,
+                      offset: const Offset(0, 4),
+                    )
+                  ]
+                : [],
+          ),
+          padding: EdgeInsets.symmetric(horizontal: isMobile ? 16.0 : 24.0),
+          alignment: Alignment.center,
+          child: isMobile ? _buildMobileRow(context) : _buildDesktopRow(context),
         ),
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            // Hamburger menu button
-            IconButton(
-              icon: const Icon(Icons.menu, color: Colors.black87, size: 26),
-              onPressed: () {
-                Scaffold.of(context).openDrawer();
-              },
-            ),
-            const Spacer(),
-            // Centered Logo
-            GestureDetector(
-              onTap: () {
-                Get.offAll(() => const HomeView());
-              },
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Image.network(
-                    'https://cdn-icons-png.flaticon.com/512/2654/2654518.png', // Panda logo face
-                    height: 38,
-                    width: 38,
-                    fit: BoxFit.contain,
-                    errorBuilder: (context, error, stackTrace) => const Icon(Icons.pets, size: 28),
-                  ),
-                  const SizedBox(width: 6),
-                  RichText(
-                    text: TextSpan(
-                      style: GoogleFonts.outfit(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w900,
-                        letterSpacing: 0.5,
-                      ),
-                      children: const [
-                        TextSpan(
-                          text: "Panda's ",
-                          style: TextStyle(color: Colors.black87),
-                        ),
-                        TextSpan(
-                          text: "Box",
-                          style: TextStyle(color: Color(0xFFE29578)),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const Spacer(),
-            // Right Icons (Search, Heart, Bag)
-            IconButton(
-              icon: const Icon(Icons.search, color: Colors.black87, size: 24),
-              onPressed: () {},
-              constraints: const BoxConstraints(),
-              padding: const EdgeInsets.all(6),
-            ),
-            IconButton(
-              icon: const Icon(Icons.favorite_border, color: Colors.black87, size: 24),
-              onPressed: () {},
-              constraints: const BoxConstraints(),
-              padding: const EdgeInsets.all(6),
-            ),
-            IconButton(
-              icon: const Icon(Icons.shopping_bag_outlined, color: Colors.black87, size: 24),
-              onPressed: () {},
-              constraints: const BoxConstraints(),
-              padding: const EdgeInsets.all(6),
-            ),
-          ],
-        ),
-      );
-    }
-
-    // Desktop Navbar
-    return Container(
-      height: 80,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: isScrolled
-            ? [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.05),
-                  blurRadius: 10,
-                  offset: const Offset(0, 2),
-                )
-              ]
-            : [],
-      ),
-      padding: const EdgeInsets.symmetric(horizontal: 24.0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          // Logo
-          MouseRegion(
-            cursor: SystemMouseCursors.click,
-            child: GestureDetector(
-              onTap: () {
-                Get.offAll(() => const HomeView());
-              },
-              child: Row(
-                children: [
-                  Image.network(
-                    'https://cdn-icons-png.flaticon.com/512/2654/2654518.png', // Panda logo face
-                    height: 42,
-                    width: 42,
-                    fit: BoxFit.contain,
-                    errorBuilder: (context, error, stackTrace) => const Icon(Icons.pets, size: 32),
-                  ),
-                  const SizedBox(width: 8),
-                  RichText(
-                    text: TextSpan(
-                      style: GoogleFonts.outfit(
-                        fontSize: 22,
-                        fontWeight: FontWeight.w900,
-                        letterSpacing: 0.5,
-                      ),
-                      children: const [
-                        TextSpan(
-                          text: "Panda's ",
-                          style: TextStyle(color: Colors.black87),
-                        ),
-                        TextSpan(
-                          text: "Box",
-                          style: TextStyle(color: Color(0xFFE29578)),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          const Spacer(),
-          // Nav Links
-          Row(
-            children: [
-              _navItem(
-                context,
-                'SHOP ALL',
-                hasDropdown: true,
-                onTap: () => Get.to(() => const DivinePlushiesView(categoryName: 'Divine Plushies')),
-              ),
-              _navItem(
-                context,
-                'SUMMER EDIT',
-                onTap: () => Get.to(() => const SummerEditView()),
-              ),
-              _navItem(
-                context,
-                'BIG DEALS',
-                onTap: () => Get.to(() => const BigDealsView()),
-              ),
-              _navItem(
-                context,
-                'GIFTING',
-                hasDropdown: true,
-                onTap: () => Get.to(() => const DivinePlushiesView(categoryName: 'Gifting')),
-              ),
-              _navItem(
-                context,
-                'ABOUT US',
-                hasDropdown: true,
-                onTap: () {
-                  Get.offAll(() => const HomeView());
-                },
-              ),
-              _navItem(
-                context,
-                'PARENTING GUIDE',
-                onTap: () => Get.to(() => const ParentingGuideView()),
-              ),
-              _navItem(
-                context,
-                'AUDIO GALLERY',
-                onTap: () => Get.to(() => const AudioGalleryView()),
-              ),
-              _navItem(
-                context,
-                'TRACK ORDER',
-                onTap: () {
-                  Get.snackbar(
-                    'Track Order 📦',
-                    'Tracking system simulation: Please enter order ID under Account details.',
-                    snackPosition: SnackPosition.BOTTOM,
-                    backgroundColor: const Color(0xFF006D77),
-                    colorText: Colors.white,
-                  );
-                },
-              ),
-            ],
-          ),
-          const Spacer(),
-          // Icons
-          Row(
-            children: [
-              IconButton(icon: const Icon(Icons.search, color: Colors.black87), onPressed: () {}),
-              IconButton(icon: const Icon(Icons.person_outline, color: Colors.black87), onPressed: () {}),
-              IconButton(icon: const Icon(Icons.favorite_border, color: Colors.black87), onPressed: () {}),
-              IconButton(icon: const Icon(Icons.shopping_bag_outlined, color: Colors.black87), onPressed: () {}),
-            ],
-          ),
-        ],
       ),
     );
   }
 
-  Widget _navItem(BuildContext context, String title, {bool hasDropdown = false, VoidCallback? onTap}) {
-    return MouseRegion(
-      cursor: SystemMouseCursors.click,
-      child: GestureDetector(
-        onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12.0),
+  Widget _buildMobileRow(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        // Hamburger menu button
+        IconButton(
+          icon: const Icon(Icons.menu, color: Colors.black87, size: 26),
+          onPressed: () {
+            Scaffold.of(context).openDrawer();
+          },
+        ),
+        const Spacer(),
+        // Centered Logo
+        GestureDetector(
+          onTap: () {
+            Get.offAll(() => const HomeView());
+          },
           child: Row(
+            mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
-                title,
-                style: GoogleFonts.outfit(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w800,
-                  color: Colors.black87,
-                  letterSpacing: 0.5,
+              Image.network(
+                'https://cdn-icons-png.flaticon.com/512/2654/2654518.png', // Panda logo face
+                height: 38,
+                width: 38,
+                fit: BoxFit.contain,
+                errorBuilder: (context, error, stackTrace) => const Icon(Icons.pets, size: 28),
+              ),
+              const SizedBox(width: 6),
+              RichText(
+                text: TextSpan(
+                  style: GoogleFonts.outfit(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w900,
+                    letterSpacing: 0.5,
+                  ),
+                  children: const [
+                    TextSpan(
+                      text: "Panda's ",
+                      style: TextStyle(color: Colors.black87),
+                    ),
+                    TextSpan(
+                      text: "Box",
+                      style: TextStyle(color: Color(0xFFE29578)),
+                    ),
+                  ],
                 ),
               ),
-              if (hasDropdown) ...[
-                const SizedBox(width: 4),
-                const Icon(Icons.keyboard_arrow_down, size: 16, color: Colors.black87),
-              ]
+            ],
+          ),
+        ),
+        const Spacer(),
+        // Right Icons (Search, Heart, Bag)
+        IconButton(
+          icon: const Icon(Icons.search, color: Colors.black87, size: 24),
+          onPressed: () {},
+          constraints: const BoxConstraints(),
+          padding: const EdgeInsets.all(6),
+        ),
+        IconButton(
+          icon: const Icon(Icons.favorite_border, color: Colors.black87, size: 24),
+          onPressed: () {},
+          constraints: const BoxConstraints(),
+          padding: const EdgeInsets.all(6),
+        ),
+        IconButton(
+          icon: const Icon(Icons.shopping_bag_outlined, color: Colors.black87, size: 24),
+          onPressed: () {},
+          constraints: const BoxConstraints(),
+          padding: const EdgeInsets.all(6),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildDesktopRow(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        // Logo
+        MouseRegion(
+          cursor: SystemMouseCursors.click,
+          child: GestureDetector(
+            onTap: () {
+              Get.offAll(() => const HomeView());
+            },
+            child: Row(
+              children: [
+                Image.network(
+                  'https://cdn-icons-png.flaticon.com/512/2654/2654518.png', // Panda logo face
+                  height: 42,
+                  width: 42,
+                  fit: BoxFit.contain,
+                  errorBuilder: (context, error, stackTrace) => const Icon(Icons.pets, size: 32),
+                ),
+                const SizedBox(width: 8),
+                RichText(
+                  text: TextSpan(
+                    style: GoogleFonts.outfit(
+                      fontSize: 22,
+                      fontWeight: FontWeight.w900,
+                      letterSpacing: 0.5,
+                    ),
+                    children: const [
+                      TextSpan(
+                        text: "Panda's ",
+                        style: TextStyle(color: Colors.black87),
+                      ),
+                      TextSpan(
+                        text: "Box",
+                        style: TextStyle(color: Color(0xFFE29578)),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        const Spacer(),
+        // Nav Links
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            _HoverNavItem(
+              title: 'SHOP ALL',
+              hasDropdown: true,
+              onTap: () => Get.to(() => const DivinePlushiesView(categoryName: 'Divine Plushies')),
+            ),
+            _HoverNavItem(
+              title: 'SUMMER EDIT',
+              onTap: () => Get.to(() => const SummerEditView()),
+            ),
+            _HoverNavItem(
+              title: 'BIG DEALS',
+              onTap: () => Get.to(() => const BigDealsView()),
+            ),
+            _HoverNavItem(
+              title: 'GIFTING',
+              hasDropdown: true,
+              onTap: () => Get.to(() => const DivinePlushiesView(categoryName: 'Gifting')),
+            ),
+            _HoverNavItem(
+              title: 'ABOUT US',
+              hasDropdown: true,
+              onTap: () {
+                Get.offAll(() => const HomeView());
+              },
+            ),
+            _HoverNavItem(
+              title: 'PARENTING GUIDE',
+              onTap: () => Get.to(() => const ParentingGuideView()),
+            ),
+            _HoverNavItem(
+              title: 'AUDIO GALLERY',
+              onTap: () => Get.to(() => const AudioGalleryView()),
+            ),
+            _HoverNavItem(
+              title: 'TRACK ORDER',
+              onTap: () {
+                Get.snackbar(
+                  'Track Order 📦',
+                  'Tracking system simulation: Please enter order ID under Account details.',
+                  snackPosition: SnackPosition.BOTTOM,
+                  backgroundColor: const Color(0xFF006D77),
+                  colorText: Colors.white,
+                );
+              },
+            ),
+          ],
+        ),
+        const Spacer(),
+        // Icons
+        Row(
+          children: [
+            IconButton(icon: const Icon(Icons.search, color: Colors.black87), onPressed: () {}),
+            IconButton(icon: const Icon(Icons.person_outline, color: Colors.black87), onPressed: () {}),
+            IconButton(icon: const Icon(Icons.favorite_border, color: Colors.black87), onPressed: () {}),
+            IconButton(icon: const Icon(Icons.shopping_bag_outlined, color: Colors.black87), onPressed: () {}),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class _HoverNavItem extends StatefulWidget {
+  final String title;
+  final bool hasDropdown;
+  final VoidCallback? onTap;
+
+  const _HoverNavItem({
+    required this.title,
+    this.hasDropdown = false,
+    this.onTap,
+  });
+
+  @override
+  State<_HoverNavItem> createState() => _HoverNavItemState();
+}
+
+class _HoverNavItemState extends State<_HoverNavItem> {
+  bool _isHovered = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      onEnter: (_) => setState(() => _isHovered = true),
+      onExit: (_) => setState(() => _isHovered = false),
+      cursor: SystemMouseCursors.click,
+      child: GestureDetector(
+        onTap: widget.onTap,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 200),
+                transform: Matrix4.translationValues(0, _isHovered ? -2 : 0, 0),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      widget.title,
+                      style: GoogleFonts.outfit(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w800,
+                        color: _isHovered ? const Color(0xFF006D77) : Colors.black87,
+                        letterSpacing: 0.5,
+                      ),
+                    ),
+                    if (widget.hasDropdown) ...[
+                      const SizedBox(width: 4),
+                      Icon(
+                        Icons.keyboard_arrow_down,
+                        size: 14,
+                        color: _isHovered ? const Color(0xFF006D77) : Colors.black87,
+                      ),
+                    ]
+                  ],
+                ),
+              ),
+              const SizedBox(height: 3),
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 200),
+                height: 2,
+                width: _isHovered ? 20 : 0,
+                decoration: BoxDecoration(
+                  color: const Color(0xFFE29578),
+                  borderRadius: BorderRadius.circular(1),
+                ),
+              )
             ],
           ),
         ),
@@ -480,11 +524,18 @@ class SharedBottomNavbar extends StatelessWidget {
     if (!isMobile) return const SizedBox.shrink();
 
     return Container(
-      height: 64,
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        border: Border(
-          top: BorderSide(color: Colors.black12, width: 1),
+      height: 66,
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(0.95),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, -2),
+          ),
+        ],
+        border: const Border(
+          top: BorderSide(color: Colors.black12, width: 0.5),
         ),
       ),
       child: Row(
@@ -526,17 +577,25 @@ class SharedBottomNavbar extends StatelessWidget {
             child: Stack(
               clipBehavior: Clip.none,
               children: [
-                Icon(
-                  Icons.person_outline,
-                  size: 28,
-                  color: currentIndex == 2 ? const Color(0xFF006D77) : Colors.black54,
+                AnimatedContainer(
+                  duration: const Duration(milliseconds: 250),
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: currentIndex == 2 ? const Color(0xFF006D77).withOpacity(0.1) : Colors.transparent,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Icon(
+                    Icons.person_outline,
+                    size: 24,
+                    color: currentIndex == 2 ? const Color(0xFF006D77) : Colors.black54,
+                  ),
                 ),
                 Positioned(
-                  top: -2,
-                  right: -2,
+                  top: 0,
+                  right: 12,
                   child: Container(
-                    width: 10,
-                    height: 10,
+                    width: 8,
+                    height: 8,
                     decoration: const BoxDecoration(
                       color: Color(0xFF25D366), // Green badge
                       shape: BoxShape.circle,
@@ -573,8 +632,6 @@ class SharedBottomNavbar extends StatelessWidget {
     required bool isActive,
     required VoidCallback onTap,
   }) {
-    final Color itemColor = isActive ? const Color(0xFF006D77) : Colors.black54;
-
     return MouseRegion(
       cursor: SystemMouseCursors.click,
       child: GestureDetector(
@@ -582,19 +639,28 @@ class SharedBottomNavbar extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              isActive ? activeIcon : icon,
-              size: 24,
-              color: itemColor,
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 250),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+              decoration: BoxDecoration(
+                color: isActive ? const Color(0xFF006D77).withOpacity(0.1) : Colors.transparent,
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Icon(
+                isActive ? activeIcon : icon,
+                size: 24,
+                color: isActive ? const Color(0xFF006D77) : Colors.black54,
+              ),
             ),
             const SizedBox(height: 3),
-            Text(
-              label,
+            AnimatedDefaultTextStyle(
+              duration: const Duration(milliseconds: 200),
               style: GoogleFonts.outfit(
-                fontSize: 11,
+                fontSize: 10,
                 fontWeight: isActive ? FontWeight.w800 : FontWeight.w600,
-                color: itemColor,
+                color: isActive ? const Color(0xFF006D77) : Colors.black54,
               ),
+              child: Text(label),
             ),
           ],
         ),
@@ -620,37 +686,27 @@ class SharedFooter extends StatelessWidget {
             style: GoogleFonts.outfit(
               fontWeight: FontWeight.bold,
               fontSize: 16,
-              color: Colors.black87,
+              color: const Color(0xFF006D77),
             ),
           ),
           const SizedBox(height: 18),
           ...links.map((link) => Padding(
             padding: const EdgeInsets.only(bottom: 12),
-            child: MouseRegion(
-              cursor: SystemMouseCursors.click,
-              child: GestureDetector(
-                onTap: () {
-                  if (link == 'Parenting Guide') {
-                    Get.to(() => const ParentingGuideView());
-                  } else if (link == 'About Us') {
-                    Get.offAll(() => const HomeView());
-                  } else if (link == 'Summer Edit') {
-                    Get.to(() => const SummerEditView());
-                  } else if (link == 'Big Deals') {
-                    Get.to(() => const BigDealsView());
-                  } else if (link == 'Divine Plushies' || link == 'Gifting') {
-                    Get.to(() => DivinePlushiesView(categoryName: link));
-                  }
-                },
-                child: Text(
-                  link,
-                  style: GoogleFonts.outfit(
-                    fontSize: 14,
-                    color: Colors.black54,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ),
+            child: _FooterLink(
+              label: link,
+              onTap: () {
+                if (link == 'Parenting Guide') {
+                  Get.to(() => const ParentingGuideView());
+                } else if (link == 'About Us') {
+                  Get.offAll(() => const HomeView());
+                } else if (link == 'Summer Edit') {
+                  Get.to(() => const SummerEditView());
+                } else if (link == 'Big Deals') {
+                  Get.to(() => const BigDealsView());
+                } else if (link == 'Divine Plushies' || link == 'Gifting') {
+                  Get.to(() => DivinePlushiesView(categoryName: link));
+                }
+              },
             ),
           )).toList(),
         ],
@@ -671,7 +727,7 @@ class SharedFooter extends StatelessWidget {
             style: GoogleFonts.outfit(
               fontWeight: FontWeight.bold,
               fontSize: 16,
-              color: Colors.black87,
+              color: const Color(0xFF006D77),
             ),
           ),
           const SizedBox(height: 18),
@@ -690,16 +746,16 @@ class SharedFooter extends StatelessWidget {
             style: GoogleFonts.outfit(
               fontWeight: FontWeight.bold,
               fontSize: 14,
-              color: Colors.black87,
+              color: const Color(0xFF006D77),
             ),
           ),
           const SizedBox(height: 12),
           Row(
-            children: [
-              _socialIcon(Icons.facebook),
-              _socialIcon(Icons.camera_alt),
-              _socialIcon(Icons.business),
-              _socialIcon(Icons.play_arrow),
+            children: const [
+              _FooterSocialIcon(icon: Icons.facebook),
+              _FooterSocialIcon(icon: Icons.camera_alt),
+              _FooterSocialIcon(icon: Icons.business),
+              _FooterSocialIcon(icon: Icons.play_arrow),
             ],
           ),
         ],
@@ -749,7 +805,22 @@ class SharedFooter extends StatelessWidget {
 
     return Container(
       width: double.infinity,
-      color: const Color(0xFFFFDD67),
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            Color(0xFFFFFAEC),
+            Color(0xFFFFF1C5),
+          ],
+        ),
+        border: Border(
+          top: BorderSide(
+            color: Color(0xFFFFF1C5),
+            width: 1,
+          ),
+        ),
+      ),
       padding: EdgeInsets.symmetric(horizontal: isMobile ? 24 : 80, vertical: isMobile ? 40 : 60),
       child: Column(
         children: [
@@ -762,7 +833,7 @@ class SharedFooter extends StatelessWidget {
             style: GoogleFonts.outfit(
               fontSize: 16,
               fontWeight: FontWeight.w800,
-              color: Colors.black87,
+              color: const Color(0xFF006D77),
             ),
           ),
           const SizedBox(height: 8),
@@ -778,23 +849,83 @@ class SharedFooter extends StatelessWidget {
       ),
     );
   }
+}
 
-  Widget _socialIcon(IconData icon) {
-    return Container(
-      margin: const EdgeInsets.only(right: 12),
-      padding: const EdgeInsets.all(8),
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        shape: BoxShape.circle,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black12,
-            blurRadius: 4,
-            offset: Offset(0, 2),
-          )
-        ],
+class _FooterLink extends StatefulWidget {
+  final String label;
+  final VoidCallback onTap;
+
+  const _FooterLink({required this.label, required this.onTap});
+
+  @override
+  State<_FooterLink> createState() => _FooterLinkState();
+}
+
+class _FooterLinkState extends State<_FooterLink> {
+  bool _isHovered = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      onEnter: (_) => setState(() => _isHovered = true),
+      onExit: (_) => setState(() => _isHovered = false),
+      cursor: SystemMouseCursors.click,
+      child: GestureDetector(
+        onTap: widget.onTap,
+        child: AnimatedDefaultTextStyle(
+          duration: const Duration(milliseconds: 200),
+          style: GoogleFonts.outfit(
+            fontSize: 14,
+            color: _isHovered ? const Color(0xFF006D77) : Colors.black54,
+            fontWeight: _isHovered ? FontWeight.bold : FontWeight.w500,
+          ),
+          child: Text(widget.label),
+        ),
       ),
-      child: Icon(icon, size: 20, color: Colors.black87),
+    );
+  }
+}
+
+class _FooterSocialIcon extends StatefulWidget {
+  final IconData icon;
+
+  const _FooterSocialIcon({required this.icon});
+
+  @override
+  State<_FooterSocialIcon> createState() => _FooterSocialIconState();
+}
+
+class _FooterSocialIconState extends State<_FooterSocialIcon> {
+  bool _isHovered = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      onEnter: (_) => setState(() => _isHovered = true),
+      onExit: (_) => setState(() => _isHovered = false),
+      cursor: SystemMouseCursors.click,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        margin: const EdgeInsets.only(right: 12),
+        padding: const EdgeInsets.all(8),
+        transform: Matrix4.translationValues(0, _isHovered ? -4 : 0, 0),
+        decoration: BoxDecoration(
+          color: _isHovered ? const Color(0xFF006D77) : Colors.white,
+          shape: BoxShape.circle,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(_isHovered ? 0.15 : 0.08),
+              blurRadius: _isHovered ? 8 : 4,
+              offset: Offset(0, _isHovered ? 4 : 2),
+            )
+          ],
+        ),
+        child: Icon(
+          widget.icon,
+          size: 20,
+          color: _isHovered ? Colors.white : Colors.black87,
+        ),
+      ),
     );
   }
 }

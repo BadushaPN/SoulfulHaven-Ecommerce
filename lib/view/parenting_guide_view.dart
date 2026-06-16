@@ -136,7 +136,7 @@ class _ParentingGuideViewState extends State<ParentingGuideView> {
                         ),
                         itemBuilder: (context, index) {
                           var article = _articles[index];
-                          return _buildArticleCard(context, article);
+                          return _HoverArticleCard(article: article);
                         },
                       );
                     },
@@ -421,124 +421,6 @@ class _ParentingGuideViewState extends State<ParentingGuideView> {
     );
   }
 
-  Widget _buildArticleCard(BuildContext context, Map<String, String> article) {
-    return Container(
-      decoration: BoxDecoration(
-        color: const Color(0xFFFFFDF8), // Extremely light warm beige tint
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.grey.shade100, width: 1),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.02),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          )
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          // Card Image with rounded corners
-          Expanded(
-            child: ClipRRect(
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
-              child: Image.network(
-                article['imageUrl']!,
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) => Container(
-                  color: Colors.grey.shade100,
-                  child: const Icon(Icons.image, color: Colors.grey),
-                ),
-              ),
-            ),
-          ),
-
-          // Info Column
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 20.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                // Title
-                Text(
-                  article['title']!,
-                  style: GoogleFonts.outfit(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w800,
-                    color: Colors.black87,
-                  ),
-                  textAlign: TextAlign.center,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                const SizedBox(height: 8),
-                // Snippet description
-                Text(
-                  article['desc']!,
-                  style: GoogleFonts.outfit(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.black45,
-                  ),
-                  textAlign: TextAlign.center,
-                  maxLines: 3,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                const SizedBox(height: 18),
-                
-                // Read More Button
-                MouseRegion(
-                  cursor: SystemMouseCursors.click,
-                  child: GestureDetector(
-                    onTap: () {
-                      Get.snackbar(
-                        article['title']!,
-                        'Opening full blog article simulation...',
-                        snackPosition: SnackPosition.BOTTOM,
-                        backgroundColor: const Color(0xFFC82A2E),
-                        colorText: Colors.white,
-                      );
-                    },
-                    child: Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFC82A2E), // Crimson Red
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Center(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'Read More',
-                              style: GoogleFonts.outfit(
-                                color: Colors.white,
-                                fontSize: 13,
-                                fontWeight: FontWeight.w800,
-                              ),
-                            ),
-                            const SizedBox(width: 4),
-                            const Icon(
-                              Icons.arrow_right_alt,
-                              color: Colors.white,
-                              size: 16,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget _buildPaginationRow() {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 20.0),
@@ -614,6 +496,167 @@ class _ParentingGuideViewState extends State<ParentingGuideView> {
               ),
             ),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class _HoverArticleCard extends StatefulWidget {
+  final Map<String, String> article;
+  const _HoverArticleCard({super.key, required this.article});
+
+  @override
+  State<_HoverArticleCard> createState() => _HoverArticleCardState();
+}
+
+class _HoverArticleCardState extends State<_HoverArticleCard> {
+  bool _isHovered = false;
+  bool _isButtonHovered = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      onEnter: (_) => setState(() => _isHovered = true),
+      onExit: (_) => setState(() => _isHovered = false),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 250),
+        transform: Matrix4.translationValues(0, _isHovered ? -8 : 0, 0),
+        decoration: BoxDecoration(
+          color: const Color(0xFFFFFDF8),
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: _isHovered ? const Color(0xFFC82A2E).withValues(alpha: 0.2) : Colors.grey.shade100,
+            width: 1,
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: _isHovered ? const Color(0xFFC82A2E).withValues(alpha: 0.06) : Colors.black.withValues(alpha: 0.02),
+              blurRadius: _isHovered ? 20 : 10,
+              offset: Offset(0, _isHovered ? 8 : 4),
+            )
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            // Card Image with rounded corners
+            Expanded(
+              child: ClipRRect(
+                borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+                child: AnimatedScale(
+                  scale: _isHovered ? 1.05 : 1.0,
+                  duration: const Duration(milliseconds: 250),
+                  child: Image.network(
+                    widget.article['imageUrl']!,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) => Container(
+                      color: Colors.grey.shade100,
+                      child: const Icon(Icons.image, color: Colors.grey),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+
+            // Info Column
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 20.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  // Title
+                  Text(
+                    widget.article['title']!,
+                    style: GoogleFonts.outfit(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w800,
+                      color: Colors.black87,
+                    ),
+                    textAlign: TextAlign.center,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: 8),
+                  // Snippet description
+                  Text(
+                    widget.article['desc']!,
+                    style: GoogleFonts.outfit(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black45,
+                    ),
+                    textAlign: TextAlign.center,
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: 18),
+                  
+                  // Read More Button
+                  MouseRegion(
+                    onEnter: (_) => setState(() => _isButtonHovered = true),
+                    onExit: (_) => setState(() => _isButtonHovered = false),
+                    cursor: SystemMouseCursors.click,
+                    child: GestureDetector(
+                      onTap: () {
+                        Get.snackbar(
+                          widget.article['title']!,
+                          'Opening full blog article simulation...',
+                          snackPosition: SnackPosition.BOTTOM,
+                          backgroundColor: const Color(0xFFC82A2E),
+                          colorText: Colors.white,
+                        );
+                      },
+                      child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 200),
+                        width: double.infinity,
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: _isButtonHovered
+                                ? [const Color(0xFFC82A2E), const Color(0xFFE29578)]
+                                : [const Color(0xFF9E1B1B), const Color(0xFFC82A2E)],
+                          ),
+                          borderRadius: BorderRadius.circular(8),
+                          boxShadow: _isButtonHovered
+                              ? [
+                                  BoxShadow(
+                                    color: const Color(0xFFC82A2E).withValues(alpha: 0.3),
+                                    blurRadius: 8,
+                                    offset: const Offset(0, 3),
+                                  )
+                                ]
+                              : [],
+                        ),
+                        child: Center(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Read More',
+                                style: GoogleFonts.outfit(
+                                  color: Colors.white,
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w800,
+                                ),
+                              ),
+                              const SizedBox(width: 4),
+                              const Icon(
+                                Icons.arrow_right_alt,
+                                color: Colors.white,
+                                size: 16,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
@@ -587,237 +588,111 @@ class _AudioGalleryViewState extends State<AudioGalleryView> with SingleTickerPr
   }
 
   Widget _buildAudioPlayerBar(double screenWidth, bool isMobile) {
-    return Container(
-      height: isMobile ? 120 : 112,
-      decoration: BoxDecoration(
-        color: const Color(0xFF4C4A70), // Deep Purple/Indigo
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.25),
-            blurRadius: 12,
-            offset: const Offset(0, -3),
+    return ClipRRect(
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 16, sigmaY: 16),
+        child: Container(
+          height: isMobile ? 120 : 112,
+          decoration: BoxDecoration(
+            color: const Color(0xFF4C4A70).withOpacity(0.85),
+            border: Border(
+              top: BorderSide(
+                color: Colors.white.withOpacity(0.1),
+                width: 1,
+              ),
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.25),
+                blurRadius: 15,
+                offset: const Offset(0, -4),
+              ),
+            ],
           ),
-        ],
-      ),
-      padding: EdgeInsets.symmetric(horizontal: isMobile ? 12 : 24, vertical: 8),
-      child: isMobile 
-          ? Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                // Top controls & metadata
-                Row(
+          padding: EdgeInsets.symmetric(horizontal: isMobile ? 12 : 24, vertical: 8),
+          child: isMobile 
+              ? Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    // Avatar icon
-                    Container(
-                      width: 34,
-                      height: 34,
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                        shape: BoxShape.circle,
-                      ),
-                      padding: const EdgeInsets.all(4),
-                      child: Image.network(
-                        _currentTrackIcon!,
-                        fit: BoxFit.contain,
-                        errorBuilder: (context, error, stackTrace) => const Icon(Icons.music_note, size: 14),
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    // Metadata text
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            _currentTrackTitle!,
-                            style: GoogleFonts.outfit(
-                              color: Colors.white,
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          Text(
-                            _isPlaying ? 'Playing...' : 'Paused',
-                            style: GoogleFonts.outfit(
-                              color: Colors.white70,
-                              fontSize: 10,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    // Playing controls
-                    IconButton(
-                      icon: Icon(_isPlaying ? Icons.pause_circle : Icons.play_circle, color: Colors.white, size: 30),
-                      onPressed: _togglePlayPause,
-                      padding: EdgeInsets.zero,
-                      constraints: const BoxConstraints(),
-                    ),
-                    const SizedBox(width: 8),
-                    IconButton(
-                      icon: const Icon(Icons.close, color: Colors.white70, size: 20),
-                      onPressed: () {
-                        setState(() {
-                          _currentTrackTitle = null;
-                          _isPlaying = false;
-                          _audioTimer?.cancel();
-                        });
-                      },
-                      padding: EdgeInsets.zero,
-                      constraints: const BoxConstraints(),
-                    ),
-                  ],
-                ),
-                // Bottom timeline slider
-                Row(
-                  children: [
-                    Text(
-                      _formatTime(_currentTime),
-                      style: GoogleFonts.outfit(color: Colors.white70, fontSize: 9),
-                    ),
-                    Expanded(
-                      child: SliderTheme(
-                        data: SliderThemeData(
-                          trackHeight: 2,
-                          thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 5),
-                          activeTrackColor: const Color(0xFFFFDD67),
-                          inactiveTrackColor: Colors.white24,
-                          thumbColor: const Color(0xFFFFDD67),
-                        ),
-                        child: Slider(
-                          value: _progress,
-                          onChanged: _seek,
-                        ),
-                      ),
-                    ),
-                    Text(
-                      _formatTime(_trackDuration),
-                      style: GoogleFonts.outfit(color: Colors.white70, fontSize: 9),
-                    ),
-                  ],
-                ),
-              ],
-            )
-          : Row(
-              children: [
-                // 1. Metadata
-                Container(
-                  width: 44,
-                  height: 44,
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                    shape: BoxShape.circle,
-                  ),
-                  padding: const EdgeInsets.all(6),
-                  child: Image.network(
-                    _currentTrackIcon!,
-                    fit: BoxFit.contain,
-                    errorBuilder: (context, error, stackTrace) => const Icon(Icons.music_note, size: 18),
-                  ),
-                ),
-                const SizedBox(width: 12),
-                SizedBox(
-                  width: 180,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        _currentTrackTitle!,
-                        style: GoogleFonts.outfit(
-                          color: Colors.white,
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      Text(
-                        _isPlaying ? 'Playing...' : 'Paused',
-                        style: GoogleFonts.outfit(
-                          color: Colors.white70,
-                          fontSize: 11,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-
-                const Spacer(),
-
-                // 2. Center controls & Timeline slider
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+                    // Top controls & metadata
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        IconButton(
-                          icon: Icon(
-                            _isLooping ? Icons.repeat_one : Icons.repeat,
-                            color: _isLooping ? const Color(0xFFFFDD67) : Colors.white70,
-                            size: 18,
+                        // Avatar icon
+                        Container(
+                          width: 34,
+                          height: 34,
+                          decoration: const BoxDecoration(
+                            color: Colors.white,
+                            shape: BoxShape.circle,
                           ),
-                          onPressed: () {
-                            setState(() {
-                              _isLooping = !_isLooping;
-                            });
-                          },
-                          constraints: const BoxConstraints(),
-                          padding: const EdgeInsets.all(6),
-                        ),
-                        IconButton(
-                          icon: const Icon(Icons.skip_previous, color: Colors.white, size: 24),
-                          onPressed: () {
-                            setState(() {
-                              _currentTime = 0;
-                              _progress = 0.0;
-                            });
-                          },
-                          constraints: const BoxConstraints(),
-                          padding: const EdgeInsets.all(6),
-                        ),
-                        IconButton(
-                          icon: Icon(
-                            _isPlaying ? Icons.pause_circle_filled : Icons.play_circle_filled,
-                            color: const Color(0xFFFFDD67),
-                            size: 38,
+                          padding: const EdgeInsets.all(4),
+                          child: Image.network(
+                            _currentTrackIcon!,
+                            fit: BoxFit.contain,
+                            errorBuilder: (context, error, stackTrace) => const Icon(Icons.music_note, size: 14),
                           ),
+                        ),
+                        const SizedBox(width: 8),
+                        // Metadata text
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                _currentTrackTitle!,
+                                style: GoogleFonts.outfit(
+                                  color: Colors.white,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              Text(
+                                _isPlaying ? 'Playing...' : 'Paused',
+                                style: GoogleFonts.outfit(
+                                  color: Colors.white70,
+                                  fontSize: 10,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        // Playing controls
+                        IconButton(
+                          icon: Icon(_isPlaying ? Icons.pause_circle : Icons.play_circle, color: const Color(0xFFFFDD67), size: 30),
                           onPressed: _togglePlayPause,
-                          constraints: const BoxConstraints(),
                           padding: EdgeInsets.zero,
+                          constraints: const BoxConstraints(),
                         ),
+                        const SizedBox(width: 8),
                         IconButton(
-                          icon: const Icon(Icons.skip_next, color: Colors.white, size: 24),
+                          icon: const Icon(Icons.close, color: Colors.white70, size: 20),
                           onPressed: () {
                             setState(() {
-                              _currentTime = _trackDuration;
-                              _progress = 1.0;
+                              _currentTrackTitle = null;
+                              _isPlaying = false;
+                              _audioTimer?.cancel();
                             });
                           },
+                          padding: EdgeInsets.zero,
                           constraints: const BoxConstraints(),
-                          padding: const EdgeInsets.all(6),
                         ),
-                        // Animated music wave visualizer
-                        const SizedBox(width: 12),
-                        _buildAnimatedWave(),
                       ],
                     ),
+                    // Bottom timeline slider
                     Row(
                       children: [
                         Text(
                           _formatTime(_currentTime),
-                          style: GoogleFonts.outfit(color: Colors.white70, fontSize: 10),
+                          style: GoogleFonts.outfit(color: Colors.white70, fontSize: 9),
                         ),
-                        SizedBox(
-                          width: 400,
+                        Expanded(
                           child: SliderTheme(
                             data: SliderThemeData(
-                              trackHeight: 3,
-                              thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 6),
+                              trackHeight: 2,
+                              thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 5),
                               activeTrackColor: const Color(0xFFFFDD67),
                               inactiveTrackColor: Colors.white24,
                               thumbColor: const Color(0xFFFFDD67),
@@ -830,69 +705,206 @@ class _AudioGalleryViewState extends State<AudioGalleryView> with SingleTickerPr
                         ),
                         Text(
                           _formatTime(_trackDuration),
-                          style: GoogleFonts.outfit(color: Colors.white70, fontSize: 10),
+                          style: GoogleFonts.outfit(color: Colors.white70, fontSize: 9),
+                        ),
+                      ],
+                    ),
+                  ],
+                )
+              : Row(
+                  children: [
+                    // 1. Metadata
+                    Container(
+                      width: 44,
+                      height: 44,
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                        shape: BoxShape.circle,
+                      ),
+                      padding: const EdgeInsets.all(6),
+                      child: Image.network(
+                        _currentTrackIcon!,
+                        fit: BoxFit.contain,
+                        errorBuilder: (context, error, stackTrace) => const Icon(Icons.music_note, size: 18),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    SizedBox(
+                      width: 180,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            _currentTrackTitle!,
+                            style: GoogleFonts.outfit(
+                              color: Colors.white,
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          Text(
+                            _isPlaying ? 'Playing...' : 'Paused',
+                            style: GoogleFonts.outfit(
+                              color: Colors.white70,
+                              fontSize: 11,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    const Spacer(),
+
+                    // 2. Center controls & Timeline slider
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            IconButton(
+                              icon: Icon(
+                                _isLooping ? Icons.repeat_one : Icons.repeat,
+                                color: _isLooping ? const Color(0xFFFFDD67) : Colors.white70,
+                                size: 18,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  _isLooping = !_isLooping;
+                                });
+                              },
+                              constraints: const BoxConstraints(),
+                              padding: const EdgeInsets.all(6),
+                            ),
+                            IconButton(
+                              icon: const Icon(Icons.skip_previous, color: Colors.white, size: 24),
+                              onPressed: () {
+                                setState(() {
+                                  _currentTime = 0;
+                                  _progress = 0.0;
+                                });
+                              },
+                              constraints: const BoxConstraints(),
+                              padding: const EdgeInsets.all(6),
+                            ),
+                            IconButton(
+                              icon: Icon(
+                                _isPlaying ? Icons.pause_circle_filled : Icons.play_circle_filled,
+                                color: const Color(0xFFFFDD67),
+                                size: 38,
+                              ),
+                              onPressed: _togglePlayPause,
+                              constraints: const BoxConstraints(),
+                              padding: EdgeInsets.zero,
+                            ),
+                            IconButton(
+                              icon: const Icon(Icons.skip_next, color: Colors.white, size: 24),
+                              onPressed: () {
+                                setState(() {
+                                  _currentTime = _trackDuration;
+                                  _progress = 1.0;
+                                });
+                              },
+                              constraints: const BoxConstraints(),
+                              padding: const EdgeInsets.all(6),
+                            ),
+                            // Animated music wave visualizer
+                            const SizedBox(width: 12),
+                            _buildAnimatedWave(),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              _formatTime(_currentTime),
+                              style: GoogleFonts.outfit(color: Colors.white70, fontSize: 10),
+                            ),
+                            SizedBox(
+                              width: 400,
+                              child: SliderTheme(
+                                data: SliderThemeData(
+                                  trackHeight: 3,
+                                  thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 6),
+                                  activeTrackColor: const Color(0xFFFFDD67),
+                                  inactiveTrackColor: Colors.white24,
+                                  thumbColor: const Color(0xFFFFDD67),
+                                ),
+                                child: Slider(
+                                  value: _progress,
+                                  onChanged: _seek,
+                                ),
+                              ),
+                            ),
+                            Text(
+                              _formatTime(_trackDuration),
+                              style: GoogleFonts.outfit(color: Colors.white70, fontSize: 10),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+
+                    const Spacer(),
+
+                    // 3. Right Volume & Close button
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        IconButton(
+                          icon: Icon(
+                            _isMuted || _volume == 0
+                                ? Icons.volume_off
+                                : (_volume < 0.4 ? Icons.volume_down : Icons.volume_up),
+                            color: Colors.white70,
+                            size: 20,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _isMuted = !_isMuted;
+                            });
+                          },
+                        ),
+                        SizedBox(
+                          width: 80,
+                          child: SliderTheme(
+                            data: SliderThemeData(
+                              trackHeight: 2,
+                              thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 5),
+                              activeTrackColor: Colors.white,
+                              inactiveTrackColor: Colors.white24,
+                              thumbColor: Colors.white,
+                            ),
+                            child: Slider(
+                              value: _isMuted ? 0.0 : _volume,
+                              onChanged: (val) {
+                                setState(() {
+                                  _volume = val;
+                                  _isMuted = val == 0.0;
+                                });
+                              },
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        IconButton(
+                          icon: const Icon(Icons.close, color: Colors.white70, size: 22),
+                          onPressed: () {
+                            setState(() {
+                              _currentTrackTitle = null;
+                              _isPlaying = false;
+                              _audioTimer?.cancel();
+                            });
+                          },
                         ),
                       ],
                     ),
                   ],
                 ),
-
-                const Spacer(),
-
-                // 3. Right Volume & Close button
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    IconButton(
-                      icon: Icon(
-                        _isMuted || _volume == 0
-                            ? Icons.volume_off
-                            : (_volume < 0.4 ? Icons.volume_down : Icons.volume_up),
-                        color: Colors.white70,
-                        size: 20,
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          _isMuted = !_isMuted;
-                        });
-                      },
-                    ),
-                    SizedBox(
-                      width: 80,
-                      child: SliderTheme(
-                        data: SliderThemeData(
-                          trackHeight: 2,
-                          thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 5),
-                          activeTrackColor: Colors.white,
-                          inactiveTrackColor: Colors.white24,
-                          thumbColor: Colors.white,
-                        ),
-                        child: Slider(
-                          value: _isMuted ? 0.0 : _volume,
-                          onChanged: (val) {
-                            setState(() {
-                              _volume = val;
-                              _isMuted = val == 0.0;
-                            });
-                          },
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    IconButton(
-                      icon: const Icon(Icons.close, color: Colors.white70, size: 22),
-                      onPressed: () {
-                        setState(() {
-                          _currentTrackTitle = null;
-                          _isPlaying = false;
-                          _audioTimer?.cancel();
-                        });
-                      },
-                    ),
-                  ],
-                ),
-              ],
-            ),
+        ),
+      ),
     );
   }
 

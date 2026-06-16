@@ -21,14 +21,26 @@ class MyApp extends StatelessWidget {
       title: 'Soulful Haven',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        useMaterial3: true,
         primaryColor: const Color(0xFF006D77),
-        scaffoldBackgroundColor: const Color(0xFFEDF6F9),
+        scaffoldBackgroundColor: const Color(0xFFFAF9F6),
         appBarTheme: const AppBarTheme(
           backgroundColor: Color(0xFF006D77),
           foregroundColor: Colors.white,
+          elevation: 0,
         ),
-        colorScheme: ColorScheme.fromSwatch().copyWith(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFF006D77),
+          primary: const Color(0xFF006D77),
           secondary: const Color(0xFF83C5BE),
+          tertiary: const Color(0xFFE29578),
+          background: const Color(0xFFFAF9F6),
+        ),
+        cardTheme: const CardThemeData(
+          elevation: 0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(16)),
+          ),
         ),
       ),
       initialRoute: AppPages.INITIAL,

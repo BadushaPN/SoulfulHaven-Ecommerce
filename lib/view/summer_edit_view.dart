@@ -222,55 +222,27 @@ class _SummerEditViewState extends State<SummerEditView> {
     final double screenWidth = MediaQuery.of(context).size.width;
     final bool isMobile = screenWidth <= 768;
 
-    // List of placeholder kids images holding soft toys
     final List<String> kidImages = [
-      'https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?q=80&w=600', // Toddler with Ganesha vibe
-      'https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?q=80&w=600', // Playing kid
-      'https://images.unsplash.com/photo-1519689680058-324335c77eba?q=80&w=600', // Happy kids
-      'https://images.unsplash.com/photo-1515488042361-404e9250afef?q=80&w=600', // Playing child
-      'https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=600', // Creative kid
-      'https://images.unsplash.com/photo-1473830394358-91588751b241?q=80&w=600', // Smiling toddler
+      'https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?q=80&w=600',
+      'https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?q=80&w=600',
+      'https://images.unsplash.com/photo-1519689680058-324335c77eba?q=80&w=600',
+      'https://images.unsplash.com/photo-1515488042361-404e9250afef?q=80&w=600',
+      'https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=600',
+      'https://images.unsplash.com/photo-1473830394358-91588751b241?q=80&w=600',
     ];
-
-    // Build Polaroid widget
-    Widget buildPolaroid(
-      String url,
-      double rotation, {
-      double width = 160,
-      double height = 180,
-    }) {
-      return Transform.rotate(
-        angle: rotation,
-        child: Container(
-          width: width,
-          height: height,
-          padding: const EdgeInsets.fromLTRB(8, 8, 8, 20),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.08),
-                blurRadius: 6,
-                offset: const Offset(2, 4),
-              ),
-            ],
-            border: Border.all(color: Colors.grey.shade100, width: 0.5),
-          ),
-          child: Image.network(
-            url,
-            fit: BoxFit.cover,
-            errorBuilder: (context, error, stackTrace) => Container(
-              color: Colors.grey.shade200,
-              child: const Icon(Icons.image, color: Colors.grey),
-            ),
-          ),
-        ),
-      );
-    }
 
     return Container(
       width: double.infinity,
-      color: const Color(0xFFE4E1D5), // Soft sand watercolor texture color
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            Color(0xFFE8E5D9),
+            Color(0xFFFAF9F6),
+          ],
+        ),
+      ),
       padding: const EdgeInsets.symmetric(vertical: 24),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
@@ -280,11 +252,11 @@ class _SummerEditViewState extends State<SummerEditView> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              buildPolaroid(kidImages[0], -0.06),
+              _HoverPolaroid(url: kidImages[0], rotation: -0.06),
               const SizedBox(width: 12),
-              buildPolaroid(kidImages[1], 0.05),
+              _HoverPolaroid(url: kidImages[1], rotation: 0.05),
               const SizedBox(width: 12),
-              buildPolaroid(kidImages[2], -0.04),
+              _HoverPolaroid(url: kidImages[2], rotation: -0.04),
               const SizedBox(width: 24),
 
               // Center "Happy Toddlers" Polaroid title
@@ -316,18 +288,17 @@ class _SummerEditViewState extends State<SummerEditView> {
               ),
 
               const SizedBox(width: 24),
-              buildPolaroid(kidImages[3], 0.04),
+              _HoverPolaroid(url: kidImages[3], rotation: 0.04),
               const SizedBox(width: 12),
-              buildPolaroid(kidImages[4], -0.05),
+              _HoverPolaroid(url: kidImages[4], rotation: -0.05),
               const SizedBox(width: 12),
-              buildPolaroid(kidImages[5], 0.06),
+              _HoverPolaroid(url: kidImages[5], rotation: 0.06),
             ],
           ),
         ),
       ),
     );
   }
-
   Widget _buildFiltersRow(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
     final double paddingHorizontal = screenWidth > 900 ? 100 : 24;
@@ -410,6 +381,73 @@ class _SummerEditViewState extends State<SummerEditView> {
             textAlign: TextAlign.center,
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _HoverPolaroid extends StatefulWidget {
+  final String url;
+  final double rotation;
+  final double width;
+  final double height;
+
+  const _HoverPolaroid({
+    super.key,
+    required this.url,
+    required this.rotation,
+    this.width = 160,
+    this.height = 180,
+  });
+
+  @override
+  State<_HoverPolaroid> createState() => _HoverPolaroidState();
+}
+
+class _HoverPolaroidState extends State<_HoverPolaroid> {
+  bool _isHovered = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      onEnter: (_) => setState(() => _isHovered = true),
+      onExit: (_) => setState(() => _isHovered = false),
+      cursor: SystemMouseCursors.click,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 250),
+        curve: Curves.easeOutCubic,
+        transform: Matrix4.translationValues(0, _isHovered ? -12 : 0, 0),
+        child: Transform.rotate(
+          angle: _isHovered ? widget.rotation * 0.3 : widget.rotation,
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 250),
+            width: widget.width,
+            height: widget.height,
+            padding: const EdgeInsets.fromLTRB(8, 8, 8, 20),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: _isHovered ? 0.14 : 0.08),
+                  blurRadius: _isHovered ? 12 : 6,
+                  offset: Offset(2, _isHovered ? 8 : 4),
+                ),
+              ],
+              border: Border.all(
+                color: _isHovered ? const Color(0xFF006D77).withValues(alpha: 0.1) : Colors.grey.shade100,
+                width: 0.5,
+              ),
+            ),
+            child: Image.network(
+              widget.url,
+              fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) => Container(
+                color: Colors.grey.shade200,
+                child: const Icon(Icons.image, color: Colors.grey),
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }
