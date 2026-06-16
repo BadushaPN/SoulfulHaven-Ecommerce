@@ -308,7 +308,9 @@ class _ParentingGuideViewState extends State<ParentingGuideView> {
                 Image.network(
                   'https://images.unsplash.com/photo-1542038784456-1ea8e935640e?q=80&w=300', // Mother and kid
                   height: isMobile ? 120 : 220,
+                  width: isMobile ? 160 : 300,
                   fit: BoxFit.contain,
+                  errorBuilder: (context, error, stackTrace) => const SizedBox.shrink(),
                 )
               else
                 const SizedBox.shrink(),
@@ -321,7 +323,9 @@ class _ParentingGuideViewState extends State<ParentingGuideView> {
                     Image.network(
                       'https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?q=80&w=300', // Family
                       height: isMobile ? 120 : 220,
+                      width: isMobile ? 160 : 300,
                       fit: BoxFit.contain,
+                      errorBuilder: (context, error, stackTrace) => const SizedBox.shrink(),
                     ),
                     const SizedBox(width: 40), // Spacing for Shark Tank badge
                   ],

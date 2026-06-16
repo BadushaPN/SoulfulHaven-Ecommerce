@@ -5,6 +5,7 @@ import '../view/home_view.dart';
 import '../view/divine_plushies_view.dart';
 import '../view/summer_edit_view.dart';
 import '../view/big_deals_view.dart';
+import '../view/parenting_guide_view.dart';
 
 class SharedNavbar extends StatelessWidget {
   final bool isScrolled;
@@ -56,6 +57,7 @@ class SharedNavbar extends StatelessWidget {
                     height: 38,
                     width: 38,
                     fit: BoxFit.contain,
+                    errorBuilder: (context, error, stackTrace) => const Icon(Icons.pets, size: 28),
                   ),
                   const SizedBox(width: 6),
                   RichText(
@@ -138,6 +140,7 @@ class SharedNavbar extends StatelessWidget {
                     height: 42,
                     width: 42,
                     fit: BoxFit.contain,
+                    errorBuilder: (context, error, stackTrace) => const Icon(Icons.pets, size: 32),
                   ),
                   const SizedBox(width: 8),
                   RichText(
@@ -200,9 +203,7 @@ class SharedNavbar extends StatelessWidget {
               _navItem(
                 context,
                 'PARENTING GUIDE',
-                onTap: () {
-                  Get.offAll(() => const HomeView());
-                },
+                onTap: () => Get.to(() => const ParentingGuideView()),
               ),
               _navItem(
                 context,
@@ -304,6 +305,7 @@ class SharedDrawer extends StatelessWidget {
                           height: 36,
                           width: 36,
                           fit: BoxFit.contain,
+                          errorBuilder: (context, error, stackTrace) => const Icon(Icons.pets, size: 26),
                         ),
                         const SizedBox(width: 6),
                         RichText(
@@ -405,7 +407,7 @@ class SharedDrawer extends StatelessWidget {
                     'Parenting Guide',
                     onTap: () {
                       Navigator.of(context).pop();
-                      Get.offAll(() => const HomeView());
+                      Get.to(() => const ParentingGuideView());
                     },
                   ),
                   _drawerItem(
@@ -626,7 +628,19 @@ class SharedFooter extends StatelessWidget {
             child: MouseRegion(
               cursor: SystemMouseCursors.click,
               child: GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  if (link == 'Parenting Guide') {
+                    Get.to(() => const ParentingGuideView());
+                  } else if (link == 'About Us') {
+                    Get.offAll(() => const HomeView());
+                  } else if (link == 'Summer Edit') {
+                    Get.to(() => const SummerEditView());
+                  } else if (link == 'Big Deals') {
+                    Get.to(() => const BigDealsView());
+                  } else if (link == 'Divine Plushies' || link == 'Gifting') {
+                    Get.to(() => DivinePlushiesView(categoryName: link));
+                  }
+                },
                 child: Text(
                   link,
                   style: GoogleFonts.outfit(

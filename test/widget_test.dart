@@ -1,30 +1,151 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
+import 'dart:async';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:get/get.dart';
+import 'package:projectone/view/parenting_guide_view.dart';
 
-import 'package:projectone/main.dart';
+class MockHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return MockHttpClient();
+  }
+}
+
+class MockHttpClient implements HttpClient {
+  @override
+  dynamic noSuchMethod(Invocation invocation) {
+    if (invocation.memberName == #getUrl || 
+        invocation.memberName == #openUrl || 
+        invocation.memberName == #get || 
+        invocation.memberName == #open) {
+      return Future.value(MockHttpClientRequest());
+    }
+    return null;
+  }
+
+  @override
+  set authenticate(Future<bool> Function(Uri url, String scheme, String? realm)? f) {}
+  @override
+  set authenticateProxy(Future<bool> Function(String host, int port, String scheme, String? realm)? f) {}
+  @override
+  set badCertificateCallback(bool Function(X509Certificate cert, String host, int port)? callback) {}
+  @override
+  set connectionFactory(Future<ConnectionTask<Socket>> Function(Uri url, String? proxyHost, int? proxyPort)? f) {}
+  @override
+  set findProxy(String Function(Uri url)? f) {}
+  @override
+  set keyLog(Function(String line)? callback) {}
+}
+
+class MockHttpClientRequest implements HttpClientRequest {
+  @override
+  dynamic noSuchMethod(Invocation invocation) {
+    if (invocation.memberName == #headers) {
+      return MockHttpHeaders();
+    }
+    if (invocation.memberName == #close) {
+      return Future.value(MockHttpClientResponse());
+    }
+    if (invocation.memberName == #done) {
+      return Future.value(MockHttpClientResponse());
+    }
+    return null;
+  }
+
+  @override
+  bool bufferOutput = true;
+  @override
+  String get method => 'GET';
+  @override
+  Future flush() => Future.value();
+}
+
+class MockHttpHeaders implements HttpHeaders {
+  @override
+  dynamic noSuchMethod(Invocation invocation) {
+    return null;
+  }
+
+  @override
+  void clear() {}
+  @override
+  DateTime? ifModifiedSince;
+  @override
+  void noFolding(String name) {}
+}
+
+class MockHttpClientResponse extends Stream<List<int>> implements HttpClientResponse {
+  final List<int> _transparentImage = [
+    71, 73, 70, 56, 57, 97, 1, 0, 1, 0, 128, 0, 0, 0, 0, 0, 255, 255, 255, 33, 249, 4, 1, 0, 0, 0, 0, 44, 0, 0, 0, 0, 1, 0, 1, 0, 0, 2, 2, 76, 1, 0, 59
+  ];
+
+  @override
+  dynamic noSuchMethod(Invocation invocation) {
+    if (invocation.memberName == #statusCode) {
+      return 200;
+    }
+    if (invocation.memberName == #contentLength) {
+      return _transparentImage.length;
+    }
+    if (invocation.memberName == #headers) {
+      return MockHttpHeaders();
+    }
+    return null;
+  }
+
+  @override
+  X509Certificate? get certificate => null;
+  @override
+  HttpConnectionInfo? get connectionInfo => null;
+  @override
+  Future<Socket> detachSocket() => throw UnimplementedError();
+
+  @override
+  StreamSubscription<List<int>> listen(
+    void Function(List<int> event)? onData, {
+    Function? onError,
+    void Function()? onDone,
+    bool? cancelOnError,
+  }) {
+    return Stream<List<int>>.fromIterable([_transparentImage]).listen(
+      onData,
+      onError: onError,
+      onDone: onDone,
+      cancelOnError: cancelOnError,
+    );
+  }
+}
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  HttpOverrides.global = MockHttpOverrides();
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+  testWidgets('Parenting Guide screen rendering test', (WidgetTester tester) async {
+    // Set screen size to desktop size to show desktop navbar and layouts without overflow
+    tester.view.physicalSize = const Size(2200, 1080);
+    tester.view.devicePixelRatio = 1.0;
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    // Build ParentingGuideView and trigger a frame.
+    await tester.pumpWidget(
+      GetMaterialApp(
+        home: const ParentingGuideView(),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    // Verify that the Hero Banner text exists.
+    expect(find.text('Parenting'), findsWidgets);
+    expect(find.text('Guide'), findsWidgets);
+
+    // Verify that the "AS SEEN ON SHARK TANK INDIA" elements are rendered
+    expect(find.text('SHARK'), findsOneWidget);
+    expect(find.text('TANK'), findsOneWidget);
+
+    // Verify that some article titles exist
+    expect(find.text('10 Easy Mantras Every Child Can Learn'), findsOneWidget);
+    expect(find.text('Why Do We Offer Water to the Sun?'), findsOneWidget);
   });
 }
