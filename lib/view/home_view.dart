@@ -74,6 +74,8 @@ class _HomeViewState extends State<HomeView> {
 
     return Scaffold(
       backgroundColor: const Color(0xFFEDF6F9), // Ice blue background
+      drawer: const SharedDrawer(),
+      bottomNavigationBar: const SharedBottomNavbar(currentIndex: 0),
       body: Stack(
         children: [
           // Main Scrollable Content
@@ -109,7 +111,7 @@ class _HomeViewState extends State<HomeView> {
 
           // Left Bottom Floating Coin Icon
           Positioned(
-            bottom: 30,
+            bottom: isMobile ? 94 : 30,
             left: 20,
             child: MouseRegion(
               cursor: SystemMouseCursors.click,
@@ -163,7 +165,7 @@ class _HomeViewState extends State<HomeView> {
 
           // Right Bottom Floating Action Buttons
           Positioned(
-            bottom: 30,
+            bottom: isMobile ? 94 : 30,
             right: 20,
             child: Column(
               mainAxisSize: MainAxisSize.min,

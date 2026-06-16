@@ -47,6 +47,8 @@ class _DivinePlushiesViewState extends State<DivinePlushiesView> {
 
     return Scaffold(
       backgroundColor: Colors.white,
+      drawer: const SharedDrawer(),
+      bottomNavigationBar: const SharedBottomNavbar(currentIndex: 1),
       body: Stack(
         children: [
           // Main Scrollable Content
@@ -73,7 +75,7 @@ class _DivinePlushiesViewState extends State<DivinePlushiesView> {
 
           // Left Bottom Floating Coin Icon
           Positioned(
-            bottom: 30,
+            bottom: isMobile ? 94 : 30,
             left: 20,
             child: MouseRegion(
               cursor: SystemMouseCursors.click,
@@ -127,7 +129,7 @@ class _DivinePlushiesViewState extends State<DivinePlushiesView> {
 
           // Right Bottom Floating Action Buttons
           Positioned(
-            bottom: 30,
+            bottom: isMobile ? 94 : 30,
             right: 20,
             child: Column(
               mainAxisSize: MainAxisSize.min,

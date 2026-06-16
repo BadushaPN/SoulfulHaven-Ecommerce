@@ -54,6 +54,8 @@ class _SummerEditViewState extends State<SummerEditView> {
 
     return Scaffold(
       backgroundColor: Colors.white,
+      drawer: const SharedDrawer(),
+      bottomNavigationBar: const SharedBottomNavbar(currentIndex: 1),
       body: Stack(
         children: [
           // Main Scrollable Content
@@ -82,7 +84,7 @@ class _SummerEditViewState extends State<SummerEditView> {
 
           // Left Bottom Floating Coin Icon
           Positioned(
-            bottom: 30,
+            bottom: isMobile ? 94 : 30,
             left: 20,
             child: MouseRegion(
               cursor: SystemMouseCursors.click,
@@ -136,7 +138,7 @@ class _SummerEditViewState extends State<SummerEditView> {
 
           // Right Bottom Floating Action Buttons
           Positioned(
-            bottom: 30,
+            bottom: isMobile ? 94 : 30,
             right: 20,
             child: Column(
               mainAxisSize: MainAxisSize.min,
