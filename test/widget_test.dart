@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
 import 'package:projectone/view/parenting_guide_view.dart';
+import 'package:projectone/view/audio_gallery_view.dart';
 
 class MockHttpOverrides extends HttpOverrides {
   @override
@@ -95,6 +96,9 @@ class MockHttpClientResponse extends Stream<List<int>> implements HttpClientResp
   }
 
   @override
+  HttpClientResponseCompressionState get compressionState => HttpClientResponseCompressionState.notCompressed;
+
+  @override
   X509Certificate? get certificate => null;
   @override
   HttpConnectionInfo? get connectionInfo => null;
@@ -118,9 +122,8 @@ class MockHttpClientResponse extends Stream<List<int>> implements HttpClientResp
 }
 
 void main() {
-  HttpOverrides.global = MockHttpOverrides();
-
   testWidgets('Parenting Guide screen rendering test', (WidgetTester tester) async {
+    HttpOverrides.global = MockHttpOverrides();
     // Set screen size to desktop size to show desktop navbar and layouts without overflow
     tester.view.physicalSize = const Size(2200, 1080);
     tester.view.devicePixelRatio = 1.0;
@@ -147,5 +150,52 @@ void main() {
     // Verify that some article titles exist
     expect(find.text('10 Easy Mantras Every Child Can Learn'), findsOneWidget);
     expect(find.text('Why Do We Offer Water to the Sun?'), findsOneWidget);
+  });
+
+  testWidgets('Audio Gallery screen rendering test', (WidgetTester tester) async {
+    HttpOverrides.global = MockHttpOverrides();
+    // Set screen size to desktop size to show desktop navbar and layouts without overflow
+    tester.view.physicalSize = const Size(2200, 1080);
+    tester.view.devicePixelRatio = 1.0;
+
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    // Build AudioGalleryView and trigger a frame.
+    await tester.pumpWidget(
+      GetMaterialApp(
+        home: const AudioGalleryView(),
+      ),
+    );
+    await tester.pump();
+
+    // Verify that the Hero Banner text exists.
+    expect(find.text('Listen to the Divine'), findsOneWidget);
+
+    // Verify that the screen title "Audio Gallery" is rendered
+    expect(find.text('Audio Gallery'), findsWidgets);
+
+    // Verify that some deity audio tracks exist in the grid
+    expect(find.text('Devi Lakshmi Mantras'), findsOneWidget);
+    expect(find.text('Lord Ganesh Mantras'), findsOneWidget);
+    expect(find.text('Little Sardarji'), findsOneWidget);
+
+    // Verify that the interactive player is NOT visible initially
+    expect(find.byType(Slider), findsNothing);
+
+    // Click on a track card to launch the interactive player
+    await tester.tap(find.text('Devi Lakshmi Mantras'));
+    await tester.pump();
+
+    // Now check if the audio player sheet appeared and contains the track title
+    expect(find.text('Playing...'), findsWidgets);
+    expect(find.byType(Slider), findsWidgets);
+
+    // Tap the close button to stop playback and cancel the periodic progress timer
+    await tester.tap(find.byIcon(Icons.close));
+    await tester.pump();
+
+    // Pump a 3-second duration to let the snackbar auto-dismiss timer finish
+    await tester.pump(const Duration(seconds: 3));
   });
 }

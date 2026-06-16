@@ -3,6 +3,7 @@ import '../view/home_view.dart';
 import '../view/summer_edit_view.dart';
 import '../view/big_deals_view.dart';
 import '../view/parenting_guide_view.dart';
+import '../view/audio_gallery_view.dart';
 import 'app_routes.dart';
 
 class AppPages {
@@ -24,6 +25,10 @@ class AppPages {
     GetPage(
       name: Routes.PARENTING_GUIDE,
       page: () => const ParentingGuideView(),
+    ),
+    GetPage(
+      name: Routes.AUDIO_GALLERY,
+      page: () => const AudioGalleryView(),
     ),
   ];
 }

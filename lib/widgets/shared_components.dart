@@ -6,6 +6,7 @@ import '../view/divine_plushies_view.dart';
 import '../view/summer_edit_view.dart';
 import '../view/big_deals_view.dart';
 import '../view/parenting_guide_view.dart';
+import '../view/audio_gallery_view.dart';
 
 class SharedNavbar extends StatelessWidget {
   final bool isScrolled;
@@ -208,7 +209,7 @@ class SharedNavbar extends StatelessWidget {
               _navItem(
                 context,
                 'AUDIO GALLERY',
-                onTap: () => Get.to(() => const DivinePlushiesView(categoryName: 'Audio Gallery')),
+                onTap: () => Get.to(() => const AudioGalleryView()),
               ),
               _navItem(
                 context,
@@ -415,7 +416,7 @@ class SharedDrawer extends StatelessWidget {
                     'Audio Gallery',
                     onTap: () {
                       Navigator.of(context).pop();
-                      Get.to(() => const DivinePlushiesView(categoryName: 'Audio Gallery'));
+                      Get.to(() => const AudioGalleryView());
                     },
                   ),
                   _drawerItem(
