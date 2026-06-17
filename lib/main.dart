@@ -4,6 +4,8 @@ import 'routing/app_pages.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
+import 'theme/app_colors.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -22,19 +24,19 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         useMaterial3: true,
-        primaryColor: const Color(0xFF00B4D8), // Electric Cyan
-        scaffoldBackgroundColor: const Color(0xFFFAF9F6),
+        primaryColor: AppColors.primary,
+        scaffoldBackgroundColor: AppColors.background,
         appBarTheme: const AppBarTheme(
-          backgroundColor: Color(0xFF00B4D8),
+          backgroundColor: AppColors.primary,
           foregroundColor: Colors.white,
           elevation: 0,
         ),
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF00B4D8),
-          primary: const Color(0xFF00B4D8),
-          secondary: const Color(0xFF00F5D4), // Neon Turquoise
-          tertiary: const Color(0xFFFF007F),  // Neon Pink
-          background: const Color(0xFFFAF9F6),
+          seedColor: AppColors.primary,
+          primary: AppColors.primary,
+          secondary: AppColors.secondary,
+          tertiary: AppColors.tertiary,
+          surface: AppColors.background,
         ),
         cardTheme: const CardThemeData(
           elevation: 0,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
 import '../widgets/shared_components.dart';
+import '../theme/app_colors.dart';
 
 class ParentingGuideView extends StatefulWidget {
   const ParentingGuideView({super.key});
@@ -103,7 +104,7 @@ class _ParentingGuideViewState extends State<ParentingGuideView> {
     final double horizontalPadding = screenWidth > 900 ? 100 : 20;
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.background,
       drawer: const SharedDrawer(),
       bottomNavigationBar: const SharedBottomNavbar(currentIndex: 0),
       body: Stack(
@@ -172,7 +173,7 @@ class _ParentingGuideViewState extends State<ParentingGuideView> {
                     'Panda Club Rewards 🪙',
                     'Join our rewards program to earn coins on every purchase!',
                     snackPosition: SnackPosition.BOTTOM,
-                    backgroundColor: const Color(0xFFD93D3D),
+                    backgroundColor: AppColors.secondary,
                     colorText: Colors.white,
                     margin: const EdgeInsets.all(20),
                     borderRadius: 12,
@@ -184,7 +185,7 @@ class _ParentingGuideViewState extends State<ParentingGuideView> {
                     width: isMobile ? 44 : 54,
                     height: isMobile ? 44 : 54,
                     decoration: BoxDecoration(
-                      color: const Color(0xFFD93D3D), // Red background
+                      color: AppColors.secondary, // Terracotta background
                       shape: BoxShape.circle,
                       boxShadow: [
                         BoxShadow(
@@ -193,13 +194,13 @@ class _ParentingGuideViewState extends State<ParentingGuideView> {
                           offset: const Offset(0, 4),
                         ),
                       ],
-                      border: Border.all(color: const Color(0xFFFFD700), width: 2.5), // Gold border
+                      border: Border.all(color: AppColors.warning, width: 2.5), // Gold border
                     ),
                     child: const Center(
                       child: Text(
                         '₹',
                         style: TextStyle(
-                          color: Color(0xFFFFD700),
+                          color: AppColors.warning,
                           fontSize: 22,
                           fontWeight: FontWeight.w900,
                         ),
@@ -228,7 +229,7 @@ class _ParentingGuideViewState extends State<ParentingGuideView> {
                         width: 44,
                         height: 44,
                         decoration: BoxDecoration(
-                          color: const Color(0xFFD93D3D), // Red background
+                          color: AppColors.secondary, // Terracotta background
                           shape: BoxShape.circle,
                           boxShadow: [
                             BoxShadow(
@@ -253,8 +254,8 @@ class _ParentingGuideViewState extends State<ParentingGuideView> {
                         'Panda Assistant 🐼',
                         'Hi! Need help with your order? Click to chat with us on WhatsApp.',
                         snackPosition: SnackPosition.BOTTOM,
-                        backgroundColor: const Color(0xFFFFDD67),
-                        colorText: Colors.black87,
+                        backgroundColor: AppColors.warning,
+                        colorText: AppColors.textPrimary,
                         margin: const EdgeInsets.all(20),
                         borderRadius: 12,
                       );
@@ -263,7 +264,7 @@ class _ParentingGuideViewState extends State<ParentingGuideView> {
                       width: 50,
                       height: 50,
                       decoration: BoxDecoration(
-                        color: const Color(0xFFFFDD67), // Yellow background
+                        color: AppColors.warning, // Yellow background
                         shape: BoxShape.circle,
                         boxShadow: [
                           BoxShadow(
@@ -295,7 +296,7 @@ class _ParentingGuideViewState extends State<ParentingGuideView> {
 
     return Container(
       width: double.infinity,
-      color: const Color(0xFFFAF8F5), // Soft warm off-white background
+      color: AppColors.background, // Soft warm off-white background
       padding: const EdgeInsets.symmetric(vertical: 20.0),
       child: Stack(
         alignment: Alignment.center,
@@ -344,7 +345,7 @@ class _ParentingGuideViewState extends State<ParentingGuideView> {
                 style: GoogleFonts.outfit(
                   fontSize: isMobile ? 36 : 72,
                   fontWeight: FontWeight.w900,
-                  color: const Color(0xFFC82A2E), // Crimson Red
+                  color: AppColors.primary, // Royal Amethyst
                   height: 1.0,
                 ),
               ),
@@ -354,7 +355,7 @@ class _ParentingGuideViewState extends State<ParentingGuideView> {
                 style: GoogleFonts.outfit(
                   fontSize: isMobile ? 36 : 72,
                   fontWeight: FontWeight.w900,
-                  color: const Color(0xFFC82A2E), // Crimson Red
+                  color: AppColors.primary, // Royal Amethyst
                   height: 1.0,
                 ),
               ),
@@ -367,9 +368,9 @@ class _ParentingGuideViewState extends State<ParentingGuideView> {
             child: Container(
               padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
               decoration: BoxDecoration(
-                color: const Color(0xFF0C2340), // Dark blue
+                color: AppColors.primary, // Brand Primary background
                 borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: const Color(0xFFFFD700), width: 1.5), // Gold border
+                border: Border.all(color: AppColors.warning, width: 1.5), // Gold border
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -436,7 +437,7 @@ class _ParentingGuideViewState extends State<ParentingGuideView> {
               '..',
               style: GoogleFonts.outfit(
                 fontSize: 16,
-                color: Colors.grey,
+                color: AppColors.textSecondary,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -458,7 +459,7 @@ class _ParentingGuideViewState extends State<ParentingGuideView> {
                   style: GoogleFonts.outfit(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black87,
+                    color: AppColors.textPrimary,
                   ),
                 ),
               ),
@@ -483,7 +484,7 @@ class _ParentingGuideViewState extends State<ParentingGuideView> {
           width: 36,
           height: 36,
           decoration: BoxDecoration(
-            color: isActive ? Colors.grey.shade300 : Colors.transparent,
+            color: isActive ? AppColors.secondary.withOpacity(0.3) : Colors.transparent,
             shape: BoxShape.circle,
           ),
           child: Center(
@@ -492,7 +493,7 @@ class _ParentingGuideViewState extends State<ParentingGuideView> {
               style: GoogleFonts.outfit(
                 fontSize: 14,
                 fontWeight: FontWeight.bold,
-                color: isActive ? Colors.black87 : Colors.grey.shade600,
+                color: isActive ? AppColors.textPrimary : AppColors.textSecondary,
               ),
             ),
           ),
@@ -523,15 +524,15 @@ class _HoverArticleCardState extends State<_HoverArticleCard> {
         duration: const Duration(milliseconds: 250),
         transform: Matrix4.translationValues(0, _isHovered ? -8 : 0, 0),
         decoration: BoxDecoration(
-          color: const Color(0xFFFFFDF8),
+          color: AppColors.surface,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: _isHovered ? const Color(0xFFC82A2E).withValues(alpha: 0.2) : Colors.grey.shade100,
+            color: _isHovered ? AppColors.primary.withValues(alpha: 0.2) : AppColors.border,
             width: 1,
           ),
           boxShadow: [
             BoxShadow(
-              color: _isHovered ? const Color(0xFFC82A2E).withValues(alpha: 0.06) : Colors.black.withValues(alpha: 0.02),
+              color: _isHovered ? AppColors.primary.withValues(alpha: 0.06) : Colors.black.withValues(alpha: 0.02),
               blurRadius: _isHovered ? 20 : 10,
               offset: Offset(0, _isHovered ? 8 : 4),
             )
@@ -551,8 +552,8 @@ class _HoverArticleCardState extends State<_HoverArticleCard> {
                     widget.article['imageUrl']!,
                     fit: BoxFit.cover,
                     errorBuilder: (context, error, stackTrace) => Container(
-                      color: Colors.grey.shade100,
-                      child: const Icon(Icons.image, color: Colors.grey),
+                      color: AppColors.border,
+                      child: const Icon(Icons.image, color: AppColors.textSecondary),
                     ),
                   ),
                 ),
@@ -572,7 +573,7 @@ class _HoverArticleCardState extends State<_HoverArticleCard> {
                     style: GoogleFonts.outfit(
                       fontSize: 15,
                       fontWeight: FontWeight.w800,
-                      color: Colors.black87,
+                      color: AppColors.textPrimary,
                     ),
                     textAlign: TextAlign.center,
                     maxLines: 2,
@@ -585,7 +586,7 @@ class _HoverArticleCardState extends State<_HoverArticleCard> {
                     style: GoogleFonts.outfit(
                       fontSize: 12,
                       fontWeight: FontWeight.w500,
-                      color: Colors.black45,
+                      color: AppColors.textSecondary,
                     ),
                     textAlign: TextAlign.center,
                     maxLines: 3,
@@ -604,7 +605,7 @@ class _HoverArticleCardState extends State<_HoverArticleCard> {
                           widget.article['title']!,
                           'Opening full blog article simulation...',
                           snackPosition: SnackPosition.BOTTOM,
-                          backgroundColor: const Color(0xFFC82A2E),
+                          backgroundColor: AppColors.primary,
                           colorText: Colors.white,
                         );
                       },
@@ -615,14 +616,14 @@ class _HoverArticleCardState extends State<_HoverArticleCard> {
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
                             colors: _isButtonHovered
-                                ? [const Color(0xFFC82A2E), const Color(0xFFE29578)]
-                                : [const Color(0xFF9E1B1B), const Color(0xFFC82A2E)],
+                                ? [AppColors.primary, AppColors.secondary]
+                                : [AppColors.secondary, AppColors.secondary.withOpacity(0.85)],
                           ),
                           borderRadius: BorderRadius.circular(8),
                           boxShadow: _isButtonHovered
                               ? [
                                   BoxShadow(
-                                    color: const Color(0xFFC82A2E).withValues(alpha: 0.3),
+                                    color: AppColors.secondary.withValues(alpha: 0.3),
                                     blurRadius: 8,
                                     offset: const Offset(0, 3),
                                   )

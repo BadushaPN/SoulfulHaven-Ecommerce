@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../model/product_model.dart';
+import '../../theme/app_colors.dart';
 
 class ProductCard extends StatefulWidget {
   final Product product;
@@ -23,12 +24,12 @@ class _ProductCardState extends State<ProductCard> {
         curve: Curves.easeInOut,
         transform: Matrix4.translationValues(0, _isHovered ? -8 : 0, 0),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppColors.surface,
           borderRadius: BorderRadius.circular(20),
           boxShadow: [
             if (_isHovered)
               BoxShadow(
-                color: const Color(0xFF00F5D4).withValues(alpha: 0.35),
+                color: AppColors.secondary.withValues(alpha: 0.35),
                 blurRadius: 20,
                 spreadRadius: 2,
                 offset: const Offset(0, 8),
@@ -41,7 +42,7 @@ class _ProductCardState extends State<ProductCard> {
               ),
           ],
           border: Border.all(
-            color: _isHovered ? const Color(0xFF00F5D4).withValues(alpha: 0.6) : Colors.transparent,
+            color: _isHovered ? AppColors.secondary.withValues(alpha: 0.6) : Colors.transparent,
             width: 1.5,
           ),
         ),
@@ -82,12 +83,12 @@ class _ProductCardState extends State<ProductCard> {
                           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                           decoration: BoxDecoration(
                             gradient: const LinearGradient(
-                              colors: [Color(0xFFFF007F), Color(0xFFFF5E00)],
+                              colors: [AppColors.primary, AppColors.secondary],
                             ),
                             borderRadius: BorderRadius.circular(12),
                             boxShadow: [
                               BoxShadow(
-                                color: const Color(0xFFFF007F).withValues(alpha: 0.45),
+                                color: AppColors.primary.withValues(alpha: 0.45),
                                 blurRadius: 8,
                                 offset: const Offset(0, 3),
                               )
@@ -138,7 +139,7 @@ class _ProductCardState extends State<ProductCard> {
                       style: const TextStyle(
                         fontWeight: FontWeight.w800,
                         fontSize: 14,
-                        color: Color(0xFF1A1A1A),
+                        color: AppColors.textPrimary,
                         height: 1.2,
                       ),
                       maxLines: 2,
@@ -152,11 +153,11 @@ class _ProductCardState extends State<ProductCard> {
                         Row(
                           children: List.generate(5, (index) {
                             if (index < widget.product.rating.floor()) {
-                              return const Icon(Icons.star, color: Color(0xFFFFB300), size: 14);
+                              return const Icon(Icons.star, color: AppColors.warning, size: 14);
                             } else if (index < widget.product.rating) {
-                              return const Icon(Icons.star_half, color: Color(0xFFFFB300), size: 14);
+                              return const Icon(Icons.star_half, color: AppColors.warning, size: 14);
                             } else {
-                              return const Icon(Icons.star_border, color: Color(0xFFFFB300), size: 14);
+                              return const Icon(Icons.star_border, color: AppColors.warning, size: 14);
                             }
                           }),
                         ),
@@ -166,7 +167,7 @@ class _ProductCardState extends State<ProductCard> {
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w600,
-                            color: Colors.grey.shade600,
+                            color: AppColors.textSecondary,
                           ),
                         ),
                       ],
@@ -182,7 +183,7 @@ class _ProductCardState extends State<ProductCard> {
                           style: const TextStyle(
                             fontWeight: FontWeight.w900,
                             fontSize: 18,
-                            color: Color(0xFF00B4D8),
+                            color: AppColors.primary,
                           ),
                         ),
                         const SizedBox(width: 8),
@@ -210,14 +211,14 @@ class _ProductCardState extends State<ProductCard> {
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           colors: _isHovered
-                              ? [const Color(0xFFFF007F), const Color(0xFFFF5E00)]
-                              : [const Color(0xFF00B4D8), const Color(0xFF00F5D4)],
+                              ? [AppColors.secondary, AppColors.warning]
+                              : [AppColors.primary, AppColors.secondary],
                         ),
                         borderRadius: BorderRadius.circular(12),
                         boxShadow: _isHovered
                             ? [
                                 BoxShadow(
-                                  color: const Color(0xFFFF007F).withValues(alpha: 0.5),
+                                  color: AppColors.secondary.withValues(alpha: 0.5),
                                   blurRadius: 12,
                                   offset: const Offset(0, 4),
                                 )

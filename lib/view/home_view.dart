@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:async';
 import 'package:google_fonts/google_fonts.dart';
+import '../theme/app_colors.dart';
 import '../controller/home_controller.dart';
 import '../widgets/shared_components.dart';
 import 'divine_plushies_view.dart';
@@ -74,7 +75,7 @@ class _HomeViewState extends State<HomeView> {
     final bool isMobile = screenWidth <= 768;
 
     return Scaffold(
-      backgroundColor: const Color(0xFFEDF6F9), // Ice blue background
+      backgroundColor: AppColors.background,
       drawer: const SharedDrawer(),
       bottomNavigationBar: const SharedBottomNavbar(currentIndex: 0),
       body: Stack(
@@ -122,7 +123,7 @@ class _HomeViewState extends State<HomeView> {
                     'Panda Club Rewards 🪙',
                     'Join our rewards program to earn coins on every purchase!',
                     snackPosition: SnackPosition.BOTTOM,
-                    backgroundColor: const Color(0xFFD93D3D),
+                    backgroundColor: AppColors.secondary,
                     colorText: Colors.white,
                     margin: const EdgeInsets.all(20),
                     borderRadius: 12,
@@ -134,7 +135,7 @@ class _HomeViewState extends State<HomeView> {
                     width: isMobile ? 44 : 54,
                     height: isMobile ? 44 : 54,
                     decoration: BoxDecoration(
-                      color: const Color(0xFFD93D3D), // Red background
+                      color: AppColors.secondary, // Terracotta background
                       shape: BoxShape.circle,
                       boxShadow: [
                         BoxShadow(
@@ -144,7 +145,7 @@ class _HomeViewState extends State<HomeView> {
                         ),
                       ],
                       border: Border.all(
-                        color: const Color(0xFFFFD700),
+                        color: AppColors.warning,
                         width: 2.5,
                       ), // Gold border
                     ),
@@ -152,7 +153,7 @@ class _HomeViewState extends State<HomeView> {
                       child: Text(
                         '₹',
                         style: TextStyle(
-                          color: Color(0xFFFFD700),
+                          color: AppColors.warning,
                           fontSize: 22,
                           fontWeight: FontWeight.w900,
                         ),
@@ -187,7 +188,7 @@ class _HomeViewState extends State<HomeView> {
                         width: 44,
                         height: 44,
                         decoration: BoxDecoration(
-                          color: const Color(0xFFD93D3D), // Red background
+                          color: AppColors.secondary, // Terracotta background
                           shape: BoxShape.circle,
                           boxShadow: [
                             BoxShadow(
@@ -216,8 +217,8 @@ class _HomeViewState extends State<HomeView> {
                         'Panda Assistant 🐼',
                         'Hi! Need help with your order? Click to chat with us on WhatsApp.',
                         snackPosition: SnackPosition.BOTTOM,
-                        backgroundColor: const Color(0xFFFFDD67),
-                        colorText: Colors.black87,
+                        backgroundColor: AppColors.warning,
+                        colorText: AppColors.textPrimary,
                         margin: const EdgeInsets.all(20),
                         borderRadius: 12,
                       );
@@ -226,7 +227,7 @@ class _HomeViewState extends State<HomeView> {
                       width: 50,
                       height: 50,
                       decoration: BoxDecoration(
-                        color: const Color(0xFFFFDD67), // Yellow background
+                        color: AppColors.warning, // Yellow background
                         shape: BoxShape.circle,
                         boxShadow: [
                           BoxShadow(
@@ -262,7 +263,7 @@ class _HomeViewState extends State<HomeView> {
     return Container(
       width: double.infinity,
       height: isMobile ? null : screenHeight,
-      decoration: const BoxDecoration(color: Color(0xFFEDF6F9)),
+      decoration: const BoxDecoration(color: AppColors.background),
       child: Stack(
         children: [
           // Background Carousel
@@ -286,7 +287,7 @@ class _HomeViewState extends State<HomeView> {
                           begin: isMobile ? Alignment.topCenter : Alignment.centerLeft,
                           end: isMobile ? Alignment.bottomCenter : Alignment.centerRight,
                           colors: [
-                            const Color(0xFF006D77).withOpacity(0.7),
+                            AppColors.primary.withOpacity(0.7),
                             Colors.black.withOpacity(0.35),
                             Colors.transparent,
                           ],
@@ -331,7 +332,7 @@ class _HomeViewState extends State<HomeView> {
                             foreground: Paint()
                               ..style = PaintingStyle.stroke
                               ..strokeWidth = 2
-                              ..color = const Color(0xFFFFDD67).withOpacity(0.8),
+                              ..color = AppColors.warning.withOpacity(0.8),
                             letterSpacing: 2,
                           ),
                         ),
@@ -353,7 +354,7 @@ class _HomeViewState extends State<HomeView> {
                       style: GoogleFonts.outfit(
                         fontSize: 12,
                         fontWeight: FontWeight.w800,
-                        color: const Color(0xFFFFDD67),
+                        color: AppColors.warning,
                         height: 1.5,
                       ),
                     ),
@@ -397,7 +398,7 @@ class _HomeViewState extends State<HomeView> {
                           vertical: 12,
                         ),
                         decoration: BoxDecoration(
-                          color: const Color(0xFF006D77),
+                          color: AppColors.primary,
                           borderRadius: BorderRadius.circular(40),
                         ),
                         child: RichText(
@@ -416,7 +417,7 @@ class _HomeViewState extends State<HomeView> {
                                 style: TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.w900,
-                                  color: Color(0xFFE29578),
+                                  color: AppColors.secondary,
                                 ),
                               ),
                             ],
@@ -433,7 +434,7 @@ class _HomeViewState extends State<HomeView> {
                           vertical: 12,
                         ),
                         decoration: BoxDecoration(
-                          color: const Color(0xFFE29578),
+                          color: AppColors.secondary,
                           borderRadius: BorderRadius.circular(40),
                         ),
                         child: RichText(
@@ -452,7 +453,7 @@ class _HomeViewState extends State<HomeView> {
                                 style: TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.w900,
-                                  color: Color(0xFF006D77),
+                                  color: AppColors.primary,
                                 ),
                               ),
                             ],
@@ -464,7 +465,7 @@ class _HomeViewState extends State<HomeView> {
                     ElevatedButton(
                       onPressed: () {},
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFFE29578),
+                        backgroundColor: AppColors.secondary,
                         padding: const EdgeInsets.symmetric(
                           horizontal: 36,
                           vertical: 16,
@@ -525,7 +526,7 @@ class _HomeViewState extends State<HomeView> {
                             foreground: Paint()
                               ..style = PaintingStyle.stroke
                               ..strokeWidth = 3
-                              ..color = const Color(0xFFFFDD67).withOpacity(0.8),
+                              ..color = AppColors.warning.withOpacity(0.8),
                             letterSpacing: 2,
                           ),
                         ),
@@ -546,7 +547,7 @@ class _HomeViewState extends State<HomeView> {
                       style: GoogleFonts.outfit(
                         fontSize: 18,
                         fontWeight: FontWeight.w800,
-                        color: const Color(0xFFFFDD67),
+                        color: AppColors.warning,
                         height: 1.5,
                       ),
                     ),
@@ -603,7 +604,7 @@ class _HomeViewState extends State<HomeView> {
                           vertical: 20,
                         ),
                         decoration: BoxDecoration(
-                          color: const Color(0xFF006D77),
+                          color: AppColors.primary,
                           borderRadius: BorderRadius.circular(40),
                         ),
                         child: RichText(
@@ -622,7 +623,7 @@ class _HomeViewState extends State<HomeView> {
                                 style: TextStyle(
                                   fontSize: 50,
                                   fontWeight: FontWeight.w900,
-                                  color: Color(0xFFE29578),
+                                  color: AppColors.secondary,
                                 ),
                               ),
                             ],
@@ -639,7 +640,7 @@ class _HomeViewState extends State<HomeView> {
                           vertical: 20,
                         ),
                         decoration: BoxDecoration(
-                          color: const Color(0xFFE29578),
+                          color: AppColors.secondary,
                           borderRadius: BorderRadius.circular(40),
                         ),
                         child: RichText(
@@ -658,7 +659,7 @@ class _HomeViewState extends State<HomeView> {
                                 style: TextStyle(
                                   fontSize: 50,
                                   fontWeight: FontWeight.w900,
-                                  color: Color(0xFF006D77),
+                                  color: AppColors.primary,
                                 ),
                               ),
                             ],
@@ -673,7 +674,7 @@ class _HomeViewState extends State<HomeView> {
                       child: ElevatedButton(
                         onPressed: () {},
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFFE29578),
+                          backgroundColor: AppColors.secondary,
                           padding: const EdgeInsets.symmetric(
                             horizontal: 50,
                             vertical: 20,
@@ -726,7 +727,7 @@ class _HomeViewState extends State<HomeView> {
           padding: isActive ? const EdgeInsets.all(4) : EdgeInsets.zero,
           decoration: isActive
               ? BoxDecoration(
-                  border: Border.all(color: const Color(0xFF006D77), width: 1),
+                  border: Border.all(color: AppColors.primary, width: 1),
                   shape: BoxShape.rectangle,
                 )
               : const BoxDecoration(),
@@ -734,7 +735,7 @@ class _HomeViewState extends State<HomeView> {
             width: 6,
             height: 6,
             decoration: const BoxDecoration(
-              color: Color(0xFF006D77),
+              color: AppColors.primary,
               shape: BoxShape.circle,
             ),
           ),
@@ -783,7 +784,7 @@ class _HomeViewState extends State<HomeView> {
           iconUrl,
           width: 32,
           height: 32,
-          color: const Color(0xFF006D77),
+          color: AppColors.primary,
         ),
         const SizedBox(width: 12),
         Text(
@@ -791,7 +792,7 @@ class _HomeViewState extends State<HomeView> {
           style: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w700,
-            color: Color(0xFF006D77),
+            color: AppColors.primary,
           ),
         ),
       ],
@@ -813,7 +814,7 @@ class _HomeViewState extends State<HomeView> {
                 flex: 1,
                 child: AnimatedCollectionCard(
                   title: 'Mantra Chanting Baby Ganesha',
-                  backgroundColor: const Color(0xFFB2DFDB), // Pastel Mint
+                  backgroundColor: const Color(0xFFE2D6E6), // Pastel Amethyst
                   imageUrl:
                       'https://cdn-icons-png.flaticon.com/512/3082/3082008.png',
                   onTap: () {
@@ -837,7 +838,7 @@ class _HomeViewState extends State<HomeView> {
                           Expanded(
                             child: AnimatedCollectionCard(
                               title: 'Mantra Chanting Baby Krishna',
-                              backgroundColor: const Color(0xFFBBDEFB),
+                              backgroundColor: const Color(0xFFD6E6DD), // Pastel Sage
                               imageUrl:
                                   'https://cdn-icons-png.flaticon.com/512/3094/3094833.png',
                               onTap: () => Get.to(
@@ -851,7 +852,7 @@ class _HomeViewState extends State<HomeView> {
                           Expanded(
                             child: AnimatedCollectionCard(
                               title: 'Mantra Chanting Baby Hanuman',
-                              backgroundColor: const Color(0xFFE1BEE7),
+                              backgroundColor: const Color(0xFFF3E7DC), // Pastel Terracotta
                               imageUrl:
                                   'https://cdn-icons-png.flaticon.com/512/2922/2922572.png',
                               onTap: () => Get.to(
@@ -871,7 +872,7 @@ class _HomeViewState extends State<HomeView> {
                           Expanded(
                             child: AnimatedCollectionCard(
                               title: 'Mantra Chanting Baby Shiva',
-                              backgroundColor: const Color(0xFFFFCCBC),
+                              backgroundColor: const Color(0xFFFBF4E4), // Pastel Gold
                               imageUrl:
                                   'https://cdn-icons-png.flaticon.com/512/3069/3069188.png',
                               onTap: () => Get.to(
@@ -885,7 +886,7 @@ class _HomeViewState extends State<HomeView> {
                           Expanded(
                             child: AnimatedCollectionCard(
                               title: 'Mandir for Kids (DIY)',
-                              backgroundColor: const Color(0xFFFFF9C4),
+                              backgroundColor: const Color(0xFFECE6DF), // Pastel Sand
                               imageUrl:
                                   'https://cdn-icons-png.flaticon.com/512/3094/3094848.png',
                               onTap: () => Get.to(
@@ -913,7 +914,7 @@ class _HomeViewState extends State<HomeView> {
               width: double.infinity,
               child: AnimatedCollectionCard(
                 title: 'Mantra Chanting Baby Ganesha',
-                backgroundColor: const Color(0xFFB2DFDB),
+                backgroundColor: const Color(0xFFE2D6E6), // Pastel Amethyst
                 imageUrl:
                     'https://cdn-icons-png.flaticon.com/512/3082/3082008.png',
                 onTap: () {
@@ -933,7 +934,7 @@ class _HomeViewState extends State<HomeView> {
                     height: 220,
                     child: AnimatedCollectionCard(
                       title: 'Mantra Chanting Baby Krishna',
-                      backgroundColor: const Color(0xFFBBDEFB),
+                      backgroundColor: const Color(0xFFD6E6DD), // Pastel Sage
                       imageUrl:
                           'https://cdn-icons-png.flaticon.com/512/3094/3094833.png',
                       onTap: () => Get.to(
@@ -950,7 +951,7 @@ class _HomeViewState extends State<HomeView> {
                     height: 220,
                     child: AnimatedCollectionCard(
                       title: 'Mantra Chanting Baby Hanuman',
-                      backgroundColor: const Color(0xFFE1BEE7),
+                      backgroundColor: const Color(0xFFF3E7DC), // Pastel Terracotta
                       imageUrl:
                           'https://cdn-icons-png.flaticon.com/512/2922/2922572.png',
                       onTap: () => Get.to(
@@ -971,7 +972,7 @@ class _HomeViewState extends State<HomeView> {
                     height: 220,
                     child: AnimatedCollectionCard(
                       title: 'Mantra Chanting Baby Shiva',
-                      backgroundColor: const Color(0xFFFFCCBC),
+                      backgroundColor: const Color(0xFFFBF4E4), // Pastel Gold
                       imageUrl:
                           'https://cdn-icons-png.flaticon.com/512/3069/3069188.png',
                       onTap: () => Get.to(
@@ -988,7 +989,7 @@ class _HomeViewState extends State<HomeView> {
                     height: 220,
                     child: AnimatedCollectionCard(
                       title: 'Mandir for Kids (DIY)',
-                      backgroundColor: const Color(0xFFFFF9C4),
+                      backgroundColor: const Color(0xFFECE6DF), // Pastel Sand
                       imageUrl:
                           'https://cdn-icons-png.flaticon.com/512/3094/3094848.png',
                       onTap: () => Get.to(
@@ -1012,7 +1013,7 @@ class _HomeViewState extends State<HomeView> {
               width: double.infinity,
               child: AnimatedCollectionCard(
                 title: 'Mantra Chanting Baby Ganesha',
-                backgroundColor: const Color(0xFFB2DFDB),
+                backgroundColor: const Color(0xFFE2D6E6), // Pastel Amethyst
                 imageUrl:
                     'https://cdn-icons-png.flaticon.com/512/3082/3082008.png',
                 onTap: () {
@@ -1030,7 +1031,7 @@ class _HomeViewState extends State<HomeView> {
               width: double.infinity,
               child: AnimatedCollectionCard(
                 title: 'Mantra Chanting Baby Krishna',
-                backgroundColor: const Color(0xFFBBDEFB),
+                backgroundColor: const Color(0xFFD6E6DD), // Pastel Sage
                 imageUrl:
                     'https://cdn-icons-png.flaticon.com/512/3094/3094833.png',
                 onTap: () => Get.to(
@@ -1045,7 +1046,7 @@ class _HomeViewState extends State<HomeView> {
               width: double.infinity,
               child: AnimatedCollectionCard(
                 title: 'Mantra Chanting Baby Hanuman',
-                backgroundColor: const Color(0xFFE1BEE7),
+                backgroundColor: const Color(0xFFF3E7DC), // Pastel Terracotta
                 imageUrl:
                     'https://cdn-icons-png.flaticon.com/512/2922/2922572.png',
                 onTap: () => Get.to(
@@ -1060,7 +1061,7 @@ class _HomeViewState extends State<HomeView> {
               width: double.infinity,
               child: AnimatedCollectionCard(
                 title: 'Mantra Chanting Baby Shiva',
-                backgroundColor: const Color(0xFFFFCCBC),
+                backgroundColor: const Color(0xFFFBF4E4), // Pastel Gold
                 imageUrl:
                     'https://cdn-icons-png.flaticon.com/512/3069/3069188.png',
                 onTap: () => Get.to(
@@ -1075,7 +1076,7 @@ class _HomeViewState extends State<HomeView> {
               width: double.infinity,
               child: AnimatedCollectionCard(
                 title: 'Mandir for Kids (DIY)',
-                backgroundColor: const Color(0xFFFFF9C4),
+                backgroundColor: const Color(0xFFECE6DF), // Pastel Sand
                 imageUrl:
                     'https://cdn-icons-png.flaticon.com/512/3094/3094848.png',
                 onTap: () => Get.to(
@@ -1102,11 +1103,11 @@ class _HomeViewState extends State<HomeView> {
               style: TextStyle(
                 fontSize: screenWidth > 600 ? 60 : 40,
                 fontWeight: FontWeight.w900,
-                color: const Color(0xFF006D77),
+                color: AppColors.primary,
                 shadows: [
                   Shadow(
                     offset: const Offset(2, 2),
-                    color: const Color(0xFF006D77).withOpacity(0.3),
+                    color: AppColors.primary.withOpacity(0.3),
                     blurRadius: 2,
                   ),
                 ],
@@ -1129,7 +1130,7 @@ class _HomeViewState extends State<HomeView> {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
             decoration: BoxDecoration(
-              color: const Color(0xFF83C5BE).withOpacity(0.3), // Soft Sage/Mint pill
+              color: AppColors.tertiary.withOpacity(0.3), // Soft Sage/Mint pill
               borderRadius: BorderRadius.circular(30),
             ),
             child: const Text(
@@ -1137,7 +1138,7 @@ class _HomeViewState extends State<HomeView> {
               style: TextStyle(
                 fontSize: 32,
                 fontWeight: FontWeight.w900,
-                color: Color(0xFF006D77), // Deep Teal text
+                color: AppColors.primary, // Deep Teal text
               ),
             ),
           ),
@@ -1202,11 +1203,12 @@ class _HomeViewState extends State<HomeView> {
       width: 280,
       margin: const EdgeInsets.symmetric(horizontal: 16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.surface,
         borderRadius: BorderRadius.circular(12),
         boxShadow: const [
           BoxShadow(color: Colors.black12, blurRadius: 8, offset: Offset(0, 4)),
         ],
+        border: Border.all(color: AppColors.border, width: 0.5),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -1276,7 +1278,7 @@ class _HomeViewState extends State<HomeView> {
                         style: const TextStyle(
                           fontWeight: FontWeight.w700,
                           fontSize: 14,
-                          color: Color(0xFF006D77),
+                          color: AppColors.primary,
                         ),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
@@ -1298,7 +1300,7 @@ class _HomeViewState extends State<HomeView> {
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.bold,
-                              color: Colors.black87,
+                              color: AppColors.textPrimary,
                             ),
                           ),
                         ],
@@ -1319,7 +1321,7 @@ class _HomeViewState extends State<HomeView> {
 
     if (screenWidth > 768) {
       return Container(
-        color: Colors.white,
+        color: AppColors.surface,
         padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 40),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -1346,7 +1348,7 @@ class _HomeViewState extends State<HomeView> {
       );
     } else {
       return Container(
-        color: Colors.white,
+        color: AppColors.surface,
         padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
         child: Column(
           children: [
@@ -1386,7 +1388,7 @@ class _HomeViewState extends State<HomeView> {
             style: const TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w900,
-              color: Colors.black87,
+              color: AppColors.textPrimary,
             ),
           ),
         ),
@@ -1406,7 +1408,7 @@ class _HomeViewState extends State<HomeView> {
             style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w900,
-              color: Colors.black87,
+              color: AppColors.textPrimary,
             ),
           ),
         ],
@@ -1419,7 +1421,7 @@ class _HomeViewState extends State<HomeView> {
 
     return Container(
       width: double.infinity,
-      color: const Color(0xFFEDF6F9), // Scaffold background color
+      color: AppColors.background, // Scaffold background color
       padding: EdgeInsets.symmetric(
         vertical: screenWidth > 600 ? 60 : 30,
         horizontal: screenWidth > 900
@@ -1533,7 +1535,7 @@ class _HomeViewState extends State<HomeView> {
                         vertical: screenWidth > 600 ? 20 : 12,
                       ),
                       decoration: BoxDecoration(
-                        color: const Color(0xFFE29578), // Terracotta/Peach
+                        color: AppColors.secondary, // Terracotta background
                         borderRadius: BorderRadius.circular(
                           screenWidth > 600 ? 16 : 10,
                         ),
@@ -1600,7 +1602,7 @@ class _HomeViewState extends State<HomeView> {
     if (screenWidth > 800) {
       return Container(
         padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 60),
-        color: Colors.white,
+        color: AppColors.surface,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -1624,7 +1626,7 @@ class _HomeViewState extends State<HomeView> {
       // Mobile Layout: Image on top, bubbles in a Wrap below
       return Container(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
-        color: Colors.white,
+        color: AppColors.surface,
         child: Column(
           children: [
             Image.network(
@@ -1727,9 +1729,7 @@ class _HomeViewState extends State<HomeView> {
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
           decoration: BoxDecoration(
-            color: const Color(
-              0xFF83C5BE,
-            ).withOpacity(0.3), // Soft Sage/Mint pill
+            color: AppColors.tertiary.withOpacity(0.3), // Soft Sage pill
             borderRadius: BorderRadius.circular(30),
           ),
           child: const Text(
@@ -1737,7 +1737,7 @@ class _HomeViewState extends State<HomeView> {
             style: TextStyle(
               fontSize: 32,
               fontWeight: FontWeight.w900,
-              color: Color(0xFF006D77), // Deep Teal text
+              color: AppColors.primary, // Amethyst text
             ),
           ),
         ),
@@ -1759,9 +1759,9 @@ class _HomeViewState extends State<HomeView> {
   }) {
     return Container(
       decoration: BoxDecoration(
-        color: const Color(0xFFEDF6F9), // Scaffold background color
+        color: AppColors.surface, // Clean white card surface
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.grey.shade200),
+        border: Border.all(color: AppColors.border),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -1791,7 +1791,7 @@ class _HomeViewState extends State<HomeView> {
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black87,
+                    color: AppColors.textPrimary,
                   ),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
@@ -1799,7 +1799,7 @@ class _HomeViewState extends State<HomeView> {
                 const SizedBox(height: 8),
                 Text(
                   snippet,
-                  style: const TextStyle(fontSize: 12, color: Colors.black54),
+                  style: const TextStyle(fontSize: 12, color: AppColors.textSecondary),
                   maxLines: 3,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -1807,9 +1807,7 @@ class _HomeViewState extends State<HomeView> {
                 ElevatedButton(
                   onPressed: () {},
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(
-                      0xFF006D77,
-                    ), // Deep Teal button
+                    backgroundColor: AppColors.primary, // Amethyst button
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
@@ -1928,8 +1926,8 @@ class _AnimatedCollectionCardState extends State<AnimatedCollectionCard> {
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           colors: _isHovered
-                              ? [const Color(0xFFE29578), const Color(0xFFFFB300)]
-                              : [const Color(0xFF006D77), const Color(0xFF83C5BE)],
+                              ? [AppColors.secondary, AppColors.warning]
+                              : [AppColors.primary, AppColors.tertiary],
                         ),
                         borderRadius: BorderRadius.circular(30),
                         boxShadow: const [
@@ -2053,8 +2051,8 @@ class _HoverPriceBubbleState extends State<_HoverPriceBubble> {
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: _isHovered
-                ? [const Color(0xFF00B4D8), const Color(0xFF00F5D4)]
-                : [Colors.white, const Color(0xFFEDF6F9)],
+                ? [AppColors.secondary, AppColors.warning]
+                : [AppColors.surface, AppColors.background],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
@@ -2062,7 +2060,7 @@ class _HoverPriceBubbleState extends State<_HoverPriceBubble> {
           boxShadow: [
             BoxShadow(
               color: _isHovered
-                  ? const Color(0xFF00F5D4).withValues(alpha: 0.5)
+                  ? AppColors.warning.withValues(alpha: 0.5)
                   : Colors.black.withValues(alpha: 0.04),
               blurRadius: _isHovered ? 24 : 8,
               spreadRadius: _isHovered ? 2 : 0,
@@ -2070,7 +2068,7 @@ class _HoverPriceBubbleState extends State<_HoverPriceBubble> {
             ),
           ],
           border: Border.all(
-            color: _isHovered ? const Color(0xFF00F5D4).withValues(alpha: 0.8) : const Color(0xFF00B4D8).withValues(alpha: 0.2),
+            color: _isHovered ? AppColors.warning.withValues(alpha: 0.8) : AppColors.primary.withValues(alpha: 0.2),
             width: 1.5,
           ),
         ),
@@ -2082,7 +2080,7 @@ class _HoverPriceBubbleState extends State<_HoverPriceBubble> {
               TextSpan(
                 text: 'Under\n',
                 style: TextStyle(
-                  color: _isHovered ? Colors.white : const Color(0xFF00B4D8),
+                  color: _isHovered ? Colors.white : AppColors.primary,
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
                 ),
@@ -2090,7 +2088,7 @@ class _HoverPriceBubbleState extends State<_HoverPriceBubble> {
               TextSpan(
                 text: '₹${widget.price}/-',
                 style: TextStyle(
-                  color: _isHovered ? const Color(0xFFFFEE58) : const Color(0xFFFF007F),
+                  color: _isHovered ? Colors.white : AppColors.secondary,
                   fontSize: 28,
                   fontWeight: FontWeight.w900,
                 ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../widgets/shared_components.dart';
+import '../theme/app_colors.dart';
 
 class DivinePlushiesView extends StatefulWidget {
   final String categoryName;
@@ -46,7 +47,7 @@ class _DivinePlushiesViewState extends State<DivinePlushiesView> {
     final bool isMobile = screenWidth <= 768;
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.background,
       drawer: const SharedDrawer(),
       bottomNavigationBar: const SharedBottomNavbar(currentIndex: 1),
       body: Stack(
@@ -85,7 +86,7 @@ class _DivinePlushiesViewState extends State<DivinePlushiesView> {
                     'Panda Club Rewards 🪙',
                     'Join our rewards program to earn coins on every purchase!',
                     snackPosition: SnackPosition.BOTTOM,
-                    backgroundColor: const Color(0xFFD93D3D),
+                    backgroundColor: AppColors.secondary,
                     colorText: Colors.white,
                     margin: const EdgeInsets.all(20),
                     borderRadius: 12,
@@ -97,7 +98,7 @@ class _DivinePlushiesViewState extends State<DivinePlushiesView> {
                     width: isMobile ? 44 : 54,
                     height: isMobile ? 44 : 54,
                     decoration: BoxDecoration(
-                      color: const Color(0xFFD93D3D), // Red background
+                      color: AppColors.secondary, // Terracotta background
                       shape: BoxShape.circle,
                       boxShadow: [
                         BoxShadow(
@@ -107,15 +108,15 @@ class _DivinePlushiesViewState extends State<DivinePlushiesView> {
                         ),
                       ],
                       border: Border.all(
-                        color: const Color(0xFFFFD700),
+                        color: AppColors.warning,
                         width: 2.5,
                       ), // Gold border
                     ),
-                    child: Center(
+                    child: const Center(
                       child: Text(
                         '₹',
                         style: TextStyle(
-                          color: const Color(0xFFFFD700),
+                          color: AppColors.warning,
                           fontSize: 22,
                           fontWeight: FontWeight.w900,
                         ),
@@ -150,7 +151,7 @@ class _DivinePlushiesViewState extends State<DivinePlushiesView> {
                         width: 44,
                         height: 44,
                         decoration: BoxDecoration(
-                          color: const Color(0xFFD93D3D), // Red background
+                          color: AppColors.secondary, // Terracotta background
                           shape: BoxShape.circle,
                           boxShadow: [
                             BoxShadow(
@@ -179,8 +180,8 @@ class _DivinePlushiesViewState extends State<DivinePlushiesView> {
                         'Panda Assistant 🐼',
                         'Hi! Need help with your order? Click to chat with us on WhatsApp.',
                         snackPosition: SnackPosition.BOTTOM,
-                        backgroundColor: const Color(0xFFFFDD67),
-                        colorText: Colors.black87,
+                        backgroundColor: AppColors.warning,
+                        colorText: AppColors.textPrimary,
                         margin: const EdgeInsets.all(20),
                         borderRadius: 12,
                       );
@@ -189,7 +190,7 @@ class _DivinePlushiesViewState extends State<DivinePlushiesView> {
                       width: 50,
                       height: 50,
                       decoration: BoxDecoration(
-                        color: const Color(0xFFFFDD67), // Yellow background
+                        color: AppColors.warning, // Yellow background
                         shape: BoxShape.circle,
                         boxShadow: [
                           BoxShadow(
@@ -235,14 +236,14 @@ class _DivinePlushiesViewState extends State<DivinePlushiesView> {
       width: double.infinity,
       height: isMobile ? 250 : 400,
       decoration: BoxDecoration(
-        color: const Color(0xFFFAF9F6),
+        color: AppColors.background,
         image: DecorationImage(
           image: const NetworkImage(
             'https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?q=80&w=2000&auto=format&fit=crop',
           ),
           fit: BoxFit.cover,
           colorFilter: ColorFilter.mode(
-            const Color(0xFF006D77).withOpacity(0.08),
+            AppColors.primary.withOpacity(0.08),
             BlendMode.srcOver,
           ),
         ),
@@ -256,7 +257,7 @@ class _DivinePlushiesViewState extends State<DivinePlushiesView> {
               style: TextStyle(
                 fontSize: isMobile ? 32 : 60,
                 fontWeight: FontWeight.w900,
-                color: const Color(0xFF006D77), // Deep Teal
+                color: AppColors.primary,
                 letterSpacing: 2.0,
                 shadows: [
                   Shadow(
@@ -273,7 +274,7 @@ class _DivinePlushiesViewState extends State<DivinePlushiesView> {
               style: TextStyle(
                 fontSize: isMobile ? 32 : 60,
                 fontWeight: FontWeight.w900,
-                color: const Color(0xFF006D77), // Deep Teal
+                color: AppColors.primary,
                 letterSpacing: 2.0,
                 shadows: [
                   Shadow(
@@ -316,11 +317,11 @@ class _DivinePlushiesViewState extends State<DivinePlushiesView> {
           style: const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w500,
-            color: Colors.black87,
+            color: AppColors.textPrimary,
           ),
         ),
         const SizedBox(width: 8),
-        const Icon(Icons.keyboard_arrow_down, size: 20, color: Colors.black87),
+        const Icon(Icons.keyboard_arrow_down, size: 20, color: AppColors.textPrimary),
       ],
     );
   }
@@ -508,12 +509,12 @@ class _AnimatedProductCardState extends State<AnimatedProductCard> {
         transform: Matrix4.diagonal3Values(_isHovered ? 1.04 : 1.0, _isHovered ? 1.04 : 1.0, 1.0),
         transformAlignment: Alignment.center,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppColors.surface,
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             if (_isHovered)
               BoxShadow(
-                color: const Color(0xFF00F5D4).withValues(alpha: 0.35),
+                color: AppColors.secondary.withValues(alpha: 0.35),
                 blurRadius: 16,
                 spreadRadius: 1,
                 offset: const Offset(0, 6),
@@ -526,7 +527,7 @@ class _AnimatedProductCardState extends State<AnimatedProductCard> {
               ),
           ],
           border: Border.all(
-            color: _isHovered ? const Color(0xFF00F5D4).withValues(alpha: 0.6) : Colors.grey.shade100,
+            color: _isHovered ? AppColors.secondary.withValues(alpha: 0.6) : AppColors.border,
             width: 1,
           ),
         ),
@@ -561,8 +562,8 @@ class _AnimatedProductCardState extends State<AnimatedProductCard> {
                       padding: const EdgeInsets.all(6), // Reduced padding
                       decoration: BoxDecoration(
                         color: _isHovered
-                            ? const Color(0xFFFF007F)
-                            : Colors.white,
+                            ? AppColors.primary
+                            : AppColors.surface,
                         shape: BoxShape.circle,
                         boxShadow: [
                           BoxShadow(
@@ -577,7 +578,7 @@ class _AnimatedProductCardState extends State<AnimatedProductCard> {
                         size: 16, // Smaller icon
                         color: _isHovered
                             ? Colors.white
-                            : const Color(0xFF00B4D8),
+                            : AppColors.primary,
                       ),
                     ),
                   ),
@@ -594,7 +595,7 @@ class _AnimatedProductCardState extends State<AnimatedProductCard> {
                     style: const TextStyle(
                       fontSize: 12, // Smaller font
                       fontWeight: FontWeight.w700,
-                      color: Colors.black87,
+                      color: AppColors.textPrimary,
                     ),
                     textAlign: TextAlign.center,
                     maxLines: 2, // Allow 2 lines if needed due to smaller width
@@ -606,7 +607,7 @@ class _AnimatedProductCardState extends State<AnimatedProductCard> {
                     style: const TextStyle(
                       fontSize: 10, // Smaller font
                       fontWeight: FontWeight.w500,
-                      color: Colors.black87,
+                      color: AppColors.textSecondary,
                     ),
                     textAlign: TextAlign.center,
                   ),
@@ -621,7 +622,7 @@ class _AnimatedProductCardState extends State<AnimatedProductCard> {
                           (index) => const Icon(
                             Icons.star,
                             size: 10,
-                            color: Color(0xFFFFC107),
+                            color: AppColors.warning,
                           ),
                         ), // Smaller stars
                       ),
@@ -631,7 +632,7 @@ class _AnimatedProductCardState extends State<AnimatedProductCard> {
                         style: const TextStyle(
                           fontSize: 10,
                           fontWeight: FontWeight.bold,
-                          color: Colors.black87,
+                          color: AppColors.textPrimary,
                         ),
                       ),
                     ],
@@ -646,7 +647,7 @@ class _AnimatedProductCardState extends State<AnimatedProductCard> {
                         style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w900,
-                          color: Colors.black87,
+                          color: AppColors.textPrimary,
                         ), // Smaller font
                       ),
                       const SizedBox(width: 4),
@@ -667,7 +668,7 @@ class _AnimatedProductCardState extends State<AnimatedProductCard> {
                         ),
                         decoration: BoxDecoration(
                           gradient: const LinearGradient(
-                            colors: [Color(0xFFFF007F), Color(0xFFFF5E00)],
+                            colors: [AppColors.primary, AppColors.secondary],
                           ),
                           borderRadius: BorderRadius.circular(4),
                         ),
@@ -691,14 +692,14 @@ class _AnimatedProductCardState extends State<AnimatedProductCard> {
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: _isHovered
-                            ? [const Color(0xFFFF007F), const Color(0xFFFF5E00)]
-                            : [const Color(0xFF00B4D8), const Color(0xFF00F5D4)],
+                            ? [AppColors.secondary, AppColors.warning]
+                            : [AppColors.primary, AppColors.secondary],
                       ),
                       borderRadius: BorderRadius.circular(8),
                       boxShadow: _isHovered
                           ? [
                               BoxShadow(
-                                color: const Color(0xFFFF007F).withValues(alpha: 0.5),
+                                color: AppColors.secondary.withValues(alpha: 0.5),
                                 blurRadius: 8,
                                 offset: const Offset(0, 3),
                               )

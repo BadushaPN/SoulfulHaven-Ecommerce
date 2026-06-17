@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../theme/app_colors.dart';
 import '../view/home_view.dart';
 import '../view/divine_plushies_view.dart';
 import '../view/summer_edit_view.dart';
@@ -27,10 +28,10 @@ class SharedNavbar extends StatelessWidget {
           curve: Curves.easeOutCubic,
           height: isScrolled ? 70 : 85,
           decoration: BoxDecoration(
-            color: isScrolled ? Colors.white.withOpacity(0.8) : Colors.white.withOpacity(0.55),
+            color: isScrolled ? AppColors.surface.withOpacity(0.8) : AppColors.surface.withOpacity(0.55),
             border: Border(
               bottom: BorderSide(
-                color: isScrolled ? Colors.black.withOpacity(0.06) : Colors.black.withOpacity(0.02),
+                color: isScrolled ? AppColors.textPrimary.withOpacity(0.06) : AppColors.textPrimary.withOpacity(0.02),
                 width: 1,
               ),
             ),
@@ -58,7 +59,7 @@ class SharedNavbar extends StatelessWidget {
       children: [
         // Hamburger menu button
         IconButton(
-          icon: const Icon(Icons.menu, color: Colors.black87, size: 26),
+          icon: const Icon(Icons.menu, color: AppColors.textPrimary, size: 26),
           onPressed: () {
             Scaffold.of(context).openDrawer();
           },
@@ -90,11 +91,11 @@ class SharedNavbar extends StatelessWidget {
                   children: const [
                     TextSpan(
                       text: "Panda's ",
-                      style: TextStyle(color: Colors.black87),
+                      style: TextStyle(color: AppColors.textPrimary),
                     ),
                     TextSpan(
                       text: "Box",
-                      style: TextStyle(color: Color(0xFFFF007F)),
+                      style: TextStyle(color: AppColors.primary),
                     ),
                   ],
                 ),
@@ -105,19 +106,19 @@ class SharedNavbar extends StatelessWidget {
         const Spacer(),
         // Right Icons (Search, Heart, Bag)
         IconButton(
-          icon: const Icon(Icons.search, color: Colors.black87, size: 24),
+          icon: const Icon(Icons.search, color: AppColors.textPrimary, size: 24),
           onPressed: () {},
           constraints: const BoxConstraints(),
           padding: const EdgeInsets.all(6),
         ),
         IconButton(
-          icon: const Icon(Icons.favorite_border, color: Colors.black87, size: 24),
+          icon: const Icon(Icons.favorite_border, color: AppColors.textPrimary, size: 24),
           onPressed: () {},
           constraints: const BoxConstraints(),
           padding: const EdgeInsets.all(6),
         ),
         IconButton(
-          icon: const Icon(Icons.shopping_bag_outlined, color: Colors.black87, size: 24),
+          icon: const Icon(Icons.shopping_bag_outlined, color: AppColors.textPrimary, size: 24),
           onPressed: () {},
           constraints: const BoxConstraints(),
           padding: const EdgeInsets.all(6),
@@ -157,11 +158,11 @@ class SharedNavbar extends StatelessWidget {
                     children: const [
                       TextSpan(
                         text: "Panda's ",
-                        style: TextStyle(color: Colors.black87),
+                        style: TextStyle(color: AppColors.textPrimary),
                       ),
                       TextSpan(
                         text: "Box",
-                        style: TextStyle(color: Color(0xFFFF007F)),
+                        style: TextStyle(color: AppColors.primary),
                       ),
                     ],
                   ),
@@ -216,7 +217,7 @@ class SharedNavbar extends StatelessWidget {
                   'Track Order 📦',
                   'Tracking system simulation: Please enter order ID under Account details.',
                   snackPosition: SnackPosition.BOTTOM,
-                  backgroundColor: const Color(0xFF00B4D8),
+                  backgroundColor: AppColors.primary,
                   colorText: Colors.white,
                 );
               },
@@ -227,10 +228,10 @@ class SharedNavbar extends StatelessWidget {
         // Icons
         Row(
           children: [
-            IconButton(icon: const Icon(Icons.search, color: Colors.black87), onPressed: () {}),
-            IconButton(icon: const Icon(Icons.person_outline, color: Colors.black87), onPressed: () {}),
-            IconButton(icon: const Icon(Icons.favorite_border, color: Colors.black87), onPressed: () {}),
-            IconButton(icon: const Icon(Icons.shopping_bag_outlined, color: Colors.black87), onPressed: () {}),
+            IconButton(icon: const Icon(Icons.search, color: AppColors.textPrimary), onPressed: () {}),
+            IconButton(icon: const Icon(Icons.person_outline, color: AppColors.textPrimary), onPressed: () {}),
+            IconButton(icon: const Icon(Icons.favorite_border, color: AppColors.textPrimary), onPressed: () {}),
+            IconButton(icon: const Icon(Icons.shopping_bag_outlined, color: AppColors.textPrimary), onPressed: () {}),
           ],
         ),
       ],
@@ -282,7 +283,7 @@ class _HoverNavItemState extends State<_HoverNavItem> {
                       style: GoogleFonts.outfit(
                         fontSize: 11,
                         fontWeight: FontWeight.w800,
-                        color: _isHovered ? const Color(0xFF00B4D8) : Colors.black87,
+                        color: _isHovered ? AppColors.primary : AppColors.textPrimary,
                         letterSpacing: 0.5,
                       ),
                     ),
@@ -291,7 +292,7 @@ class _HoverNavItemState extends State<_HoverNavItem> {
                       Icon(
                         Icons.keyboard_arrow_down,
                         size: 14,
-                        color: _isHovered ? const Color(0xFF00B4D8) : Colors.black87,
+                        color: _isHovered ? AppColors.primary : AppColors.textPrimary,
                       ),
                     ]
                   ],
@@ -303,12 +304,12 @@ class _HoverNavItemState extends State<_HoverNavItem> {
                 height: 2,
                 width: _isHovered ? 20 : 0,
                 decoration: BoxDecoration(
-                  color: const Color(0xFFFF007F),
+                  color: AppColors.secondary,
                   borderRadius: BorderRadius.circular(1),
                   boxShadow: _isHovered
                       ? [
                           BoxShadow(
-                            color: const Color(0xFFFF007F).withValues(alpha: 0.8),
+                            color: AppColors.secondary.withValues(alpha: 0.8),
                             blurRadius: 4,
                           )
                         ]
@@ -329,7 +330,7 @@ class SharedDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.surface,
       width: MediaQuery.of(context).size.width * 0.9,
       child: SafeArea(
         child: Column(
@@ -340,7 +341,7 @@ class SharedDrawer extends StatelessWidget {
               child: Row(
                 children: [
                   IconButton(
-                    icon: const Icon(Icons.close, color: Colors.black87, size: 26),
+                    icon: const Icon(Icons.close, color: AppColors.textPrimary, size: 26),
                     onPressed: () => Navigator.of(context).pop(),
                   ),
                   const Spacer(),
@@ -370,11 +371,11 @@ class SharedDrawer extends StatelessWidget {
                             children: const [
                               TextSpan(
                                 text: "Panda's ",
-                                style: TextStyle(color: Colors.black87),
+                                style: TextStyle(color: AppColors.textPrimary),
                               ),
                               TextSpan(
                                 text: "Box",
-                                style: TextStyle(color: Color(0xFFE29578)),
+                                style: TextStyle(color: AppColors.primary),
                               ),
                             ],
                           ),
@@ -385,19 +386,19 @@ class SharedDrawer extends StatelessWidget {
                   const Spacer(),
                   // Header Search, Heart, Bag
                   IconButton(
-                    icon: const Icon(Icons.search, color: Colors.black87, size: 22),
+                    icon: const Icon(Icons.search, color: AppColors.textPrimary, size: 22),
                     onPressed: () {},
                     constraints: const BoxConstraints(),
                     padding: const EdgeInsets.all(4),
                   ),
                   IconButton(
-                    icon: const Icon(Icons.favorite_border, color: Colors.black87, size: 22),
+                    icon: const Icon(Icons.favorite_border, color: AppColors.textPrimary, size: 22),
                     onPressed: () {},
                     constraints: const BoxConstraints(),
                     padding: const EdgeInsets.all(4),
                   ),
                   IconButton(
-                    icon: const Icon(Icons.shopping_bag_outlined, color: Colors.black87, size: 22),
+                    icon: const Icon(Icons.shopping_bag_outlined, color: AppColors.textPrimary, size: 22),
                     onPressed: () {},
                     constraints: const BoxConstraints(),
                     padding: const EdgeInsets.all(4),
@@ -405,7 +406,7 @@ class SharedDrawer extends StatelessWidget {
                 ],
               ),
             ),
-            const Divider(height: 1, color: Colors.black12),
+            const Divider(height: 1, color: AppColors.border),
 
             // Navigation Links
             Expanded(
@@ -480,7 +481,7 @@ class SharedDrawer extends StatelessWidget {
                         'Track Order 📦',
                         'Tracking system simulation: Please enter order ID under Account details.',
                         snackPosition: SnackPosition.BOTTOM,
-                        backgroundColor: const Color(0xFF006D77),
+                        backgroundColor: AppColors.primary,
                         colorText: Colors.white,
                       );
                     },
@@ -506,12 +507,12 @@ class SharedDrawer extends StatelessWidget {
               style: GoogleFonts.outfit(
                 fontSize: 16,
                 fontWeight: FontWeight.w700,
-                color: Colors.black87,
+                color: AppColors.textPrimary,
               ),
             ),
             const Spacer(),
             if (hasArrow)
-              const Icon(Icons.chevron_right, size: 20, color: Colors.black54),
+              const Icon(Icons.chevron_right, size: 20, color: AppColors.textSecondary),
           ],
         ),
       ),
@@ -534,7 +535,7 @@ class SharedBottomNavbar extends StatelessWidget {
     return Container(
       height: 66,
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.95),
+        color: AppColors.surface.withOpacity(0.95),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.05),
@@ -543,7 +544,7 @@ class SharedBottomNavbar extends StatelessWidget {
           ),
         ],
         border: const Border(
-          top: BorderSide(color: Colors.black12, width: 0.5),
+          top: BorderSide(color: AppColors.border, width: 0.5),
         ),
       ),
       child: Row(
@@ -578,7 +579,7 @@ class SharedBottomNavbar extends StatelessWidget {
                 'Profile 👤',
                 'Profile section simulation: Account details loaded.',
                 snackPosition: SnackPosition.BOTTOM,
-                backgroundColor: const Color(0xFF00B4D8),
+                backgroundColor: AppColors.primary,
                 colorText: Colors.white,
               );
             },
@@ -589,15 +590,15 @@ class SharedBottomNavbar extends StatelessWidget {
                   duration: const Duration(milliseconds: 250),
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
                   decoration: BoxDecoration(
-                    color: currentIndex == 2 ? const Color(0xFF00B4D8).withValues(alpha: 0.15) : Colors.transparent,
+                    color: currentIndex == 2 ? AppColors.primary.withValues(alpha: 0.15) : Colors.transparent,
                     borderRadius: BorderRadius.circular(16),
                     border: currentIndex == 2
-                        ? Border.all(color: const Color(0xFF00F5D4).withValues(alpha: 0.5), width: 1)
+                        ? Border.all(color: AppColors.secondary.withValues(alpha: 0.5), width: 1)
                         : null,
                     boxShadow: currentIndex == 2
                         ? [
                             BoxShadow(
-                              color: const Color(0xFF00F5D4).withValues(alpha: 0.3),
+                              color: AppColors.secondary.withValues(alpha: 0.3),
                               blurRadius: 8,
                             )
                           ]
@@ -606,7 +607,7 @@ class SharedBottomNavbar extends StatelessWidget {
                   child: Icon(
                     Icons.person_outline,
                     size: 24,
-                    color: currentIndex == 2 ? const Color(0xFF00B4D8) : Colors.black54,
+                    color: currentIndex == 2 ? AppColors.primary : AppColors.textSecondary,
                   ),
                 ),
                 Positioned(
@@ -634,8 +635,8 @@ class SharedBottomNavbar extends StatelessWidget {
                 'Panda Assistant 🐼',
                 'Hi! Need help with your order? Click to chat with us on WhatsApp.',
                 snackPosition: SnackPosition.BOTTOM,
-                backgroundColor: const Color(0xFFFFDD67),
-                colorText: Colors.black87,
+                backgroundColor: AppColors.warning,
+                colorText: AppColors.textPrimary,
               );
             },
           ),
@@ -662,15 +663,15 @@ class SharedBottomNavbar extends StatelessWidget {
               duration: const Duration(milliseconds: 250),
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
               decoration: BoxDecoration(
-                color: isActive ? const Color(0xFF00B4D8).withValues(alpha: 0.15) : Colors.transparent,
+                color: isActive ? AppColors.primary.withValues(alpha: 0.15) : Colors.transparent,
                 borderRadius: BorderRadius.circular(16),
                 border: isActive
-                    ? Border.all(color: const Color(0xFF00F5D4).withValues(alpha: 0.5), width: 1)
+                    ? Border.all(color: AppColors.secondary.withValues(alpha: 0.5), width: 1)
                     : null,
                 boxShadow: isActive
                     ? [
                         BoxShadow(
-                          color: const Color(0xFF00F5D4).withValues(alpha: 0.3),
+                          color: AppColors.secondary.withValues(alpha: 0.3),
                           blurRadius: 8,
                         )
                       ]
@@ -679,7 +680,7 @@ class SharedBottomNavbar extends StatelessWidget {
               child: Icon(
                 isActive ? activeIcon : icon,
                 size: 24,
-                color: isActive ? const Color(0xFF00B4D8) : Colors.black54,
+                color: isActive ? AppColors.primary : AppColors.textSecondary,
               ),
             ),
             const SizedBox(height: 3),
@@ -688,7 +689,7 @@ class SharedBottomNavbar extends StatelessWidget {
               style: GoogleFonts.outfit(
                 fontSize: 10,
                 fontWeight: isActive ? FontWeight.w800 : FontWeight.w600,
-                color: isActive ? const Color(0xFF00B4D8) : Colors.black54,
+                color: isActive ? AppColors.primary : AppColors.textSecondary,
               ),
               child: Text(label),
             ),
@@ -716,7 +717,7 @@ class SharedFooter extends StatelessWidget {
             style: GoogleFonts.outfit(
               fontWeight: FontWeight.bold,
               fontSize: 16,
-              color: const Color(0xFF00B4D8),
+              color: AppColors.primary,
             ),
           ),
           const SizedBox(height: 18),
@@ -757,7 +758,7 @@ class SharedFooter extends StatelessWidget {
             style: GoogleFonts.outfit(
               fontWeight: FontWeight.bold,
               fontSize: 16,
-              color: const Color(0xFF00B4D8),
+              color: AppColors.primary,
             ),
           ),
           const SizedBox(height: 18),
@@ -766,7 +767,7 @@ class SharedFooter extends StatelessWidget {
             style: GoogleFonts.outfit(
               fontSize: 14,
               height: 1.5,
-              color: Colors.black54,
+              color: AppColors.textSecondary,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -776,7 +777,7 @@ class SharedFooter extends StatelessWidget {
             style: GoogleFonts.outfit(
               fontWeight: FontWeight.bold,
               fontSize: 14,
-              color: const Color(0xFF00B4D8),
+              color: AppColors.primary,
             ),
           ),
           const SizedBox(height: 12),
@@ -840,13 +841,13 @@ class SharedFooter extends StatelessWidget {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            Color(0xFFFFFAEC),
-            Color(0xFFFFF1C5),
+            Color(0xFFF7F2EB),
+            Color(0xFFEDE4D7),
           ],
         ),
         border: Border(
           top: BorderSide(
-            color: Color(0xFFFFF1C5),
+            color: AppColors.border,
             width: 1,
           ),
         ),
@@ -856,14 +857,14 @@ class SharedFooter extends StatelessWidget {
         children: [
           buildLinksSection(),
           const SizedBox(height: 40),
-          const Divider(color: Colors.black12, height: 1),
+          const Divider(color: AppColors.border, height: 1),
           const SizedBox(height: 24),
           Text(
             "India's First Mantra Chanting Plushies",
             style: GoogleFonts.outfit(
               fontSize: 16,
               fontWeight: FontWeight.w800,
-              color: const Color(0xFF00B4D8),
+              color: AppColors.primary,
             ),
           ),
           const SizedBox(height: 8),
@@ -871,7 +872,7 @@ class SharedFooter extends StatelessWidget {
             "© 2026 Panda's Box - Siddhaye Enterprises Pvt Ltd.",
             style: GoogleFonts.outfit(
               fontSize: 12,
-              color: Colors.black54,
+              color: AppColors.textSecondary,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -906,7 +907,7 @@ class _FooterLinkState extends State<_FooterLink> {
           duration: const Duration(milliseconds: 200),
           style: GoogleFonts.outfit(
             fontSize: 14,
-            color: _isHovered ? const Color(0xFF00B4D8) : Colors.black54,
+            color: _isHovered ? AppColors.primary : AppColors.textSecondary,
             fontWeight: _isHovered ? FontWeight.bold : FontWeight.w500,
           ),
           child: Text(widget.label),
@@ -940,11 +941,11 @@ class _FooterSocialIconState extends State<_FooterSocialIcon> {
         padding: const EdgeInsets.all(8),
         transform: Matrix4.translationValues(0, _isHovered ? -4 : 0, 0),
         decoration: BoxDecoration(
-          color: _isHovered ? const Color(0xFF00B4D8) : Colors.white,
+          color: _isHovered ? AppColors.primary : AppColors.surface,
           shape: BoxShape.circle,
           boxShadow: [
             BoxShadow(
-              color: const Color(0xFF00F5D4).withValues(alpha: _isHovered ? 0.4 : 0.08),
+              color: AppColors.secondary.withValues(alpha: _isHovered ? 0.4 : 0.08),
               blurRadius: _isHovered ? 12 : 4,
               offset: Offset(0, _isHovered ? 4 : 2),
             )
@@ -953,7 +954,7 @@ class _FooterSocialIconState extends State<_FooterSocialIcon> {
         child: Icon(
           widget.icon,
           size: 20,
-          color: _isHovered ? Colors.white : Colors.black87,
+          color: _isHovered ? Colors.white : AppColors.textPrimary,
         ),
       ),
     );

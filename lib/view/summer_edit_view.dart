@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
 import '../widgets/shared_components.dart';
+import '../theme/app_colors.dart';
 
 class SummerEditView extends StatefulWidget {
   const SummerEditView({super.key});
@@ -53,7 +54,7 @@ class _SummerEditViewState extends State<SummerEditView> {
     final bool isMobile = screenWidth <= 768;
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.background,
       drawer: const SharedDrawer(),
       bottomNavigationBar: const SharedBottomNavbar(currentIndex: 1),
       body: Stack(
@@ -94,7 +95,7 @@ class _SummerEditViewState extends State<SummerEditView> {
                     'Panda Club Rewards 🪙',
                     'Join our rewards program to earn coins on every purchase!',
                     snackPosition: SnackPosition.BOTTOM,
-                    backgroundColor: const Color(0xFFD93D3D),
+                    backgroundColor: AppColors.secondary,
                     colorText: Colors.white,
                     margin: const EdgeInsets.all(20),
                     borderRadius: 12,
@@ -106,7 +107,7 @@ class _SummerEditViewState extends State<SummerEditView> {
                     width: isMobile ? 44 : 54,
                     height: isMobile ? 44 : 54,
                     decoration: BoxDecoration(
-                      color: const Color(0xFFD93D3D), // Red background
+                      color: AppColors.secondary, // Terracotta background
                       shape: BoxShape.circle,
                       boxShadow: [
                         BoxShadow(
@@ -116,7 +117,7 @@ class _SummerEditViewState extends State<SummerEditView> {
                         ),
                       ],
                       border: Border.all(
-                        color: const Color(0xFFFFD700),
+                        color: AppColors.warning,
                         width: 2.5,
                       ), // Gold border
                     ),
@@ -124,7 +125,7 @@ class _SummerEditViewState extends State<SummerEditView> {
                       child: Text(
                         '₹',
                         style: TextStyle(
-                          color: Color(0xFFFFD700),
+                          color: AppColors.warning,
                           fontSize: 22,
                           fontWeight: FontWeight.w900,
                         ),
@@ -153,7 +154,7 @@ class _SummerEditViewState extends State<SummerEditView> {
                         width: 44,
                         height: 44,
                         decoration: BoxDecoration(
-                          color: const Color(0xFFD93D3D), // Red background
+                          color: AppColors.secondary, // Terracotta background
                           shape: BoxShape.circle,
                           boxShadow: [
                             BoxShadow(
@@ -182,8 +183,8 @@ class _SummerEditViewState extends State<SummerEditView> {
                         'Panda Assistant 🐼',
                         'Hi! Need help with your order? Click to chat with us on WhatsApp.',
                         snackPosition: SnackPosition.BOTTOM,
-                        backgroundColor: const Color(0xFFFFDD67),
-                        colorText: Colors.black87,
+                        backgroundColor: AppColors.warning,
+                        colorText: AppColors.textPrimary,
                         margin: const EdgeInsets.all(20),
                         borderRadius: 12,
                       );
@@ -192,7 +193,7 @@ class _SummerEditViewState extends State<SummerEditView> {
                       width: 50,
                       height: 50,
                       decoration: BoxDecoration(
-                        color: const Color(0xFFFFDD67), // Yellow background
+                        color: AppColors.warning, // Yellow background
                         shape: BoxShape.circle,
                         boxShadow: [
                           BoxShadow(
@@ -238,8 +239,8 @@ class _SummerEditViewState extends State<SummerEditView> {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            Color(0xFFE8E5D9),
-            Color(0xFFFAF9F6),
+            AppColors.border,
+            AppColors.background,
           ],
         ),
       ),
@@ -281,7 +282,7 @@ class _SummerEditViewState extends State<SummerEditView> {
                   style: GoogleFonts.outfit(
                     fontSize: isMobile ? 32 : 46,
                     fontWeight: FontWeight.w900,
-                    color: const Color(0xFF5D5950),
+                    color: AppColors.textPrimary,
                     letterSpacing: 0.5,
                   ),
                 ),
@@ -335,14 +336,14 @@ class _SummerEditViewState extends State<SummerEditView> {
                 fontWeight: label == 'FILTER'
                     ? FontWeight.w800
                     : FontWeight.w500,
-                color: Colors.black87,
+                color: AppColors.textPrimary,
               ),
             ),
             const SizedBox(width: 6),
             const Icon(
               Icons.keyboard_arrow_down,
               size: 18,
-              color: Colors.black87,
+              color: AppColors.textPrimary,
             ),
           ],
         ),
@@ -361,13 +362,13 @@ class _SummerEditViewState extends State<SummerEditView> {
           Container(
             padding: const EdgeInsets.all(24),
             decoration: BoxDecoration(
-              color: Colors.grey.shade50,
+              color: AppColors.border.withOpacity(0.3),
               shape: BoxShape.circle,
             ),
-            child: Icon(
+            child: const Icon(
               Icons.shopping_bag_outlined,
               size: 80,
-              color: Colors.grey.shade300,
+              color: AppColors.textSecondary,
             ),
           ),
           const SizedBox(height: 20),
@@ -376,7 +377,7 @@ class _SummerEditViewState extends State<SummerEditView> {
             style: GoogleFonts.outfit(
               fontSize: 16,
               fontWeight: FontWeight.w500,
-              color: Colors.grey.shade600,
+              color: AppColors.textSecondary,
             ),
             textAlign: TextAlign.center,
           ),
@@ -425,7 +426,7 @@ class _HoverPolaroidState extends State<_HoverPolaroid> {
             height: widget.height,
             padding: const EdgeInsets.fromLTRB(8, 8, 8, 20),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: AppColors.surface,
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withValues(alpha: _isHovered ? 0.14 : 0.08),
@@ -434,7 +435,7 @@ class _HoverPolaroidState extends State<_HoverPolaroid> {
                 ),
               ],
               border: Border.all(
-                color: _isHovered ? const Color(0xFF006D77).withValues(alpha: 0.1) : Colors.grey.shade100,
+                color: _isHovered ? AppColors.primary.withValues(alpha: 0.1) : AppColors.border,
                 width: 0.5,
               ),
             ),
@@ -442,8 +443,8 @@ class _HoverPolaroidState extends State<_HoverPolaroid> {
               widget.url,
               fit: BoxFit.cover,
               errorBuilder: (context, error, stackTrace) => Container(
-                color: Colors.grey.shade200,
-                child: const Icon(Icons.image, color: Colors.grey),
+                color: AppColors.border,
+                child: const Icon(Icons.image, color: AppColors.textSecondary),
               ),
             ),
           ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../theme/app_colors.dart';
 
 class LoginPopup extends StatelessWidget {
   const LoginPopup({super.key});
@@ -26,14 +27,14 @@ class LoginPopup extends StatelessWidget {
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
-                color: Color(0xFF006D77),
+                color: AppColors.primary,
               ),
             ),
             const SizedBox(height: 8),
             const Text(
               'Log in to get exclusive deals and faster checkout.',
               textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.grey),
+              style: TextStyle(color: AppColors.textSecondary),
             ),
             const SizedBox(height: 24),
             TextField(
@@ -67,7 +68,7 @@ class LoginPopup extends StatelessWidget {
                   Get.snackbar('Success', 'Logged in successfully!', snackPosition: SnackPosition.BOTTOM);
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF006D77),
+                  backgroundColor: AppColors.primary,
                   foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
@@ -81,7 +82,7 @@ class LoginPopup extends StatelessWidget {
               onPressed: () {},
               child: const Text(
                 'Don\'t have an account? Sign up',
-                style: TextStyle(color: Color(0xFFE29578), fontWeight: FontWeight.w600),
+                style: TextStyle(color: AppColors.secondary, fontWeight: FontWeight.w600),
               ),
             ),
           ],

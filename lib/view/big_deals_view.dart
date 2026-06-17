@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
 import '../widgets/shared_components.dart';
+import '../theme/app_colors.dart';
 
 class BigDealsView extends StatefulWidget {
   const BigDealsView({super.key});
@@ -120,7 +121,7 @@ class _BigDealsViewState extends State<BigDealsView> {
     final double horizontalPadding = screenWidth > 900 ? 100 : 20;
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.background,
       drawer: const SharedDrawer(),
       bottomNavigationBar: const SharedBottomNavbar(currentIndex: 1),
       body: Stack(
@@ -141,7 +142,7 @@ class _BigDealsViewState extends State<BigDealsView> {
                       style: GoogleFonts.outfit(
                         fontSize: isMobile ? 32 : 46,
                         fontWeight: FontWeight.w900,
-                        color: Colors.black,
+                        color: AppColors.textPrimary,
                         letterSpacing: 1.5,
                       ),
                     ),
@@ -208,7 +209,7 @@ class _BigDealsViewState extends State<BigDealsView> {
                     'Panda Club Rewards 🪙',
                     'Join our rewards program to earn coins on every purchase!',
                     snackPosition: SnackPosition.BOTTOM,
-                    backgroundColor: const Color(0xFFD93D3D),
+                    backgroundColor: AppColors.secondary,
                     colorText: Colors.white,
                     margin: const EdgeInsets.all(20),
                     borderRadius: 12,
@@ -220,7 +221,7 @@ class _BigDealsViewState extends State<BigDealsView> {
                     width: isMobile ? 44 : 54,
                     height: isMobile ? 44 : 54,
                     decoration: BoxDecoration(
-                      color: const Color(0xFFD93D3D), // Red background
+                      color: AppColors.secondary, // Terracotta background
                       shape: BoxShape.circle,
                       boxShadow: [
                         BoxShadow(
@@ -229,13 +230,13 @@ class _BigDealsViewState extends State<BigDealsView> {
                           offset: const Offset(0, 4),
                         ),
                       ],
-                      border: Border.all(color: const Color(0xFFFFD700), width: 2.5), // Gold border
+                      border: Border.all(color: AppColors.warning, width: 2.5), // Gold border
                     ),
                     child: const Center(
                       child: Text(
                         '₹',
                         style: TextStyle(
-                          color: Color(0xFFFFD700),
+                          color: AppColors.warning,
                           fontSize: 22,
                           fontWeight: FontWeight.w900,
                         ),
@@ -264,7 +265,7 @@ class _BigDealsViewState extends State<BigDealsView> {
                         width: 44,
                         height: 44,
                         decoration: BoxDecoration(
-                          color: const Color(0xFFD93D3D), // Red background
+                          color: AppColors.secondary, // Terracotta background
                           shape: BoxShape.circle,
                           boxShadow: [
                             BoxShadow(
@@ -289,8 +290,8 @@ class _BigDealsViewState extends State<BigDealsView> {
                         'Panda Assistant 🐼',
                         'Hi! Need help with your order? Click to chat with us on WhatsApp.',
                         snackPosition: SnackPosition.BOTTOM,
-                        backgroundColor: const Color(0xFFFFDD67),
-                        colorText: Colors.black87,
+                        backgroundColor: AppColors.warning,
+                        colorText: AppColors.textPrimary,
                         margin: const EdgeInsets.all(20),
                         borderRadius: 12,
                       );
@@ -299,7 +300,7 @@ class _BigDealsViewState extends State<BigDealsView> {
                       width: 50,
                       height: 50,
                       decoration: BoxDecoration(
-                        color: const Color(0xFFFFDD67), // Yellow background
+                        color: AppColors.warning, // Yellow background
                         shape: BoxShape.circle,
                         boxShadow: [
                           BoxShadow(
@@ -359,17 +360,17 @@ class _AnimatedDealCardState extends State<AnimatedDealCard> {
         duration: const Duration(milliseconds: 250),
         transform: Matrix4.translationValues(0, _isHovered ? -8 : 0, 0),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppColors.surface,
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: _isHovered ? const Color(0xFF006D77).withOpacity(0.1) : Colors.black.withOpacity(0.03),
+              color: _isHovered ? AppColors.primary.withOpacity(0.1) : Colors.black.withOpacity(0.03),
               blurRadius: _isHovered ? 20 : 8,
               offset: Offset(0, _isHovered ? 10 : 4),
             ),
           ],
           border: Border.all(
-            color: _isHovered ? const Color(0xFF006D77).withOpacity(0.12) : Colors.transparent,
+            color: _isHovered ? AppColors.primary.withOpacity(0.12) : AppColors.border,
             width: 1,
           ),
         ),
@@ -382,7 +383,7 @@ class _AnimatedDealCardState extends State<AnimatedDealCard> {
                 borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
                 child: Container(
                   width: double.infinity,
-                  color: Colors.grey.shade50,
+                  color: AppColors.border.withOpacity(0.2),
                   child: Stack(
                     children: [
                       Positioned.fill(
@@ -393,8 +394,8 @@ class _AnimatedDealCardState extends State<AnimatedDealCard> {
                             widget.imageUrl,
                             fit: BoxFit.cover,
                             errorBuilder: (context, error, stackTrace) => Container(
-                              color: Colors.grey.shade200,
-                              child: const Icon(Icons.image, size: 50, color: Colors.grey),
+                              color: AppColors.border,
+                              child: const Icon(Icons.image, size: 50, color: AppColors.textSecondary),
                             ),
                           ),
                         ),
@@ -417,7 +418,7 @@ class _AnimatedDealCardState extends State<AnimatedDealCard> {
                     style: GoogleFonts.outfit(
                       fontSize: 18,
                       fontWeight: FontWeight.w800,
-                      color: Colors.black,
+                      color: AppColors.textPrimary,
                     ),
                     textAlign: TextAlign.center,
                   ),
@@ -427,7 +428,7 @@ class _AnimatedDealCardState extends State<AnimatedDealCard> {
                     style: GoogleFonts.outfit(
                       fontSize: 13,
                       fontWeight: FontWeight.w600,
-                      color: Colors.black54,
+                      color: AppColors.textSecondary,
                     ),
                     textAlign: TextAlign.center,
                   ),
@@ -442,7 +443,7 @@ class _AnimatedDealCardState extends State<AnimatedDealCard> {
                         style: GoogleFonts.outfit(
                           fontSize: 16,
                           fontWeight: FontWeight.w900,
-                          color: Colors.black87,
+                          color: AppColors.primary,
                         ),
                       ),
                       const SizedBox(width: 8),
@@ -451,7 +452,7 @@ class _AnimatedDealCardState extends State<AnimatedDealCard> {
                         style: GoogleFonts.outfit(
                           fontSize: 13,
                           fontWeight: FontWeight.w500,
-                          color: Colors.grey,
+                          color: AppColors.textSecondary,
                           decoration: TextDecoration.lineThrough,
                         ),
                       ),
@@ -470,7 +471,7 @@ class _AnimatedDealCardState extends State<AnimatedDealCard> {
                           'Build Your Box 🎁',
                           'Initializing custom box editor for ${widget.title}...',
                           snackPosition: SnackPosition.BOTTOM,
-                          backgroundColor: Colors.black,
+                          backgroundColor: AppColors.primary,
                           colorText: Colors.white,
                         );
                       },
@@ -481,14 +482,14 @@ class _AnimatedDealCardState extends State<AnimatedDealCard> {
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
                             colors: _isButtonHovered
-                                ? [const Color(0xFFE29578), const Color(0xFFFFB300)]
-                                : [const Color(0xFF006D77), const Color(0xFF83C5BE)],
+                                ? [AppColors.secondary, AppColors.warning]
+                                : [AppColors.primary, AppColors.tertiary],
                           ),
                           borderRadius: BorderRadius.circular(8),
                           boxShadow: _isButtonHovered
                               ? [
                                   BoxShadow(
-                                    color: const Color(0xFFE29578).withOpacity(0.35),
+                                    color: AppColors.secondary.withOpacity(0.35),
                                     blurRadius: 8,
                                     offset: const Offset(0, 3),
                                   )

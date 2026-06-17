@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
 import '../widgets/shared_components.dart';
+import '../theme/app_colors.dart';
 
 class AudioGalleryView extends StatefulWidget {
   const AudioGalleryView({super.key});
@@ -12,7 +13,8 @@ class AudioGalleryView extends StatefulWidget {
   State<AudioGalleryView> createState() => _AudioGalleryViewState();
 }
 
-class _AudioGalleryViewState extends State<AudioGalleryView> with SingleTickerProviderStateMixin {
+class _AudioGalleryViewState extends State<AudioGalleryView>
+    with SingleTickerProviderStateMixin {
   final ScrollController _scrollController = ScrollController();
   bool _isScrolled = false;
   bool _showScrollToTop = false;
@@ -31,7 +33,18 @@ class _AudioGalleryViewState extends State<AudioGalleryView> with SingleTickerPr
 
   // Wave Visualizer Animation
   late AnimationController _waveController;
-  final List<double> _waveHeights = [0.2, 0.5, 0.8, 0.4, 0.6, 0.9, 0.3, 0.7, 0.5, 0.8];
+  final List<double> _waveHeights = [
+    0.2,
+    0.5,
+    0.8,
+    0.4,
+    0.6,
+    0.9,
+    0.3,
+    0.7,
+    0.5,
+    0.8,
+  ];
 
   final List<Map<String, String>> _audioTracks = [
     {
@@ -150,12 +163,12 @@ class _AudioGalleryViewState extends State<AudioGalleryView> with SingleTickerPr
     });
 
     _startTimer();
-    
+
     Get.snackbar(
       'Playing Mantra 🎵',
       'Now playing ${_currentTrackTitle}...',
       snackPosition: SnackPosition.BOTTOM,
-      backgroundColor: const Color(0xFF4C4A70),
+      backgroundColor: AppColors.primary,
       colorText: Colors.white,
       margin: const EdgeInsets.all(20),
       duration: const Duration(seconds: 2),
@@ -215,7 +228,7 @@ class _AudioGalleryViewState extends State<AudioGalleryView> with SingleTickerPr
     final double horizontalPadding = screenWidth > 900 ? 100 : 20;
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.background,
       drawer: const SharedDrawer(),
       bottomNavigationBar: const SharedBottomNavbar(currentIndex: 1),
       body: Stack(
@@ -227,29 +240,32 @@ class _AudioGalleryViewState extends State<AudioGalleryView> with SingleTickerPr
               children: [
                 const SizedBox(height: 80), // Sticky Navbar space
                 _buildHeroBanner(context),
-                
+
                 const SizedBox(height: 40),
-                
+
                 // Centered Title
                 Text(
                   'Audio Gallery',
                   style: GoogleFonts.outfit(
                     fontSize: isMobile ? 32 : 44,
                     fontWeight: FontWeight.w900,
-                    color: const Color(0xFF4C4A70), // Deep Purple/Indigo
+                    color: AppColors.primary, // Royal Amethyst
                   ),
                 ),
-                
+
                 // Grid section
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: horizontalPadding, vertical: 40),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: horizontalPadding,
+                    vertical: 40,
+                  ),
                   child: LayoutBuilder(
                     builder: (context, constraints) {
-                      int crossAxisCount = constraints.maxWidth > 1000 
-                          ? 5 
+                      int crossAxisCount = constraints.maxWidth > 1000
+                          ? 5
                           : (constraints.maxWidth > 768 ? 3 : 2);
-                      double childAspectRatio = constraints.maxWidth > 1000 
-                          ? 0.9 
+                      double childAspectRatio = constraints.maxWidth > 1000
+                          ? 0.9
                           : (constraints.maxWidth > 768 ? 0.95 : 0.88);
 
                       return GridView.builder(
@@ -298,7 +314,7 @@ class _AudioGalleryViewState extends State<AudioGalleryView> with SingleTickerPr
                     'Panda Club Rewards 🪙',
                     'Join our rewards program to earn coins on every purchase!',
                     snackPosition: SnackPosition.BOTTOM,
-                    backgroundColor: const Color(0xFFD93D3D),
+                    backgroundColor: AppColors.secondary,
                     colorText: Colors.white,
                     margin: const EdgeInsets.all(20),
                     borderRadius: 12,
@@ -308,7 +324,7 @@ class _AudioGalleryViewState extends State<AudioGalleryView> with SingleTickerPr
                   width: isMobile ? 44 : 54,
                   height: isMobile ? 44 : 54,
                   decoration: BoxDecoration(
-                    color: const Color(0xFFD93D3D),
+                    color: AppColors.secondary, // Terracotta background
                     shape: BoxShape.circle,
                     boxShadow: [
                       BoxShadow(
@@ -317,13 +333,16 @@ class _AudioGalleryViewState extends State<AudioGalleryView> with SingleTickerPr
                         offset: const Offset(0, 4),
                       ),
                     ],
-                    border: Border.all(color: const Color(0xFFFFD700), width: 2.5),
+                    border: Border.all(
+                      color: AppColors.warning,
+                      width: 2.5,
+                    ), // Gold border
                   ),
                   child: const Center(
                     child: Text(
                       '₹',
                       style: TextStyle(
-                        color: Color(0xFFFFD700),
+                        color: AppColors.warning,
                         fontSize: 22,
                         fontWeight: FontWeight.w900,
                       ),
@@ -351,7 +370,7 @@ class _AudioGalleryViewState extends State<AudioGalleryView> with SingleTickerPr
                         width: 44,
                         height: 44,
                         decoration: BoxDecoration(
-                          color: const Color(0xFFD93D3D),
+                          color: AppColors.secondary, // Terracotta background
                           shape: BoxShape.circle,
                           boxShadow: [
                             BoxShadow(
@@ -361,7 +380,11 @@ class _AudioGalleryViewState extends State<AudioGalleryView> with SingleTickerPr
                             ),
                           ],
                         ),
-                        child: const Icon(Icons.keyboard_arrow_up, color: Colors.white, size: 24),
+                        child: const Icon(
+                          Icons.keyboard_arrow_up,
+                          color: Colors.white,
+                          size: 24,
+                        ),
                       ),
                     ),
                   ),
@@ -375,8 +398,8 @@ class _AudioGalleryViewState extends State<AudioGalleryView> with SingleTickerPr
                         'Panda Assistant 🐼',
                         'Hi! Need help with your order? Click to chat with us on WhatsApp.',
                         snackPosition: SnackPosition.BOTTOM,
-                        backgroundColor: const Color(0xFFFFDD67),
-                        colorText: Colors.black87,
+                        backgroundColor: AppColors.warning,
+                        colorText: AppColors.textPrimary,
                         margin: const EdgeInsets.all(20),
                         borderRadius: 12,
                       );
@@ -385,7 +408,7 @@ class _AudioGalleryViewState extends State<AudioGalleryView> with SingleTickerPr
                       width: 50,
                       height: 50,
                       decoration: BoxDecoration(
-                        color: const Color(0xFFFFDD67),
+                        color: AppColors.warning, // Yellow background
                         shape: BoxShape.circle,
                         boxShadow: [
                           BoxShadow(
@@ -399,7 +422,8 @@ class _AudioGalleryViewState extends State<AudioGalleryView> with SingleTickerPr
                       child: Image.network(
                         'https://cdn-icons-png.flaticon.com/512/2654/2654518.png',
                         fit: BoxFit.contain,
-                        errorBuilder: (context, error, stackTrace) => const Icon(Icons.pets, size: 24),
+                        errorBuilder: (context, error, stackTrace) =>
+                            const Icon(Icons.pets, size: 24),
                       ),
                     ),
                   ),
@@ -411,7 +435,9 @@ class _AudioGalleryViewState extends State<AudioGalleryView> with SingleTickerPr
           // Interactive Premium Audio Player Bar (Sticky at bottom)
           if (_currentTrackTitle != null)
             Positioned(
-              bottom: isMobile ? 64 : 0, // Above bottom navbar on mobile, at bottom on web
+              bottom: isMobile
+                  ? 64
+                  : 0, // Above bottom navbar on mobile, at bottom on web
               left: 0,
               right: 0,
               child: _buildAudioPlayerBar(screenWidth, isMobile),
@@ -431,7 +457,9 @@ class _AudioGalleryViewState extends State<AudioGalleryView> with SingleTickerPr
       decoration: const BoxDecoration(
         color: Color(0xFF4C5E48), // Meadow green grass fallback color
         image: DecorationImage(
-          image: NetworkImage('https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1600'), // Meadow green grass
+          image: NetworkImage(
+            'https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1600',
+          ), // Meadow green grass
           fit: BoxFit.cover,
         ),
       ),
@@ -450,7 +478,8 @@ class _AudioGalleryViewState extends State<AudioGalleryView> with SingleTickerPr
                 height: isMobile ? 140 : 280,
                 width: isMobile ? 140 : 280,
                 fit: BoxFit.contain,
-                errorBuilder: (context, error, stackTrace) => const SizedBox.shrink(),
+                errorBuilder: (context, error, stackTrace) =>
+                    const SizedBox.shrink(),
               ),
             ),
 
@@ -467,23 +496,36 @@ class _AudioGalleryViewState extends State<AudioGalleryView> with SingleTickerPr
                     height: isMobile ? 130 : 250,
                     width: isMobile ? 130 : 250,
                     fit: BoxFit.contain,
-                    errorBuilder: (context, error, stackTrace) => const SizedBox.shrink(),
+                    errorBuilder: (context, error, stackTrace) =>
+                        const SizedBox.shrink(),
                   ),
                   // Floating music notes
                   Positioned(
                     top: -10,
                     left: -10,
-                    child: Icon(Icons.music_note, color: Colors.pinkAccent.shade200, size: isMobile ? 24 : 40),
+                    child: Icon(
+                      Icons.music_note,
+                      color: AppColors.secondary,
+                      size: isMobile ? 24 : 40,
+                    ),
                   ),
                   Positioned(
                     top: 20,
                     right: -20,
-                    child: Icon(Icons.music_note, color: Colors.greenAccent.shade400, size: isMobile ? 20 : 34),
+                    child: Icon(
+                      Icons.music_note,
+                      color: AppColors.tertiary,
+                      size: isMobile ? 20 : 34,
+                    ),
                   ),
                   Positioned(
                     bottom: 40,
                     left: -24,
-                    child: Icon(Icons.audiotrack, color: Colors.cyanAccent.shade200, size: isMobile ? 22 : 36),
+                    child: Icon(
+                      Icons.audiotrack,
+                      color: AppColors.primary,
+                      size: isMobile ? 22 : 36,
+                    ),
                   ),
                 ],
               ),
@@ -498,7 +540,7 @@ class _AudioGalleryViewState extends State<AudioGalleryView> with SingleTickerPr
                 style: GoogleFonts.outfit(
                   fontSize: isMobile ? 28 : 58,
                   fontWeight: FontWeight.w900,
-                  color: const Color(0xFFFFDD67), // Bold yellow color
+                  color: AppColors.warning, // Gold color
                   shadows: [
                     Shadow(
                       color: Colors.black.withOpacity(0.5),
@@ -525,16 +567,16 @@ class _AudioGalleryViewState extends State<AudioGalleryView> with SingleTickerPr
         onTap: () => _selectTrack(track),
         child: Container(
           decoration: BoxDecoration(
-            color: const Color(0xFFFFFDF8), // Soft yellow/beige background tint
+            color: AppColors.surface, // Clean premium white background
             borderRadius: BorderRadius.circular(18),
             border: Border.all(
-              color: isSelected ? const Color(0xFF00F5D4) : Colors.grey.shade100,
+              color: isSelected ? AppColors.primary : AppColors.border,
               width: isSelected ? 2 : 1,
             ),
             boxShadow: [
               BoxShadow(
-                color: isSelected 
-                    ? const Color(0xFF00F5D4).withValues(alpha: 0.35) 
+                color: isSelected
+                    ? AppColors.primary.withValues(alpha: 0.35)
                     : Colors.black.withValues(alpha: 0.02),
                 blurRadius: isSelected ? 16 : 12,
                 offset: const Offset(0, 4),
@@ -564,7 +606,11 @@ class _AudioGalleryViewState extends State<AudioGalleryView> with SingleTickerPr
                 child: Image.network(
                   track['icon']!,
                   fit: BoxFit.contain,
-                  errorBuilder: (context, error, stackTrace) => const Icon(Icons.music_note, color: Colors.grey, size: 30),
+                  errorBuilder: (context, error, stackTrace) => const Icon(
+                    Icons.music_note,
+                    color: AppColors.textSecondary,
+                    size: 30,
+                  ),
                 ),
               ),
               const SizedBox(height: 16),
@@ -574,7 +620,7 @@ class _AudioGalleryViewState extends State<AudioGalleryView> with SingleTickerPr
                 style: GoogleFonts.outfit(
                   fontSize: 14,
                   fontWeight: FontWeight.w800,
-                  color: isSelected ? const Color(0xFF00B4D8) : const Color(0xFF4C4A70),
+                  color: isSelected ? AppColors.primary : AppColors.textPrimary,
                 ),
                 textAlign: TextAlign.center,
                 maxLines: 2,
@@ -594,7 +640,7 @@ class _AudioGalleryViewState extends State<AudioGalleryView> with SingleTickerPr
         child: Container(
           height: isMobile ? 120 : 112,
           decoration: BoxDecoration(
-            color: const Color(0xFF0C1B2A).withValues(alpha: 0.85),
+            color: AppColors.primary.withValues(alpha: 0.92),
             border: Border(
               top: BorderSide(
                 color: Colors.white.withValues(alpha: 0.1),
@@ -609,8 +655,11 @@ class _AudioGalleryViewState extends State<AudioGalleryView> with SingleTickerPr
               ),
             ],
           ),
-          padding: EdgeInsets.symmetric(horizontal: isMobile ? 12 : 24, vertical: 8),
-          child: isMobile 
+          padding: EdgeInsets.symmetric(
+            horizontal: isMobile ? 12 : 24,
+            vertical: 8,
+          ),
+          child: isMobile
               ? Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -629,7 +678,8 @@ class _AudioGalleryViewState extends State<AudioGalleryView> with SingleTickerPr
                           child: Image.network(
                             _currentTrackIcon!,
                             fit: BoxFit.contain,
-                            errorBuilder: (context, error, stackTrace) => const Icon(Icons.music_note, size: 14),
+                            errorBuilder: (context, error, stackTrace) =>
+                                const Icon(Icons.music_note, size: 14),
                           ),
                         ),
                         const SizedBox(width: 8),
@@ -661,14 +711,22 @@ class _AudioGalleryViewState extends State<AudioGalleryView> with SingleTickerPr
                         ),
                         // Playing controls
                         IconButton(
-                          icon: Icon(_isPlaying ? Icons.pause_circle : Icons.play_circle, color: const Color(0xFF00F5D4), size: 30),
+                          icon: Icon(
+                            _isPlaying ? Icons.pause_circle : Icons.play_circle,
+                            color: AppColors.warning,
+                            size: 30,
+                          ),
                           onPressed: _togglePlayPause,
                           padding: EdgeInsets.zero,
                           constraints: const BoxConstraints(),
                         ),
                         const SizedBox(width: 8),
                         IconButton(
-                          icon: const Icon(Icons.close, color: Colors.white70, size: 20),
+                          icon: const Icon(
+                            Icons.close,
+                            color: Colors.white70,
+                            size: 20,
+                          ),
                           onPressed: () {
                             setState(() {
                               _currentTrackTitle = null;
@@ -686,26 +744,31 @@ class _AudioGalleryViewState extends State<AudioGalleryView> with SingleTickerPr
                       children: [
                         Text(
                           _formatTime(_currentTime),
-                          style: GoogleFonts.outfit(color: Colors.white70, fontSize: 9),
+                          style: GoogleFonts.outfit(
+                            color: Colors.white70,
+                            fontSize: 9,
+                          ),
                         ),
                         Expanded(
                           child: SliderTheme(
                             data: SliderThemeData(
                               trackHeight: 2,
-                              thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 5),
-                              activeTrackColor: const Color(0xFF00F5D4),
+                              thumbShape: const RoundSliderThumbShape(
+                                enabledThumbRadius: 5,
+                              ),
+                              activeTrackColor: AppColors.secondary,
                               inactiveTrackColor: Colors.white24,
-                              thumbColor: const Color(0xFF00F5D4),
+                              thumbColor: AppColors.secondary,
                             ),
-                            child: Slider(
-                              value: _progress,
-                              onChanged: _seek,
-                            ),
+                            child: Slider(value: _progress, onChanged: _seek),
                           ),
                         ),
                         Text(
                           _formatTime(_trackDuration),
-                          style: GoogleFonts.outfit(color: Colors.white70, fontSize: 9),
+                          style: GoogleFonts.outfit(
+                            color: Colors.white70,
+                            fontSize: 9,
+                          ),
                         ),
                       ],
                     ),
@@ -725,7 +788,8 @@ class _AudioGalleryViewState extends State<AudioGalleryView> with SingleTickerPr
                       child: Image.network(
                         _currentTrackIcon!,
                         fit: BoxFit.contain,
-                        errorBuilder: (context, error, stackTrace) => const Icon(Icons.music_note, size: 18),
+                        errorBuilder: (context, error, stackTrace) =>
+                            const Icon(Icons.music_note, size: 18),
                       ),
                     ),
                     const SizedBox(width: 12),
@@ -768,7 +832,9 @@ class _AudioGalleryViewState extends State<AudioGalleryView> with SingleTickerPr
                             IconButton(
                               icon: Icon(
                                 _isLooping ? Icons.repeat_one : Icons.repeat,
-                                color: _isLooping ? const Color(0xFF00F5D4) : Colors.white70,
+                                color: _isLooping
+                                    ? AppColors.warning
+                                    : Colors.white70,
                                 size: 18,
                               ),
                               onPressed: () {
@@ -780,7 +846,11 @@ class _AudioGalleryViewState extends State<AudioGalleryView> with SingleTickerPr
                               padding: const EdgeInsets.all(6),
                             ),
                             IconButton(
-                              icon: const Icon(Icons.skip_previous, color: Colors.white, size: 24),
+                              icon: const Icon(
+                                Icons.skip_previous,
+                                color: Colors.white,
+                                size: 24,
+                              ),
                               onPressed: () {
                                 setState(() {
                                   _currentTime = 0;
@@ -792,8 +862,10 @@ class _AudioGalleryViewState extends State<AudioGalleryView> with SingleTickerPr
                             ),
                             IconButton(
                               icon: Icon(
-                                _isPlaying ? Icons.pause_circle_filled : Icons.play_circle_filled,
-                                color: const Color(0xFF00F5D4),
+                                _isPlaying
+                                    ? Icons.pause_circle_filled
+                                    : Icons.play_circle_filled,
+                                color: AppColors.warning,
                                 size: 38,
                               ),
                               onPressed: _togglePlayPause,
@@ -801,7 +873,11 @@ class _AudioGalleryViewState extends State<AudioGalleryView> with SingleTickerPr
                               padding: EdgeInsets.zero,
                             ),
                             IconButton(
-                              icon: const Icon(Icons.skip_next, color: Colors.white, size: 24),
+                              icon: const Icon(
+                                Icons.skip_next,
+                                color: Colors.white,
+                                size: 24,
+                              ),
                               onPressed: () {
                                 setState(() {
                                   _currentTime = _trackDuration;
@@ -820,17 +896,22 @@ class _AudioGalleryViewState extends State<AudioGalleryView> with SingleTickerPr
                           children: [
                             Text(
                               _formatTime(_currentTime),
-                              style: GoogleFonts.outfit(color: Colors.white70, fontSize: 10),
+                              style: GoogleFonts.outfit(
+                                color: Colors.white70,
+                                fontSize: 10,
+                              ),
                             ),
                             SizedBox(
                               width: 400,
                               child: SliderTheme(
                                 data: SliderThemeData(
                                   trackHeight: 3,
-                                  thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 6),
-                                  activeTrackColor: const Color(0xFF00F5D4),
+                                  thumbShape: const RoundSliderThumbShape(
+                                    enabledThumbRadius: 6,
+                                  ),
+                                  activeTrackColor: AppColors.secondary,
                                   inactiveTrackColor: Colors.white24,
-                                  thumbColor: const Color(0xFF00F5D4),
+                                  thumbColor: AppColors.secondary,
                                 ),
                                 child: Slider(
                                   value: _progress,
@@ -840,7 +921,10 @@ class _AudioGalleryViewState extends State<AudioGalleryView> with SingleTickerPr
                             ),
                             Text(
                               _formatTime(_trackDuration),
-                              style: GoogleFonts.outfit(color: Colors.white70, fontSize: 10),
+                              style: GoogleFonts.outfit(
+                                color: Colors.white70,
+                                fontSize: 10,
+                              ),
                             ),
                           ],
                         ),
@@ -857,7 +941,9 @@ class _AudioGalleryViewState extends State<AudioGalleryView> with SingleTickerPr
                           icon: Icon(
                             _isMuted || _volume == 0
                                 ? Icons.volume_off
-                                : (_volume < 0.4 ? Icons.volume_down : Icons.volume_up),
+                                : (_volume < 0.4
+                                      ? Icons.volume_down
+                                      : Icons.volume_up),
                             color: Colors.white70,
                             size: 20,
                           ),
@@ -872,7 +958,9 @@ class _AudioGalleryViewState extends State<AudioGalleryView> with SingleTickerPr
                           child: SliderTheme(
                             data: SliderThemeData(
                               trackHeight: 2,
-                              thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 5),
+                              thumbShape: const RoundSliderThumbShape(
+                                enabledThumbRadius: 5,
+                              ),
                               activeTrackColor: Colors.white,
                               inactiveTrackColor: Colors.white24,
                               thumbColor: Colors.white,
@@ -890,7 +978,11 @@ class _AudioGalleryViewState extends State<AudioGalleryView> with SingleTickerPr
                         ),
                         const SizedBox(width: 12),
                         IconButton(
-                          icon: const Icon(Icons.close, color: Colors.white70, size: 22),
+                          icon: const Icon(
+                            Icons.close,
+                            color: Colors.white70,
+                            size: 22,
+                          ),
                           onPressed: () {
                             setState(() {
                               _currentTrackTitle = null;
@@ -925,7 +1017,7 @@ class _AudioGalleryViewState extends State<AudioGalleryView> with SingleTickerPr
                 width: 2,
                 height: height,
                 decoration: BoxDecoration(
-                  color: const Color(0xFF00F5D4),
+                  color: AppColors.warning,
                   borderRadius: BorderRadius.circular(1),
                 ),
               );
